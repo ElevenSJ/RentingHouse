@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <EditText
+        android:id="@+id/edt_phone_value"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:ems="16"
+        android:gravity="left|center_vertical|fill_vertical"
+        android:hint="账号"
+        android:imeOptions="actionNext"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:padding="4dp"
+        android:textColorHint="@color/common_hint_text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_code_value"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:digits="1234567890qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJMIKOLP"
+        android:gravity="left|center_vertical"
+        android:hint="密码"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:padding="4dp"
+        android:singleLine="true"
+        android:textColorHint="@color/common_hint_text"
+        app:layout_constraintEnd_toEndOf="@+id/edt_phone_value"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edt_phone_value"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/bt_getcode"
+        style="@style/TxtCommonWhiteLittle"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
+        android:text="验证码"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_code_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edt_code_value"
+        app:layout_constraintTop_toTopOf="@+id/edt_code_value" />
+
+    <Button
+        android:id="@+id/bt_login"
+        style="@style/TxtCommonWhiteNormal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_circle_button"
+        android:text="登录"
+        app:layout_constraintEnd_toEndOf="@+id/edt_phone_value"
+        app:layout_constraintStart_toStartOf="@+id/edt_phone_value"
+        app:layout_constraintTop_toBottomOf="@+id/edt_code_value" />
+
+    <TextView
+        android:id="@+id/tv_register_detail"
+        style="@style/TxtCommonGraySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/has_no_account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_login"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TxtCommonBlackHuge"
+        android:text="登录"
+        android:gravity="center"
+        android:drawableTop="@drawable/logo_login"
+        android:drawablePadding="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_phone_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</android.support.constraint.ConstraintLayout>

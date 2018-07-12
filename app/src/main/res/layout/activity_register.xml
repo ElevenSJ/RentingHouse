@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_register">
+
+    <EditText
+        android:id="@+id/et_phone"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/edit_white_bg"
+        android:ems="16"
+        android:hint="手机号码"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    
+    <EditText
+        android:id="@+id/et_ensure_password"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:hint="确认密码"
+        android:inputType="textPassword"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_password"
+        app:layout_constraintStart_toStartOf="@+id/et_password"
+        app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_code"
+        app:layout_constraintStart_toStartOf="@+id/et_code"
+        app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+    <EditText
+        android:id="@+id/et_code"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:hint="验证码"
+        android:inputType="number"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_phone"
+        app:layout_constraintStart_toStartOf="@+id/et_phone"
+        app:layout_constraintTop_toBottomOf="@+id/et_phone" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/TxtCommonBlackHuge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:drawablePadding="10dp"
+        android:drawableTop="@drawable/logo_register"
+        android:gravity="center"
+        android:text="创建新账号"
+        app:layout_constraintBottom_toTopOf="@+id/edt_phone_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="欢迎加入租房APP\n找房上租房，轻松又实惠"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <TextView
+        android:id="@+id/tv_getcode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="获取验证码"
+        app:layout_constraintBottom_toBottomOf="@+id/et_phone"
+        app:layout_constraintEnd_toEndOf="@+id/et_phone"
+        app:layout_constraintTop_toTopOf="@+id/et_phone" />
+
+    <Button
+        android:id="@+id/bt_register"
+        style="@style/TxtCommonWhiteBig"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_circle_button"
+        android:text="立即注册"
+        app:layout_constraintEnd_toEndOf="@+id/et_ensure_password"
+        app:layout_constraintStart_toStartOf="@+id/et_ensure_password"
+        app:layout_constraintTop_toBottomOf="@+id/et_ensure_password" />
+
+    <TextView
+        android:id="@+id/tv_to_login"
+        style="@style/TxtCommonGraySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/has_account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_register" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,7 @@
+<resources>
+
+    <!--启动页样式及窗口背景-->
+    <style name="SplashTheme" parent="AppTheme.Fullscreen">
+        <item name="android:windowBackground">@drawable/bg_login</item>
+    </style>
+</resources>

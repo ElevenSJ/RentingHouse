@@ -1,0 +1,190 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme" parent="AppThemeBase">
+        <!-- 隐藏标题栏 -->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+    </style>
+
+    <style name="AppTheme.Fullscreen" parent="AppThemeBase">
+        <!-- 隐藏标题栏 -->
+        <item name="windowNoTitle">true</item>
+        <!-- 隐藏状态栏-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <!--边框-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AlertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="buttonBarPositiveButtonStyle">@style/positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negative</item>
+    </style>
+    <style name="positive">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="negative">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <!-- 字体风格 -->
+    <style name="TxtTitleWhiteNormal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TxtCommonWhiteBig">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TxtCommonWhiteNormal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TxtCommonWhiteSmall">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TxtCommonWhiteLittle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TxtCommonWhiteHuge">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TxtCommonBlackHuge">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TxtHintCommonWhiteNormal">
+        <item name="android:textColor">@color/common_hint_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TxtTitleBlackNormal">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TxtCommonBlackBig">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="TxtCommonBlackNormal">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TxtCommonBlackSmall">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TxtCommonBlackLitter">
+        <item name="android:textColor">@color/black_alpha60</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TxtCommonGraySmall">
+        <item name="android:textColor">@color/black_alpha40</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TxtCommonGrayBig">
+        <item name="android:textColor">@color/black_alpha40</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TxtCommonGrayLitter">
+        <item name="android:textColor">@color/black_alpha40</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TxtCommonRedNormal">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TxtCommonRedBig">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TxtCommonRedSmall">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="TxtCommonGrayNormal">
+        <item name="android:textColor">@color/black_alpha40</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TxtCommonBlueBig">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TxtCommonBlueNormal">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TxtCommonBlueSmall">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TxtCommonThemeColorBig">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TxtCommonThemeColorNormal">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TxtCommonThemeColorSmall">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppCardView" parent="@style/CardView.Light">
+        <item name="android:clickable">true</item>
+        <!--<item name="cardBackgroundColor">@color/white</item>-->
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:stateListAnimator" tools:targetApi="lollipop">@drawable/lift_on_touch</item>
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">租房</string>
+    <string name="title_home">首页</string>
+    <string name="title_track">足迹单</string>
+    <string name="title_notifications">消息</string>
+    <string name="title_my">我的</string>
+
+    <string name="has_no_account">还没有账号？<u>立即注册</u></string>
+    <string name="has_account">已有账号？<u>立即登录</u></string>
+</resources>

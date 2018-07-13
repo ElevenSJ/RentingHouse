@@ -47,8 +47,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
-        initEvent();
+        init();
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                initEvent();
+            }
+        });
     }
 
     @Override
@@ -71,7 +76,7 @@ public abstract class BaseFragment extends Fragment {
 //        setTopTitlePadding(view,R.id.layout_title);
         setStatusView(view);
     }
-    public void initView(){}
+    public void init(){}
     public void initEvent(){}
 
     public void setTopTitlePadding(View view,int resId) {

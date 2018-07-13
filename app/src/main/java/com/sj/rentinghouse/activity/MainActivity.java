@@ -1,7 +1,9 @@
 package com.sj.rentinghouse.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 
@@ -12,6 +14,10 @@ import com.sj.module_lib.utils.ViewManager;
 import com.sj.module_lib.widgets.NoScrollViewPager;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
+import com.sj.rentinghouse.fragment.MainFragment;
+import com.sj.rentinghouse.fragment.MessageFragment;
+import com.sj.rentinghouse.fragment.MyFragment;
+import com.sj.rentinghouse.fragment.TrackFragment;
 
 import butterknife.BindView;
 
@@ -52,22 +58,29 @@ public class MainActivity extends AppBaseActivity {
         return R.layout.activity_main;
     }
 
+
+    @Override
+    public void init() {
+        super.init();
+        if (ViewManager.getInstance().getAllFragment()==null||ViewManager.getInstance().getAllFragment().isEmpty()){
+            ViewManager.getInstance().addFragment(0, new MainFragment());
+            ViewManager.getInstance().addFragment(1, new TrackFragment());
+            ViewManager.getInstance().addFragment(2, new MessageFragment());
+            ViewManager.getInstance().addFragment(3, new MyFragment());
+        }
+        mAdapter = new FragmentStateAdapter(getSupportFragmentManager(), ViewManager.getInstance().getAllFragment());
+    }
+
     @Override
     public void initEvent() {
         super.initEvent();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
-        initViewPager();
-    }
-
-    private void initViewPager() {
-        mAdapter = new FragmentStateAdapter(getSupportFragmentManager(), ViewManager.getInstance().getAllFragment());
         containerPager.setOffscreenPageLimit(3);
         containerPager.setPagerEnabled(false);
         containerPager.setAdapter(mAdapter);
         containerPager.setCurrentItem(0);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {

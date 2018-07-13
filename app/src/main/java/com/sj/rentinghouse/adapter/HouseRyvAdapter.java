@@ -21,13 +21,13 @@ public class HouseRyvAdapter extends RecyclerArrayAdapter<HouseInfo> {
         return  new HourseRyvHolder(parent);
     }
 
-    public static class HourseRyvHolder extends BaseViewHolder {
+    public static class HourseRyvHolder extends BaseViewHolder<HouseInfo> {
         public HourseRyvHolder(ViewGroup parent) {
             super(parent, R.layout.hourse_card);
         }
 
         @Override
-        public void setData(Object data) {
+        public void setData(HouseInfo data) {
             super.setData(data);
         }
     }

@@ -53,25 +53,20 @@ public class LoginActivity extends AppBaseActivity {
 
     @Override
     public void initEvent() {
-        btLogin.post(new Runnable() {
-            @Override
-            public void run() {
-                AndPermission.with(LoginActivity.this)
-                        .permission(Permission.CAMERA,
-                                Permission.READ_PHONE_STATE)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(List<String> permissions) {
-                                // TODO what to do.
-                            }
-                        }).onDenied(new Action() {
+        AndPermission.with(LoginActivity.this)
+                .permission(Permission.CAMERA,
+                        Permission.READ_PHONE_STATE)
+                .onGranted(new Action() {
                     @Override
                     public void onAction(List<String> permissions) {
-                        // TODO what to do
+                        // TODO what to do.
                     }
-                }).start();
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                // TODO what to do
             }
-        });
+        }).start();
     }
 
     /**
@@ -178,8 +173,8 @@ public class LoginActivity extends AppBaseActivity {
         API.doLoginPwd(phoneNum, codeNum, deviceId, new ServerResultBack<BaseResponse<String>, String>() {
             @Override
             public void onSuccess(String data) {
-                Logger.d("token="+data);
-                SPUtils.getInstance().apply(new String[]{SPName.IS_LOGIN,SPName.USER_ACCOUNT,SPName.TOKEN_ID},new Object[]{true,phoneNum,data});
+                Logger.d("token=" + data);
+                SPUtils.getInstance().apply(new String[]{SPName.IS_LOGIN, SPName.USER_ACCOUNT, SPName.TOKEN_ID}, new Object[]{true, phoneNum, data});
                 toMainActivity();
             }
 

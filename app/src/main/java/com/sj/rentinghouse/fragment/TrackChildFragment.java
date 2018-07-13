@@ -62,15 +62,7 @@ public class TrackChildFragment extends AppBaseFragment implements SwipeRefreshL
         mAdapter.setMore(R.layout.layout_load_more, this);
         mAdapter.setNoMore(R.layout.layout_load_no_more);
         rylView.setAdapter(mAdapter);
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getUserVisibleHint()){
-            onRefresh();
-        }
+        onRefresh();
     }
 
     @Override

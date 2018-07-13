@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,12 +22,20 @@ import com.sj.module_lib.widgets.CustomDialog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private CustomDialog progressDialog;
-
+    private View rootView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentView());
-        setStatusView();
+        rootView = LayoutInflater.from(this).inflate(getContentView(),null);
+        setContentView(rootView);
+        init();
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                initEvent();
+            }
+        });
+//        setStatusView();
 //        setTopTitlePadding(R.id.layout_title);
     }
 
@@ -73,19 +82,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getContentView();
 
-    public void initView() {
+    public void init() {
     }
 
     public void initEvent() {
     }
     public void setStatusView(){
-//        ViewGroup topTitleView = findViewById(R.id.layout_title);
-//        if (topTitleView!=null){
-//            View statusBarView = new View(this);
-//            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                    StatusBarUtils.getStatusBarHeight(this));
-//            //添加占位状态栏到线性布局中
-//            topTitleView.addView(statusBarView, 0,lp);
-//        }
+        ViewGroup topTitleView = findViewById(R.id.layout_title);
+        if (topTitleView!=null){
+            View statusBarView = new View(this);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    StatusBarUtils.getStatusBarHeight(this));
+            //添加占位状态栏到线性布局中
+            topTitleView.addView(statusBarView, 0,lp);
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -30,12 +31,19 @@ import java.util.Map;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    static {
-        ViewManager.getInstance().addFragment(0, new MainFragment());
-        ViewManager.getInstance().addFragment(1, new TrackFragment());
-        ViewManager.getInstance().addFragment(2, new MessageFragment());
-        ViewManager.getInstance().addFragment(3, new MyFragment());
-    }
+    Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Intent intent = new Intent();
+            if ((Boolean) SPUtils.getInstance().getSharedPreference(SPName.IS_LOGIN, false)) {
+                intent.setClass(SplashActivity.this, MainActivity.class);
+            } else {
+                intent.setClass(SplashActivity.this, LoginActivity.class);
+            }
+            startActivity(intent);
+        }
+    };
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,19 +70,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void toGoNext() {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent();
-                if ((Boolean) SPUtils.getInstance().getSharedPreference(SPName.IS_LOGIN, false)) {
-                    intent.setClass(SplashActivity.this, MainActivity.class);
-                } else {
-                    intent.setClass(SplashActivity.this, LoginActivity.class);
-                }
-                startActivity(intent);
-            }
-        }, 800);
+        handler.sendEmptyMessageDelayed(0,800);
         initTools();
     }
 }

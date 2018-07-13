@@ -19,8 +19,6 @@ public abstract class AppBaseActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initView();
-        initEvent();
     }
 
     @Override

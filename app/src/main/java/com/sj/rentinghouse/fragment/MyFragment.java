@@ -1,25 +1,21 @@
 package com.sj.rentinghouse.fragment;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sj.module_lib.adapter.FragmentStateAdapter;
-import com.sj.module_lib.utils.ViewManager;
 import com.sj.module_lib.widgets.NoScrollViewPager;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseFragment;
+import com.sj.rentinghouse.events.MyPageSwitchEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Sunj on 2018/7/8.
@@ -38,18 +34,30 @@ public class MyFragment extends AppBaseFragment {
     }
 
     @Override
-    public void initEvent() {
-        super.initEvent();
-        initViewPager();
-    }
-
-    private void initViewPager() {
+    public void createInit() {
+        super.createInit();
+        EventBus.getDefault().register(this);
         fragmentList.add(MyRenterFragment.newInstance());
         fragmentList.add(MyLandlordFragment.newInstance());
+    }
 
+    @Override
+    public void initEvent() {
+        super.initEvent();
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), fragmentList);
         containerPager.setPagerEnabled(false);
         containerPager.setAdapter(mAdapter);
         containerPager.setCurrentItem(0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(MyPageSwitchEvent event){
+        containerPager.setCurrentItem(event.getMsg(),true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

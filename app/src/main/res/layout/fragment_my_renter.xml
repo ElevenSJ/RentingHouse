@@ -24,18 +24,19 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <com.itheima.roundedimageview.RoundedImageView
-            android:id="@+id/img_hourse_icon"
+            android:id="@+id/img_user_icon"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/img_user_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65"
             app:riv_border_color="@color/transparent"
             app:riv_border_width="0dp"
             app:riv_corner_radius="10dip"
@@ -49,8 +50,8 @@
             android:layout_marginStart="24dp"
             android:text="昵称"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintStart_toEndOf="@+id/img_hourse_icon"
-            app:layout_constraintTop_toTopOf="@+id/img_hourse_icon"
+            app:layout_constraintStart_toEndOf="@+id/img_user_icon"
+            app:layout_constraintTop_toTopOf="@+id/img_user_icon"
             app:layout_constraintVertical_bias="0.9" />
 
         <TextView
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13113111311"
-            app:layout_constraintBottom_toBottomOf="@+id/img_hourse_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/img_user_icon"
             app:layout_constraintStart_toStartOf="@+id/tv_nike_name"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
             app:layout_constraintVertical_bias="0.100000024" />
@@ -75,17 +76,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_change_role"
-        style="@style/TxtCommonWhiteNormal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="切换为房东"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layout_title" />
 
 
     <com.jude.easyrecyclerview.EasyRecyclerView

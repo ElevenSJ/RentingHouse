@@ -1,5 +1,7 @@
 package com.sj.module_lib.utils;
 
+import com.orhanobut.logger.Logger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +14,12 @@ import java.util.TimeZone;
  * 功能描述:
  */
 public class DateUtils {
+
+    public static String format(java.sql.Date date, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
+    }
+
     /**
      * 获取格林威治时间(1970年至今的秒数)
      */
@@ -53,6 +61,7 @@ public class DateUtils {
         }
         return time;
     }
+
     /**
      * 获取时间HH:mm:ss
      *
@@ -72,6 +81,7 @@ public class DateUtils {
 
     /**
      * 获取当前时间的年月日时分秒
+     *
      * @return
      */
     public static String current() {
@@ -119,6 +129,7 @@ public class DateUtils {
         String dateStr = sdf.format(date);
         return dateStr;
     }
+
     /**
      * 得到明天的日期
      *
@@ -200,6 +211,23 @@ public class DateUtils {
             e.printStackTrace();
         }
         return date.getTime() / 1000;
+    }
+
+    /**
+     * 将日期格式转化为时间(毫秒数)
+     *
+     * @param time
+     * @return
+     */
+    public static long getString2Milli(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
     }
 
     /**
@@ -297,6 +325,7 @@ public class DateUtils {
         return time;
     }
 
+
     /**
      * 将一个时间转换成提示性时间字符串，(多少分钟)
      *
@@ -346,6 +375,29 @@ public class DateUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * 将标准时间格式HH:mm:ss化为当前的时间差值
+     *
+     * @param str
+     * @return
+     */
+    public static long StandardFormatStrMin(String str) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date date = new Date();
+            date = sdf.parse(str);
+            long timeStamp = date.getTime();
+            long curTime = System.currentTimeMillis();
+            if (curTime>=timeStamp){
+                return 0;
+            }
+            return (timeStamp-curTime)/1000/60;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     /**

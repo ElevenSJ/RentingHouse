@@ -44,6 +44,9 @@ public class SPUtils {
      * 存储同步commit
      */
     public void commit(String key, Object object) {
+        if (mSharedPreferences == null){
+            return;
+        }
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         if (object instanceof String) {
             editor.putString(key, (String) object);
@@ -65,6 +68,9 @@ public class SPUtils {
      * 存储异步commit
      */
     public void apply(String key, Object object) {
+        if (mSharedPreferences == null){
+            return;
+        }
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         if (object instanceof String) {
             editor.putString(key, (String) object);
@@ -140,6 +146,9 @@ public class SPUtils {
      * 获取保存的数据
      */
     public Object getSharedPreference(String key, Object defaultObject) {
+        if (mSharedPreferences == null){
+            return null;
+        }
         if (defaultObject instanceof String) {
             return mSharedPreferences.getString(key, (String) defaultObject);
         } else if (defaultObject instanceof Integer) {

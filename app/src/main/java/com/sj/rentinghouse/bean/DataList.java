@@ -7,7 +7,9 @@ import java.util.List;
  */
 
 public class DataList<E> {
+
     List<E> data;
+    String nextFirstIndex;
 
     public List<E> getData() {
         return data;
@@ -15,5 +17,13 @@ public class DataList<E> {
 
     public void setData(List<E> data) {
         this.data = data;
+    }
+
+    public String getNextFirstIndex() {
+        return nextFirstIndex;
+    }
+
+    public void setNextFirstIndex(String nextFirstIndex) {
+        this.nextFirstIndex = nextFirstIndex;
     }
 }

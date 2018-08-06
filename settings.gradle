@@ -1,1 +1,1 @@
-include ':app','module_lib'
+include ':app', ':module_lib', ':citypicker', ':picture_library', ':ucrop'

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView12"
+        style="@style/TxtCommonBlackNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:text="备注信息"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_remark_value"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/edt_remark_value"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <TextView
+        android:id="@+id/textView11"
+        style="@style/TxtCommonBlackNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:text="预约时间"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_time_value"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="@+id/edt_time_value" />
+
+    <include
+        android:id="@+id/layout_title"
+        layout="@layout/activity_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/house_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_title" />
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/TxtCommonBlackNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="4"
+        android:text="姓名"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_name_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edt_name_value" />
+
+    <EditText
+        android:id="@+id/edt_name_value"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:gravity="center_vertical"
+        android:hint="请输入您的姓名"
+        android:imeOptions="actionNext"
+        android:padding="4dp"
+        android:singleLine="true"
+        android:textColorHint="@color/common_hint_text"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <EditText
+        android:id="@+id/edt_time_value"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:focusable="false"
+        android:gravity="center_vertical"
+        android:hint="请选择预约时间"
+        android:imeOptions="actionNext"
+        android:padding="4dp"
+        android:singleLine="true"
+        android:textColorHint="@color/common_hint_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edt_name_value"
+        app:layout_constraintTop_toBottomOf="@+id/edt_name_value" />
+
+    <EditText
+        android:id="@+id/edt_remark_value"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_white_bg"
+        android:gravity="top|left"
+        android:hint="为了保护您个人信息的安全，建议您不要在约看单中透露您的联系方式。"
+        android:imeOptions="actionDone"
+        android:padding="4dp"
+        android:textColorHint="@color/common_hint_text"
+        app:layout_constraintEnd_toEndOf="@+id/edt_time_value"
+        app:layout_constraintStart_toStartOf="@+id/edt_time_value"
+        app:layout_constraintTop_toBottomOf="@+id/edt_time_value" />
+
+
+    <Button
+        android:id="@+id/bt_sure"
+        style="@style/TxtCommonWhiteNormal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_circle_button"
+        android:text="立即预约"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_remark_value" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:entries="@array/user_sex_type"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_name_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edt_name_value" />
+
+</android.support.constraint.ConstraintLayout>

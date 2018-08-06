@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.56" />
 
         <com.itheima.roundedimageview.RoundedImageView
             android:id="@+id/img_user_icon"
@@ -48,18 +47,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="昵称"
+            android:text="登录/注册"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintStart_toEndOf="@+id/img_user_icon"
-            app:layout_constraintTop_toTopOf="@+id/img_user_icon"
-            app:layout_constraintVertical_bias="0.9" />
+            app:layout_constraintTop_toTopOf="@+id/img_user_icon" />
 
         <TextView
             android:id="@+id/tv_account"
             style="@style/TxtCommonWhiteNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="13113111311"
             app:layout_constraintBottom_toBottomOf="@+id/img_user_icon"
             app:layout_constraintStart_toStartOf="@+id/tv_nike_name"
             app:layout_constraintTop_toTopOf="@+id/guideline2"

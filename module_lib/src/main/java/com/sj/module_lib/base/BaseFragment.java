@@ -45,8 +45,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         init();
         view.post(new Runnable() {
             @Override
@@ -94,6 +94,7 @@ public abstract class BaseFragment extends Fragment {
             ViewGroup.LayoutParams lp = emptyView.getLayoutParams();
             lp.height = StatusBarUtils.getStatusBarHeight(getHoldingActivity());
             emptyView.setLayoutParams(lp);
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 }

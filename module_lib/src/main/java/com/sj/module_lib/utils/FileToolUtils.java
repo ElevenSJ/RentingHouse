@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 创建时间: on 2018/4/4.
@@ -58,5 +60,53 @@ public class FileToolUtils {
     public static boolean fileExists(String filePath) {
         File file = new File(filePath);
         return file.exists();
+    }
+
+    /**
+     * Java文件操作 获取文件扩展名
+     */
+    public static String getExtensionName(String filename) {
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf('.');
+            if ((dot > -1) && (dot < (filename.length() - 1))) {
+                return filename.substring(dot + 1);
+            }
+        }
+        return filename;
+    }
+
+    /*
+  * Java文件操作 获取不带扩展名的文件名
+  * */
+    public static String getFileNameNoEx(String filename) {
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf('.');
+            if ((dot > -1) && (dot < (filename.length()))) {
+                return filename.substring(0, dot);
+            }
+        }
+        return filename;
+    }
+
+    //读取Assets文件
+    public static String ReadAssetsString(Context context, String fileName) {
+        InputStream is = null;
+        String msg = null;
+        try {
+            is = context.getResources().getAssets().open(fileName);
+            byte[] bytes = new byte[is.available()];
+            is.read(bytes);
+            msg = new String(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return msg;
+
     }
 }

@@ -33,11 +33,13 @@
     </style>
 
     <style name="AlertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:listDivider">@color/gray_AD</item>
         <item name="buttonBarPositiveButtonStyle">@style/positive</item>
         <item name="buttonBarNegativeButtonStyle">@style/negative</item>
     </style>
     <style name="positive">
-        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:textColor">@color/holo_red_light</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
     <style name="negative">

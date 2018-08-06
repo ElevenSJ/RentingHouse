@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_frame"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_rent_rang"
+        style="@style/TxtCommonRedNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView45"
+        style="@style/TxtCommonGraySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="房型"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_direction" />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/rangeSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rent_rang"
+        app:rsb_mode="range" />
+
+    <TextView
+        android:id="@+id/textView42"
+        style="@style/TxtCommonRedNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="¥ 0"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/rangeSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
+
+    <TextView
+        android:id="@+id/textView43"
+        style="@style/TxtCommonRedNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="不限"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/rangeSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
+
+
+    <TextView
+        android:id="@+id/textView46"
+        style="@style/TxtCommonGraySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="排序"
+        app:layout_constraintStart_toStartOf="@+id/tv_downRent"
+        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+    <TextView
+        android:id="@+id/tv_downRent"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_red_gray_frame_selector"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:tag="downRent"
+        android:text="租金高到低"
+        android:textColor="@color/color_black_white_selector"
+        app:layout_constraintEnd_toStartOf="@+id/tv_upRent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+
+    <TextView
+        android:id="@+id/tv_upRent"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_red_gray_frame_selector"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:tag="upRent"
+        android:text="租金低到高"
+        android:textColor="@color/color_black_white_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_downArea"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_downRent"
+        app:layout_constraintTop_toTopOf="@+id/tv_downRent" />
+
+    <TextView
+        android:id="@+id/tv_downArea"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_red_gray_frame_selector"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:tag="downArea"
+        android:text="面积大到小"
+        android:textColor="@color/color_black_white_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_upArea"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_upRent"
+        app:layout_constraintTop_toTopOf="@+id/tv_downRent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_upArea"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_red_gray_frame_selector"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:tag="upArea"
+        android:text="面积小到大"
+        android:textColor="@color/color_black_white_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_downArea"
+        app:layout_constraintTop_toTopOf="@+id/tv_downRent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView44"
+        style="@style/TxtCommonGraySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="房源朝向"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_downRent" />
+
+    <LinearLayout
+        android:id="@+id/layout_direction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView44">
+
+        <TextView
+            android:id="@+id/rd_direction_1"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="1"
+            android:text="东"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_direction_2"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="2"
+            android:text="南"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_direction_3"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="3"
+            android:text="西"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_direction_4"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="4"
+            android:text="北"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_direction_5"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="5"
+            android:text="南北"
+            android:textColor="@color/color_black_white_selector" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_room"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView45">
+
+        <TextView
+            android:id="@+id/rd_room_1"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="1"
+            android:text="一居室"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_room_2"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="2"
+            android:text="两居室"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_room_3"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="3"
+            android:text="三居室"
+            android:textColor="@color/color_black_white_selector" />
+
+        <TextView
+            android:id="@+id/rd_room_4"
+            style="@style/TxtCommonGrayNormal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_red_gray_frame_selector"
+            android:gravity="center"
+            android:tag="4"
+            android:text="四居室"
+            android:textColor="@color/color_black_white_selector" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_clear"
+        style="@style/TxtCommonThemeColorBig"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="清空"
+        app:layout_constraintBottom_toBottomOf="@+id/bt_sure"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bt_sure" />
+
+    <Button
+        android:id="@+id/bt_sure"
+        style="@style/TxtCommonWhiteBig"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/item_frame_red_bg"
+        android:text="确定"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_room" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,7 +1,13 @@
 package com.sj.rentinghouse.base;
 
+import android.support.v4.app.Fragment;
+
 import com.sj.module_lib.base.BaseFragment;
 import com.sj.rentinghouse.R;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.lang.reflect.Field;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -19,8 +25,32 @@ public abstract class AppBaseFragment extends BaseFragment {
     }
 
     @Override
+    public void initEvent() {
+        super.initEvent();
+    }
+
+    @Override
     public void onDestroyView() {
-        super.onDestroyView();
         unbinder.unbind();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        try
+        {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

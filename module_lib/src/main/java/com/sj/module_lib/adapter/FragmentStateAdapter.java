@@ -1,5 +1,6 @@
 package com.sj.module_lib.adapter;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,6 +23,11 @@ public class FragmentStateAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return mFragments.get(position);
+    }
+
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) {
+//        super.restoreState(state, loader);
     }
 
     @Override

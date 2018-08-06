@@ -3,4 +3,15 @@
     <color name="colorPrimary">#57dbd0</color>
     <color name="colorPrimaryDark">#57dbd0</color>
     <color name="colorAccent">#57dbd0</color>
+
+    <color name="light_colorAccent">#f3ffff</color>
+    <color name="light_yellow">#f8f2da</color>
+
+    <color name="conv_list_background">#f2f2f4</color>
+    <color name="line_normal">#2DD0CF</color>
+
+    <color name="google_red">#FFC93437</color>
+    <color name="google_blue">#FF375BF1</color>
+    <color name="google_yellow">#FFF7D23E</color>
+    <color name="google_green">#FF34A350</color>
 </resources>

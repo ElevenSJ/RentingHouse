@@ -25,13 +25,14 @@ public class ImageUtils {
      * 默认加载
      */
     public static void loadImageView(String path, ImageView mImageView) {
-        Glide.with(mImageView.getContext()).load(path).into(mImageView);
+        Glide.with(mImageView.getContext()).load(path).centerCrop().into(mImageView);
     }
 
     public static void loadImageWithError(String path, int errorRes, ImageView mImageView) {
         Glide.with(mImageView.getContext())
                 .load(path)
                 .crossFade()
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(errorRes)
                 .into(mImageView);

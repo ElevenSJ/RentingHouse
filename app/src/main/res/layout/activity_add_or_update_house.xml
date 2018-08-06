@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout_title"
+        layout="@layout/activity_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
+
+            <include
+                android:id="@+id/layout_head"
+                layout="@layout/head_house_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/layout_head">
+
+                <RadioButton
+                    android:id="@+id/rd_whole_rent"
+                    style="@style/TxtCommonBlackNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:text="整租" />
+
+                <RadioButton
+                    android:id="@+id/rd_join_rent"
+                    style="@style/TxtCommonBlackNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:text="合租" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+                <RadioButton
+                    android:id="@+id/rd_master_bedroom"
+                    style="@style/TxtCommonBlackNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:text="主卧" />
+
+                <RadioButton
+                    android:id="@+id/rd_sub_bedroom"
+                    style="@style/TxtCommonBlackNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:text="次卧" />
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/textView13"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="租房类型"
+                app:layout_constraintBottom_toBottomOf="@+id/radioGroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/radioGroup" />
+
+
+            <TextView
+                android:id="@+id/tv_area"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:hint="请选择城市和区域"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup1" />
+
+            <TextView
+                android:id="@+id/textView26"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="城市"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_area" />
+
+            <EditText
+                android:id="@+id/edt_name"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:hint="请输入小区名称"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_area" />
+
+            <TextView
+                android:id="@+id/textView27"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="详细地址"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_name" />
+
+            <EditText
+                android:id="@+id/edt_building_no"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toStartOf="@+id/textView15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+
+            <TextView
+                android:id="@+id/textView15"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="号楼"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_building_no"
+                app:layout_constraintEnd_toStartOf="@+id/edt_room_no"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_building_no"
+                app:layout_constraintTop_toTopOf="@+id/edt_building_no" />
+
+            <EditText
+                android:id="@+id/edt_room_no"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_building_no"
+                app:layout_constraintEnd_toStartOf="@+id/textView16"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView15"
+                app:layout_constraintTop_toTopOf="@+id/edt_building_no" />
+
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
+                android:text="室"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_room_no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_room_no"
+                app:layout_constraintTop_toTopOf="@+id/edt_room_no" />
+
+
+            <EditText
+                android:id="@+id/edt_room_num"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_building_no" />
+
+            <TextView
+                android:id="@+id/textView28"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="房型"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_room_num"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_room_num" />
+
+            <TextView
+                android:id="@+id/textView17"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="室"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_room_num"
+                app:layout_constraintEnd_toStartOf="@+id/edt_hall_num"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_room_num"
+                app:layout_constraintTop_toTopOf="@+id/edt_room_num" />
+
+            <EditText
+                android:id="@+id/edt_toilet_num"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_room_num"
+                app:layout_constraintEnd_toStartOf="@+id/textView19"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView18"
+                app:layout_constraintTop_toTopOf="@+id/edt_room_num"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView18"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="厅"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_hall_num"
+                app:layout_constraintEnd_toStartOf="@+id/edt_toilet_num"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_hall_num"
+                app:layout_constraintTop_toTopOf="@+id/edt_hall_num" />
+
+            <EditText
+                android:id="@+id/edt_hall_num"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_room_num"
+                app:layout_constraintEnd_toStartOf="@+id/textView18"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toTopOf="@+id/edt_room_num" />
+
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
+                android:text="卫"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_toilet_num"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_toilet_num"
+                app:layout_constraintTop_toTopOf="@+id/edt_toilet_num" />
+
+            <Spinner
+                android:id="@+id/sp_direction"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:entries="@array/house_direction"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView18"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_room_num" />
+
+            <TextView
+                android:id="@+id/textView29"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="朝向"
+                app:layout_constraintBottom_toBottomOf="@+id/sp_direction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sp_direction" />
+
+            <EditText
+                android:id="@+id/edt_rent_price"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:hint="租金"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toEndOf="@+id/sp_direction"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/sp_direction" />
+
+            <TextView
+                android:id="@+id/textView30"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="租金"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_rent_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_rent_price" />
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="元/月"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_rent_price"
+                app:layout_constraintStart_toEndOf="@+id/edt_rent_price"
+                app:layout_constraintTop_toTopOf="@+id/edt_rent_price" />
+
+
+            <Spinner
+                android:id="@+id/sp_pay_method"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:entries="@array/house_pay_method"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/sp_direction"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_rent_price" />
+
+            <TextView
+                android:id="@+id/textView31"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="付款方式"
+                app:layout_constraintBottom_toBottomOf="@+id/sp_pay_method"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sp_pay_method" />
+
+
+            <EditText
+                android:id="@+id/edt_floor"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toStartOf="@+id/textView21"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/sp_pay_method" />
+
+            <TextView
+                android:id="@+id/textView32"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="楼层"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_floor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_floor" />
+
+            <TextView
+                android:id="@+id/textView21"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="所在楼层/"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_floor"
+                app:layout_constraintEnd_toStartOf="@+id/edt_all_floor"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_floor"
+                app:layout_constraintTop_toTopOf="@+id/edt_floor" />
+
+            <EditText
+                android:id="@+id/edt_all_floor"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_floor"
+                app:layout_constraintEnd_toStartOf="@+id/textView22"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintTop_toTopOf="@+id/edt_floor" />
+
+            <TextView
+                android:id="@+id/textView22"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
+                android:text="总楼层"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_all_floor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_all_floor"
+                app:layout_constraintTop_toTopOf="@+id/edt_all_floor" />
+
+
+            <Spinner
+                android:id="@+id/sp_renovation"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:entries="@array/house_renovation"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/sp_direction"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_floor" />
+
+            <TextView
+                android:id="@+id/textView33"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="装修"
+                app:layout_constraintBottom_toBottomOf="@+id/sp_renovation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sp_renovation" />
+
+            <EditText
+                android:id="@+id/edt_area"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|center_vertical"
+                android:hint="面积"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toStartOf="@+id/textView21"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/sp_renovation" />
+
+            <TextView
+                android:id="@+id/textView34"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="面积"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_area" />
+
+            <TextView
+                android:id="@+id/textView23"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="㎡"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_area"
+                app:layout_constraintStart_toEndOf="@+id/edt_area"
+                app:layout_constraintTop_toTopOf="@+id/edt_area" />
+
+            <EditText
+                android:id="@+id/edt_note"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|top"
+                android:hint="请输入备注信息"
+                android:lines="4"
+                android:padding="8dp"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_area" />
+
+            <TextView
+                android:id="@+id/textView35"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="房屋描述"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_note"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_note"
+                app:layout_constraintVertical_bias="0.100000024" />
+
+
+            <EditText
+                android:id="@+id/edt_requirement"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_white_bg"
+                android:gravity="left|top"
+                android:hint="请输入租房要求"
+                android:lines="4"
+                android:padding="8dp"
+                android:textColorHint="@color/common_hint_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/edt_note" />
+
+            <TextView
+                android:id="@+id/textView36"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="租房要求"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_requirement"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_requirement"
+                app:layout_constraintVertical_bias="0.100000024" />
+
+            <TextView
+                android:id="@+id/textView24"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="房屋配置"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_requirement" />
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/layout_flex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"></android.support.v7.widget.GridLayout>
+
+            <TextView
+                android:id="@+id/textView25"
+                style="@style/TxtCommonBlackNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="房屋图片"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_flex" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:overScrollMode="never"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+            <Button
+                android:id="@+id/bt_save"
+                style="@style/TxtCommonWhiteNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_circle_button"
+                android:text="保存"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

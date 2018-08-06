@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.orhanobut.logger.Logger;
+
 /**
  * Created by Sunj on 2018/7/8.
  */
@@ -12,7 +14,7 @@ public class ActivityLifecycleManager  implements Application.ActivityLifecycleC
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
-
+        Logger.i(activity.getClass().getSimpleName()+"  onActivityCreated");
     }
 
     @Override

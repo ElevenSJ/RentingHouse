@@ -1,8 +1,8 @@
 package com.sj.module_lib.base;
 
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.module_lib.utils.Utils;
@@ -22,6 +22,12 @@ public class BaseApplication extends Application{
         Utils.init(this);
         ToastUtils.init(false);
         registerActivityLifecycleCallbacks(new ActivityLifecycleManager());
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // 将MultiDex注入到项目中
+        MultiDex.install(this);
     }
 
 }

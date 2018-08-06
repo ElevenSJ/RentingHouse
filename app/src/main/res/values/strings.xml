@@ -1,10 +1,174 @@
 <resources>
-    <string name="app_name">租房</string>
+    <string name="app_name">租房App</string>
     <string name="title_home">首页</string>
     <string name="title_track">足迹单</string>
     <string name="title_notifications">消息</string>
     <string name="title_my">我的</string>
 
+    <string name="forget_pwd"><u>忘记密码</u></string>
+    <string name="change_login_type"><u>切换登录方式</u></string>
     <string name="has_no_account">还没有账号？<u>立即注册</u></string>
     <string name="has_account">已有账号？<u>立即登录</u></string>
+
+    <string name="chat_input_hint">输入需要发送的消息</string>
+    <string name="message_click_hint">点击消息</string>
+    <string name="message_long_click_hint">长按消息</string>
+    <string name="avatar_click_hint">点击头像</string>
+
+    <string-array name="house_type_room">
+        <item>主卧</item>
+        <item>次卧</item>
+    </string-array>
+    <string-array name="house_type">
+        <item>整租</item>
+        <item>合租</item>
+    </string-array>
+    <string-array name="house_direction">
+        <item>朝东</item>
+        <item>朝南</item>
+        <item>朝西</item>
+        <item>朝北</item>
+        <item>朝南北</item>
+    </string-array>
+    <string-array name="house_pay_method">
+        <item>月付</item>
+        <item>季付</item>
+        <item>年付</item>
+        <item>押一付三</item>
+    </string-array>
+    <string-array name="house_renovation">
+        <item>精装</item>
+        <item>简装</item>
+    </string-array>
+    <string-array name="house_facilities_key">
+        <item>bed</item>
+        <item>wardrobe</item>
+        <item>desk</item>
+        <item>wifi</item>
+        <item>airConditioner</item>
+        <item>washingMachine</item>
+        <item>refrigerator</item>
+        <item>heater</item>
+        <item>television</item>
+        <item>microwaveOven</item>
+        <item>gasStove</item>
+        <item>lampblackMachine</item>
+        <item>sofa</item>
+        <item>teaTable</item>
+        <item>tolletRoom</item>
+        <item>balcony</item>
+    </string-array>
+    <string-array name="house_facilities">
+        <item>床</item>
+        <item>衣柜</item>
+        <item>书桌</item>
+        <item>WIFI</item>
+        <item>空调</item>
+        <item>洗衣机</item>
+        <item>冰箱</item>
+        <item>热水器</item>
+        <item>电视</item>
+        <item>微波炉</item>
+        <item>燃气灶</item>
+        <item>油烟机</item>
+        <item>沙发</item>
+        <item>茶几</item>
+        <item>卫生间</item>
+        <item>阳台</item>
+    </string-array>
+    <string-array name="house_facilities_resid">
+        <item>@drawable/img_house_bed</item>
+        <item>@drawable/img_house_wardrobe</item>
+        <item>@drawable/img_house_desk</item>
+        <item>@drawable/img_house_wifi</item>
+        <item>@drawable/img_house_airconditioner</item>
+        <item>@drawable/img_house_washingmachine</item>
+        <item>@drawable/img_house_refrigerator</item>
+        <item>@drawable/img_house_heater</item>
+        <item>@drawable/img_house_tv</item>
+        <item>@drawable/img_house_microwaveoven</item>
+        <item>@drawable/img_house_gasstove</item>
+        <item>@drawable/img_house_lampblackmachine</item>
+        <item>@drawable/img_house_sofa</item>
+        <item>@drawable/img_house_teatable</item>
+        <item>@drawable/img_house_tolletroom</item>
+        <item>@drawable/img_house_balcony</item>
+    </string-array>
+    <string-array name="house_order_status">
+        <item>等待确认</item>
+        <item>已同意</item>
+        <item>已拒绝</item>
+        <item>已失效</item>
+        <item>已完成</item>
+    </string-array>
+    <string-array name="house_rent_status">
+        <item>未租</item>
+        <item>已租</item>
+        <item>即将到期</item>
+    </string-array>
+    <string-array name="user_sex_type">
+        <item>先生</item>
+        <item>女士</item>
+    </string-array>
+
+
+    <string name="jmui_time_format_year_month_day">yyyy年-MM月-dd日</string>
+    <string name="jmui_time_format_accuracy">yyyy-MM-dd HH:mm:ss </string>
+    <string name="jmui_time_format_hours">HH:mm</string>
+    <string name="jmui_yesterday">昨天</string>
+    <string name="jmui_before_yesterday">前天</string>
+    <string name="jmui_before_dawn">凌晨</string>
+    <string name="jmui_morning">早上</string>
+    <string name="jmui_afternoon">下午</string>
+    <string name="jmui_night">晚上</string>
+    <string name="jmui_monday">周一</string>
+    <string name="jmui_tuesday">周二</string>
+    <string name="jmui_wednesday">周三</string>
+    <string name="jmui_thursday">周四</string>
+    <string name="jmui_friday">周五</string>
+    <string name="jmui_saturday">周六</string>
+    <string name="jmui_sunday">周日</string>
+    <string name="year">年</string>
+    <string name="jmui_month">月</string>
+    <string name="jmui_day">日</string>
+    <string name="second">秒</string>
+
+
+    <string name="type_picture">[图片]</string>
+    <string name="type_voice">[语音]</string>
+    <string name="type_location">[位置]</string>
+    <string name="type_file">[文件]</string>
+    <string name="type_smallvideo">[小视频]</string>
+    <string name="type_video">[视频]</string>
+    <string name="group_notification">[群组消息]</string>
+    <string name="type_custom">[自定义消息]</string>
+
+    <string-array name="messages_array">
+        <item>How are you</item>
+        <item>Fine. And you?</item>
+        <item>Me, too. Is there any news today?</item>
+        <item>Yep! I got a news here: boom! Tomorrow is the end of The Walking Dead!</item>
+        <item>Are you kidding me?</item>
+        <item>Absolutely not!</item>
+        <item>Jesus, that\'s crazy</item>
+        <item>I thought no one would gonna to make it</item>
+        <item>That\'s cruel, I don\'t like it, maybe there is a favourable turn</item>
+        <item>Hope so</item>
+    </string-array>
+
+    <string-array name="conversation">
+        <item>test</item>
+        <item>History message 1</item>
+        <item>History message 2</item>
+        <item>History message 3</item>
+        <item>History message 4</item>
+        <item>History message 5</item>
+        <item>History message 6</item>
+        <item>History message 7</item>
+        <item>History message 8</item>
+        <item>History message 9</item>
+        <item>History message 10</item>
+    </string-array>
+
+    <string name="jmui_server_803008">消息已发出，但被对方拒收了。</string>
 </resources>

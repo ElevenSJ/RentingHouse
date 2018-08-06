@@ -34,12 +34,12 @@ public class MyFragment extends AppBaseFragment {
     }
 
     @Override
-    public void createInit() {
-        super.createInit();
-        EventBus.getDefault().register(this);
+    public void init() {
+        super.init();
         fragmentList.add(MyRenterFragment.newInstance());
         fragmentList.add(MyLandlordFragment.newInstance());
     }
+
 
     @Override
     public void initEvent() {
@@ -48,16 +48,18 @@ public class MyFragment extends AppBaseFragment {
         containerPager.setPagerEnabled(false);
         containerPager.setAdapter(mAdapter);
         containerPager.setCurrentItem(0);
+        EventBus.getDefault().register(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(MyPageSwitchEvent event){
+    public void pageSwitch(MyPageSwitchEvent event){
         containerPager.setCurrentItem(event.getMsg(),true);
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+
     }
 }

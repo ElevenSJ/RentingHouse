@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/img_top_left"
+        style="@style/TxtCommonWhiteBig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:drawableLeft="@drawable/img_title_back"
+        android:gravity="center_vertical"
+        android:maxLength="5"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_top_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_top_title" />
+
+    <EditText
+        android:id="@+id/tv_top_title"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/fillet_frame_white_bg"
+        android:gravity="center_vertical"
+        android:hint="请输入您要入住的小区名"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:minEms="13"
+        android:padding="6dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_top_right"
+        app:layout_constraintStart_toEndOf="@+id/img_top_left"
+        app:layout_constraintTop_toBottomOf="@id/empty_view" />
+
+    <TextView
+        android:id="@+id/img_top_right"
+        style="@style/TxtCommonWhiteNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/img_top_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_top_left" />
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_top_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_top_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_top_title"
+        app:srcCompat="@drawable/delet_zhaopian_1x" />
+</android.support.constraint.ConstraintLayout>

@@ -24,8 +24,8 @@ public abstract class CommonCallback extends HttpCallback<String> {
         Logger.i("返回报文" + json);
         BaseResponse baseResponse = JSON.parseObject(json, BaseResponse.class);
         if (baseResponse.getCode().equals("1")) {
-            onSuccess(baseResponse.message);
             onFinish();
+            onSuccess(baseResponse.message);
         } else {
             onFailed(baseResponse.code, baseResponse.message);
         }
@@ -33,7 +33,14 @@ public abstract class CommonCallback extends HttpCallback<String> {
 
     @Override
     public void onFailed(String error_code, String error_message) {
-        onFailure(error_code, error_message);
+        onFinish();
+        Logger.e("onFailed:error_code="+error_code);
+        if(error_message.contains("BEGIN_OBJECT")){
+            return;
+        }
+        if (enableShowToast()) {
+            ToastUtils.showShortToast(error_message);
+        }
         //其他设备登录统一处理
 //        if (error_code.equals("9") && error_message.equals("当前账号已在其他设备登录")) {
 //            if (Utils.getMainActivity() != null) {
@@ -45,13 +52,6 @@ public abstract class CommonCallback extends HttpCallback<String> {
     }
 
     public abstract void onSuccess(String message);
-
-    public void onFailure(String error_code, String error_message){
-        if (enableShowToast()) {
-            Toast.makeText(HttpManager.mContext, error_message, Toast.LENGTH_SHORT).show();
-        }
-        onFinish();
-    }
 
     public boolean enableShowToast() {
         return true;

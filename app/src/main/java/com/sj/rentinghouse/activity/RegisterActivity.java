@@ -1,18 +1,34 @@
 package com.sj.rentinghouse.activity;
 
+import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.Poi;
 import com.orhanobut.logger.Logger;
+import com.sj.module_lib.events.LocationEvent;
 import com.sj.module_lib.http.CommonCallback;
+import com.sj.module_lib.utils.SPUtils;
 import com.sj.module_lib.utils.StatusBarUtils;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
+import com.sj.rentinghouse.app.App;
 import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.http.API;
+import com.sj.rentinghouse.utils.DialogUtils;
+import com.sj.rentinghouse.utils.NameSpace;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocatedCity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,7 +73,32 @@ public class RegisterActivity extends AppBaseActivity {
         return R.layout.activity_register;
     }
 
+    @Override
+    public void initEvent() {
+        super.initEvent();
+//        App.getApp().getLocationService().startDefault();
+    }
 
+//    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+//    public void receiveLocation(LocationEvent locationEvent) {
+//        if (locationEvent.getLocation() != null) {
+//            final String localCityName = locationEvent.getLocation().getCity();
+//            final String localCityCode = locationEvent.getLocation().getCityCode();
+//            SPUtils.getInstance().apply(new String[]{NameSpace.LOCAL_CITY_NAME}, new Object[]{localCityName});
+//            Logger.d("定位城市：" + localCityName + "城市编码：" + localCityCode);
+//            Logger.d("城市编码开始转换");
+//            if (App.allCities != null) {
+//                for (City city : App.allCities) {
+//                    if (localCityName.contains(city.getName())) {
+//                        Logger.d("检索到对应城市");
+//                        SPUtils.getInstance().apply(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE, NameSpace.LOCAL_CITY_NAME, NameSpace.LOCAL_CITY_CODE}, new Object[]{city.getName(),city.getCode(), city.getName(), city.getCode()});
+//                        break;
+//                    }
+//                }
+//            }
+//            Logger.d("城市编码转换完毕");
+//        }
+//    }
     @OnClick({R.id.tv_getcode, R.id.tv_to_login, R.id.bt_register})
     public void onClickView(View view) {
         switch (view.getId()) {
@@ -91,6 +132,9 @@ public class RegisterActivity extends AppBaseActivity {
         API.doRegister(s,s1,s2, new CommonCallback() {
             @Override
             public void onSuccess(String message) {
+                if (isDestory()){
+                    return;
+                }
                 ToastUtils.showShortToast(message);
                 finish();
             }
@@ -98,6 +142,9 @@ public class RegisterActivity extends AppBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
+                if (isDestory()){
+                    return;
+                }
                 dismissProgress();
             }
         });
@@ -119,15 +166,15 @@ public class RegisterActivity extends AppBaseActivity {
     }
 
     private void doGetSMSCode(String num) {
-        API.getSMSCode(num, new CommonCallback() {
+        API.getSMSCode(num,"1", new CommonCallback() {
             @Override
             public void onSuccess(String message) {
                 ToastUtils.showShortToast(message);
             }
 
             @Override
-            public void onFailure(String error_code, String error_message) {
-                super.onFailure(error_code, error_message);
+            public void onFailed(String error_code, String error_message) {
+                super.onFailed(error_code, error_message);
                 refreshCodeTxt(false);
             }
         });
@@ -148,8 +195,8 @@ public class RegisterActivity extends AppBaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         timer.cancel();
+        super.onDestroy();
     }
 
 }

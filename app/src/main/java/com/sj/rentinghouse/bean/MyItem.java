@@ -1,7 +1,5 @@
 package com.sj.rentinghouse.bean;
 
-import com.sj.rentinghouse.R;
-
 /**
  * Created by Sunj on 2018/7/12.
  */
@@ -10,21 +8,21 @@ public class MyItem {
     private int drawableLeftId;
     private String itemName;
     private String itemRemark;
-    private int drawableRightId = R.drawable.arrow_right;
+    private String drawableRight;
 
     public MyItem(int drawableLeftId, String itemName, String itemRemark) {
-        this(drawableLeftId,itemName,itemRemark, R.drawable.arrow_right);
+        this(drawableLeftId, itemName, itemRemark, null);
     }
 
-    public MyItem(int drawableLeftId, String itemName, String itemRemark, int drawableRightId) {
+    public MyItem(int drawableLeftId, String itemName, String itemRemark, String drawableRight) {
         this.drawableLeftId = drawableLeftId;
         this.itemName = itemName;
         this.itemRemark = itemRemark;
-        this.drawableRightId = drawableRightId;
+        this.drawableRight = drawableRight;
     }
 
     public MyItem(int drawableLeftId, String itemName) {
-        this(drawableLeftId,itemName,null, R.drawable.arrow_right);
+        this(drawableLeftId, itemName, null, null);
     }
 
     public int getDrawableLeftId() {
@@ -39,7 +37,23 @@ public class MyItem {
         return itemRemark;
     }
 
-    public int getDrawableRightId() {
-        return drawableRightId;
+    public String getDrawableRight() {
+        return drawableRight;
+    }
+
+    public void setDrawableLeftId(int drawableLeftId) {
+        this.drawableLeftId = drawableLeftId;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setItemRemark(String itemRemark) {
+        this.itemRemark = itemRemark;
+    }
+
+    public void setDrawableRight(String drawableRight) {
+        this.drawableRight = drawableRight;
     }
 }

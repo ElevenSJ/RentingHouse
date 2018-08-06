@@ -5,6 +5,7 @@
     <color name="colorAccent">#1ab392</color>
 
     <color name="divider">#4d4d4d</color>
+    <color name="holo_red_light">#ffff4444</color>
 
     <!--APP公用的一些颜色-->
     <color name="common_bg">#fff7f7f7</color>

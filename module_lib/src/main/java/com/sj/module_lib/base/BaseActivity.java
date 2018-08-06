@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.sj.module_lib.R;
 import com.sj.module_lib.utils.DisplayUtils;
@@ -22,12 +24,14 @@ import com.sj.module_lib.widgets.CustomDialog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private CustomDialog progressDialog;
-    private View rootView;
+    public View rootView;
+    boolean isDestory = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = LayoutInflater.from(this).inflate(getContentView(),null);
+        rootView = LayoutInflater.from(this).inflate(getContentView(), null);
         setContentView(rootView);
+        setStatusView();
         init();
         rootView.post(new Runnable() {
             @Override
@@ -37,6 +41,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
 //        setStatusView();
 //        setTopTitlePadding(R.id.layout_title);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isDestory = false;
+    }
+
+    public void setTopTitle(int resId, String title) {
+        View topTitleView = findViewById(resId);
+        if (topTitleView != null && topTitleView instanceof TextView) {
+            ((TextView) topTitleView).setText(title);
+        }
     }
 
     private void setTopTitlePadding(int resId) {
@@ -50,13 +67,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (isProgressShowing()) {
             dismissProgress();
         }
         progressDialog = null;
+        isDestory = true;
+        super.onDestroy();
     }
-
+    public boolean isDestory() {
+        return isDestory;
+    }
     public void showProgress() {
         if (progressDialog == null) {
             progressDialog = new CustomDialog(this);
@@ -87,14 +107,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void initEvent() {
     }
-    public void setStatusView(){
-        ViewGroup topTitleView = findViewById(R.id.layout_title);
-        if (topTitleView!=null){
-            View statusBarView = new View(this);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    StatusBarUtils.getStatusBarHeight(this));
-            //添加占位状态栏到线性布局中
-            topTitleView.addView(statusBarView, 0,lp);
+
+    public void setStatusView() {
+        View emptyView = findViewById(R.id.empty_view);
+        if (emptyView != null) {
+            ViewGroup.LayoutParams lp = emptyView.getLayoutParams();
+            lp.height = StatusBarUtils.getStatusBarHeight(this);
+            emptyView.setLayoutParams(lp);
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 }

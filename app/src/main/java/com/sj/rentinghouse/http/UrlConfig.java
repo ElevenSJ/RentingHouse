@@ -10,6 +10,11 @@ import android.support.annotation.Keep;
 @Keep
 public class UrlConfig {
     /**
+     * 七牛文件外部地址
+     */
+    public static final String QINIU_DOMAIN_URL ="https://public.app-storage-node.com/";
+
+    /**
      * 用户服务
      */
     //baseUrl
@@ -38,10 +43,22 @@ public class UrlConfig {
      */
     //baseUrl
     public static final String ORDERSERVICE_BASE_URL = "http://orderservice.app-service-node.com";
+    //添加约看
+    public static final String ADD_ORDER_URL = "/addOrder";
+    //约看状态更新
+    public static final String UPDATE_ORDER_STATUS_URL = "/updateOrderStatus";
+    //房东约看信息详情
+    public static final String QUERY_ORDER_URL = "/queryOrderInfo";
     //我的约看列表
     public static final String ORDER_LIST_URL = "/orderList";
     //我的约看完成列表
     public static final String CLOSE_ORDER_LIST_URL = "/closeOrderList";
+    //房东约看管理列表
+    public static final String OWNER_URL = "/ownerList";
+    //我的约看总数
+    public static final String MY_ORDER_COUNT_URL = "/getOrderCount";
+    //系统消息列表
+    public static final String NOTICE_LIST_URL = "/noticeList";
 
 
     /**
@@ -51,4 +68,42 @@ public class UrlConfig {
     public static final String HOUSESERVICE_BASE_URL = "http://houseservice.app-service-node.com";
     //首页查询房产列表
     public static final String ALL_HOUSE_LIST_URL = "/allHouseList";
+    //首页查询房产列表价格筛选
+    public static final String ALL_HOUSE_RANGE_RENT_LIST_URL = "/rangeRent";
+    //添加/修改 房屋信息
+    public static final String ADD_HOUSE_URL = "/addHouse";
+    //查询房产详情
+    public static final String QUERY_HOUSE_URL = "/queryHouseInfo";
+    //房东查询房产列表
+    public static final String HOUSE_LIST_URL = "/houseList";
+    //删除房产
+    public static final String DEL_HOUSE_URL = "/delHouse";
+    //新增拨号记录接口
+    public static final String ADD_DIALING_RECORD_URL = "/addDialingRecord";
+    //拨号记录列表
+    public static final String DIALING_RECORD_LIST_URL = "/dialingRecordList";
+    //房东查询已租房产列表
+    public static final String HOUSE_LIST_LET_URL = "/houseListLet";
+    //房东查询未租房产列表
+    public static final String HOUSE_LIST_LET_NO_URL = "/houseListLetNo";
+    //房东查询即将到期房产列表
+    public static final String HOUSE_LIST_LET_EXPIRED_URL = "/houseListLetExpired";
+    //更新房产信息的租房状态
+    public static final String UP_HOUSE_STATUS_URL = "/upHouseStatus";
+    //热词接口
+    public static final String HOT_WORD_URL = "/hotWord";
+    //我的房产总数
+    public static final String MY_HOUSE_COUNT_URL = "/getMyHouseCount";
+
+    /**
+     * 系统服务
+     */
+    //baseUrl
+    public static final String SYSTEMSERVICE_BASE_URL = "http://systemservices.app-service-node.com";
+    //城市列表
+    public static final String CITY_LIST_URL = "/cityList";
+    //首页轮播图
+    public static final String HEAD_PICTURE_URL = "/headPicture";
+    //七牛上传token接口
+    public static final String QINNIU_TOKEN_URL = "/getToken";
 }

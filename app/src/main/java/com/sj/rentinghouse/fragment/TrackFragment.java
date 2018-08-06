@@ -10,10 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sj.module_lib.adapter.FragmentAdapter;
+import com.sj.module_lib.utils.SPUtils;
 import com.sj.module_lib.utils.ViewManager;
 import com.sj.module_lib.widgets.PagerSlidingTabStrip;
 import com.sj.rentinghouse.R;
+import com.sj.rentinghouse.activity.LoginActivity;
 import com.sj.rentinghouse.base.AppBaseFragment;
+import com.sj.rentinghouse.events.MyPageSwitchEvent;
+import com.sj.rentinghouse.events.TrackPageSwitchEvent;
+import com.sj.rentinghouse.utils.DialogUtils;
+import com.sj.rentinghouse.utils.NameSpace;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +51,7 @@ public class TrackFragment extends AppBaseFragment {
     @BindString(R.string.title_track)
     String title;
 
-    String[] titles = {"我的约看","约看完成","拨号记录"};
+    String[] titles = {"我的约看", "约看完成", "拨号记录"};
     List<Fragment> fragmentList = new ArrayList<>(3);
     FragmentAdapter pageAdapter;
 
@@ -59,12 +69,22 @@ public class TrackFragment extends AppBaseFragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser && pageAdapter != null) {
+            if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
+                DialogUtils.showLoginDialog(this.getContext(), LoginActivity.class);
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
     public void initEvent() {
         super.initEvent();
         imgTopLeft.setVisibility(View.INVISIBLE);
         tvTopTitle.setText(title);
 
-        pageAdapter = new FragmentAdapter(getChildFragmentManager(),titles,fragmentList);
+        pageAdapter = new FragmentAdapter(getChildFragmentManager(), titles, fragmentList);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(pageAdapter);
         tabs.setViewPager(pager);
@@ -72,6 +92,7 @@ public class TrackFragment extends AppBaseFragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 pager.setCurrentItem(position);
@@ -82,5 +103,17 @@ public class TrackFragment extends AppBaseFragment {
 
             }
         });
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void pageSwitch(TrackPageSwitchEvent event) {
+        pager.setCurrentItem(event.getMsg(), true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 }

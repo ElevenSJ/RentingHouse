@@ -11,15 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.orhanobut.logger.Logger;
 import com.sj.module_lib.http.BaseResponse;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.utils.SPUtils;
@@ -27,23 +24,19 @@ import com.sj.module_lib.utils.ToastUtils;
 import com.sj.module_lib.widgets.CommonPopupWindow;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.adapter.HouseRyvAdapter;
-import com.sj.rentinghouse.app.App;
 import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.bean.CityInfo;
 import com.sj.rentinghouse.bean.DataList;
 import com.sj.rentinghouse.bean.HouseInfo;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.CityPopWindow;
-import com.sj.rentinghouse.utils.DialogUtils;
 import com.sj.rentinghouse.utils.NameSpace;
+import com.sj.rentinghouse.utils.TrainPopWindow;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -78,6 +71,9 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
     String districtCode = "";
     String districtName = "";
 
+    String trainLineStr = "";
+    String trainSubwayStr = "";
+
     Map<String, Object> map = new ArrayMap<>();
     @BindView(R.id.tv_item_train)
     TextView tvItemTrain;
@@ -85,11 +81,15 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
     TextView tvItemArea;
     @BindView(R.id.tv_item_filter)
     TextView tvItemFilter;
+    @BindView(R.id.tv_item_sort)
+    TextView tvItemSort;
 
     Map<String, Object> selectedFilterMap = new HashMap<>();
+    Map<String, Object> selectedSortMap = new HashMap<>();
 
-    CommonPopupWindow popupWindow;
-    final int[] rd_orders = {R.id.tv_downRent, R.id.tv_upRent, R.id.tv_downArea, R.id.tv_upArea};
+    CommonPopupWindow filterPopupWindow;
+    CommonPopupWindow sortPopupWindow;
+    final int[] rd_orders = {R.id.tv_default,R.id.tv_downRent, R.id.tv_upRent, R.id.tv_downArea, R.id.tv_upArea};
     final int[] rd_directions = {R.id.rd_direction_1, R.id.rd_direction_2, R.id.rd_direction_3, R.id.rd_direction_4, R.id.rd_direction_5};
     final int[] rd_rooms = {R.id.rd_room_1, R.id.rd_room_2, R.id.rd_room_3, R.id.rd_room_4};
 
@@ -99,8 +99,8 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         type = getIntent().getStringExtra(HOUSE_TYPE);
         isSearch = getIntent().getBooleanExtra(HOUSE_SEARCH, false);
         cityCode = (String) SPUtils.getInstance().getSharedPreference(NameSpace.CITY_CODE, "");
@@ -135,7 +135,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
             }
         });
 
-        tvItemArea.setText("区域" + "( " + cityName + districtName + " )");
+//        tvItemArea.setText("区域" + "( " + cityName + districtName + " )");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rylView.setLayoutManager(layoutManager);
@@ -176,6 +176,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
         tvItemTrain.setSelected(false);
         tvItemArea.setSelected(false);
         tvItemFilter.setSelected(false);
+        tvItemSort.setSelected(false);
         API.allHouseList(map, nextFirstIndex, new ServerResultBack<BaseResponse<DataList<HouseInfo>>, DataList<HouseInfo>>() {
             @Override
             public void onSuccess(DataList<HouseInfo> data) {
@@ -222,7 +223,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
         }
     }
 
-    @OnClick({R.id.layout_train, R.id.layout_area, R.id.layout_filter, R.id.img_top_right, R.id.tv_top_title})
+    @OnClick({R.id.layout_train, R.id.layout_area, R.id.layout_filter,R.id.layout_sort, R.id.img_top_right, R.id.tv_top_title})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_top_right:
@@ -237,25 +238,39 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                 toSearchActivty();
                 break;
             case R.id.layout_train:
+                tvItemTrain.setSelected(true);
+                tvItemFilter.setSelected(false);
+                tvItemArea.setSelected(false);
+                tvItemSort.setSelected(false);
+                TrainPopWindow.getDefault(this).init(cityCode,trainLineStr,trainSubwayStr).setOnAdapterItemClickListener(new TrainPopWindow.OnAdapterItemClickListener() {
+                    @Override
+                    public void onItemSelected(String trainLine, String trainSubway) {
+                        if (!TextUtils.isEmpty(trainLine)&&!TextUtils.isEmpty(trainSubway)){
+                            trainLineStr =trainLine;
+                            trainSubwayStr= trainSubway;
+                        }else{
+                            trainLineStr = "";
+                            trainSubwayStr= "";
+                        }
+//                        map.put("line", trainLineStr);
+                        map.put("subWay", trainSubwayStr);
+                        onRefresh();
+                    }
+                }).setOnDissmissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        tvItemTrain.setSelected(false);
+                        tvItemArea.setSelected(false);
+                        tvItemFilter.setSelected(false);
+                        tvItemSort.setSelected(false);
+                    }
+                }).show(view);
                 break;
             case R.id.layout_area:
                 tvItemTrain.setSelected(false);
                 tvItemFilter.setSelected(false);
                 tvItemArea.setSelected(true);
-//                DialogUtils.showChooseDialog(HouseListActivity.this, App.allCityMap.get(cityCode), new DialogUtils.OnMapSelectedListener() {
-//                    @Override
-//                    public void callBack(String key, String value) {
-//                        Logger.i("选择区县：" + value + "," + key);
-//                        if (TextUtils.isEmpty(value)) {
-//                            tvItemArea.setText("区域");
-//                        } else {
-//                            tvItemArea.setText("区域 (" + value + " )");
-//                        }
-//                        map.put("districtCode", key);
-//                        pageNum = 1;
-//                        getData(map);
-//                    }
-//                });
+                tvItemSort.setSelected(false);
                 CityPopWindow.getDefault(this).init().initCityData(cityName).initDistrictData(districtName).setOnAdapterItemClickListener(new CityPopWindow.OnAdapterItemClickListener() {
                     @Override
                     public void onItemSelected(CityInfo cityInfo, CityInfo cityInfo1) {
@@ -274,7 +289,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                             map.put("city", cityCode);
                             map.put("districtCode", "");
                         }
-                        tvItemArea.setText("区域" + "( " + cityName + districtName + " )");
+//                        tvItemArea.setText("区域" + "( " + cityName + districtName + " )");
                         onRefresh();
                     }
                 }).setOnDissmissListener(new PopupWindow.OnDismissListener() {
@@ -283,6 +298,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                         tvItemTrain.setSelected(false);
                         tvItemArea.setSelected(false);
                         tvItemFilter.setSelected(false);
+                        tvItemSort.setSelected(false);
                     }
                 }).show(view);
                 break;
@@ -290,8 +306,9 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                 tvItemTrain.setSelected(false);
                 tvItemArea.setSelected(false);
                 tvItemFilter.setSelected(true);
-                if (popupWindow == null) {
-                    popupWindow = new CommonPopupWindow.Builder(this)
+                tvItemSort.setSelected(false);
+                if (filterPopupWindow == null) {
+                    filterPopupWindow = new CommonPopupWindow.Builder(this)
                             //设置PopupWindow布局
                             .setView(R.layout.pop_house_filter)
                             //设置宽高
@@ -311,28 +328,110 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                             //设置外部是否可点击 默认是true
                             .setOutsideTouchable(true)
                             .create();
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    filterPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
                             tvItemTrain.setSelected(false);
                             tvItemArea.setSelected(false);
                             tvItemFilter.setSelected(false);
+                            tvItemSort.setSelected(false);
                         }
                     });
                 } else {
                     initPopData();
                 }
-                popupWindow.showAsDropDown(view);
-
+                filterPopupWindow.showAsDropDown(view);
+                break;
+            case R.id.layout_sort:
+                tvItemTrain.setSelected(false);
+                tvItemArea.setSelected(false);
+                tvItemFilter.setSelected(false);
+                tvItemSort.setSelected(true);
+                if (sortPopupWindow == null) {
+                    sortPopupWindow = new CommonPopupWindow.Builder(this)
+                            //设置PopupWindow布局
+                            .setView(R.layout.pop_house_sort)
+                            //设置宽高
+                            .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT)
+                            //设置动画
+                            .setAnimationStyle(R.style.DefaultCityPickerAnimation)
+                            //设置背景颜色，取值范围0.0f-1.0f 值越小越暗 1.0f为透明
+                            .setBackGroundLevel(1.0f)
+                            //设置PopupWindow里的子View及点击事件
+                            .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                                @Override
+                                public void getChildView(View view, int layoutResId) {
+                                    initSortPopView(view);
+                                }
+                            })
+                            //设置外部是否可点击 默认是true
+                            .setOutsideTouchable(true)
+                            .create();
+                    sortPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            tvItemTrain.setSelected(false);
+                            tvItemArea.setSelected(false);
+                            tvItemFilter.setSelected(false);
+                            tvItemSort.setSelected(false);
+                        }
+                    });
+                } else {
+                    initSortPopData();
+                }
+                sortPopupWindow.showAsDropDown(view);
                 break;
         }
     }
 
-    private void initPopData() {
+    private void initSortPopView(View view) {
+        View.OnClickListener popupWindowClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.tv_default:
+                        sortPopupWindow.dismiss();
+                        for (Map.Entry<String, Object> entry : selectedSortMap.entrySet()) {
+                            map.remove(entry.getKey());
+                        }
+                        selectedSortMap.clear();
+                        onRefresh();
+                        break;
+                    case R.id.tv_downRent:
+                    case R.id.tv_upRent:
+                    case R.id.tv_downArea:
+                    case R.id.tv_upArea:
+                        for (int id : rd_orders) {
+                            if (id == view.getId()) {
+                                if (view.isSelected()) {
+                                    view.setSelected(false);
+                                    selectedSortMap.put("order", "");
+                                } else {
+                                    view.setSelected(true);
+                                    selectedSortMap.put("order", view.getTag().toString());
+                                }
+                            } else {
+                                sortPopupWindow.getContentView().findViewById(id).setSelected(false);
+                            }
+                        }
+                        sortPopupWindow.dismiss();
+                        map.putAll(selectedSortMap);
+                        onRefresh();
+                        break;
+
+                }
+            }
+        };
         for (int id : rd_orders) {
-            View view = popupWindow.getContentView().findViewById(id);
-            if (selectedFilterMap.containsKey("order")) {
-                if (selectedFilterMap.get("order").equals(view.getTag().toString())) {
+            view.findViewById(id).setOnClickListener(popupWindowClickListener);
+        }
+    }
+    private void initSortPopData() {
+        for (int id : rd_orders) {
+            View view = sortPopupWindow.getContentView().findViewById(id);
+            if (selectedSortMap.containsKey("order")) {
+                if (selectedSortMap.get("order").equals(view.getTag().toString())) {
                     view.setSelected(true);
                 } else {
                     view.setSelected(false);
@@ -341,8 +440,22 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                 view.setSelected(false);
             }
         }
+    }
+    private void initPopData() {
+//        for (int id : rd_orders) {
+//            View view = filterPopupWindow.getContentView().findViewById(id);
+//            if (selectedFilterMap.containsKey("order")) {
+//                if (selectedFilterMap.get("order").equals(view.getTag().toString())) {
+//                    view.setSelected(true);
+//                } else {
+//                    view.setSelected(false);
+//                }
+//            } else {
+//                view.setSelected(false);
+//            }
+//        }
         for (int id : rd_directions) {
-            View view = popupWindow.getContentView().findViewById(id);
+            View view = filterPopupWindow.getContentView().findViewById(id);
             if (selectedFilterMap.containsKey("direction")) {
                 if (selectedFilterMap.get("direction").equals(view.getTag().toString())) {
                     view.setSelected(true);
@@ -354,7 +467,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
             }
         }
         for (int id : rd_rooms) {
-            View view = popupWindow.getContentView().findViewById(id);
+            View view = filterPopupWindow.getContentView().findViewById(id);
             if (selectedFilterMap.containsKey("bedroom")) {
                 if (selectedFilterMap.get("bedroom").equals(view.getTag().toString())) {
                     view.setSelected(true);
@@ -365,14 +478,14 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                 view.setSelected(false);
             }
         }
-        RangeSeekBar rangeSeekBar = popupWindow.getContentView().findViewById(R.id.rangeSeekBar);
+        RangeSeekBar rangeSeekBar = filterPopupWindow.getContentView().findViewById(R.id.rangeSeekBar);
         if (selectedFilterMap.containsKey("startRent")) {
-            float leftValue = TextUtils.isEmpty(selectedFilterMap.get("startRent").toString()) ? 0f : selectedFilterMap.get("startRent").equals("200000") ? 101f : Float.valueOf(selectedFilterMap.get("startRent").toString()) / 100f;
-            float rightValue = TextUtils.isEmpty(selectedFilterMap.get("endRent").toString()) ? 0f : selectedFilterMap.get("endRent").equals("200000") ? 101f : Float.valueOf(selectedFilterMap.get("endRent").toString()) / 100f;
+            float leftValue = TextUtils.isEmpty(selectedFilterMap.get("startRent").toString()) ? 0f : selectedFilterMap.get("startRent").equals("200000") ? 100f : Float.valueOf(selectedFilterMap.get("startRent").toString()) / 100f - 1f;
+            float rightValue = TextUtils.isEmpty(selectedFilterMap.get("endRent").toString()) ? 0f : selectedFilterMap.get("endRent").equals("200000") ? 100f : Float.valueOf(selectedFilterMap.get("endRent").toString()) / 100f - 1f;
             rangeSeekBar.setValue(leftValue, rightValue);
         } else {
             try {
-                rangeSeekBar.setValue(0f, 101f);
+                rangeSeekBar.setValue(0f, 100f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -385,7 +498,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.tv_clear:
-                        popupWindow.dismiss();
+                        filterPopupWindow.dismiss();
                         for (Map.Entry<String, Object> entry : selectedFilterMap.entrySet()) {
                             map.remove(entry.getKey());
                         }
@@ -393,7 +506,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                         onRefresh();
                         break;
                     case R.id.bt_sure:
-                        popupWindow.dismiss();
+                        filterPopupWindow.dismiss();
                         map.putAll(selectedFilterMap);
 //                        if(selectedFilterMap.containsKey("startRent")&& !TextUtils.isEmpty(selectedFilterMap.get("startRent").toString())&&!selectedFilterMap.get("endRent").toString().equals("0")){
 //                            for (Map.Entry<String, Object> entry : selectedFilterMap.entrySet()) {
@@ -419,7 +532,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                                     selectedFilterMap.put("order", view.getTag().toString());
                                 }
                             } else {
-                                popupWindow.getContentView().findViewById(id).setSelected(false);
+                                filterPopupWindow.getContentView().findViewById(id).setSelected(false);
                             }
                         }
                         break;
@@ -438,7 +551,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                                     selectedFilterMap.put("direction", view.getTag().toString());
                                 }
                             } else {
-                                popupWindow.getContentView().findViewById(id).setSelected(false);
+                                filterPopupWindow.getContentView().findViewById(id).setSelected(false);
                             }
                         }
                         break;
@@ -456,7 +569,7 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                                     selectedFilterMap.put("bedroom", view.getTag().toString());
                                 }
                             } else {
-                                popupWindow.getContentView().findViewById(id).setSelected(false);
+                                filterPopupWindow.getContentView().findViewById(id).setSelected(false);
                             }
                         }
                         break;
@@ -466,9 +579,9 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
         };
         view.findViewById(R.id.tv_clear).setOnClickListener(popupWindowClickListener);
         view.findViewById(R.id.bt_sure).setOnClickListener(popupWindowClickListener);
-        for (int id : rd_orders) {
-            view.findViewById(id).setOnClickListener(popupWindowClickListener);
-        }
+//        for (int id : rd_orders) {
+//            view.findViewById(id).setOnClickListener(popupWindowClickListener);
+//        }
         for (int id : rd_directions) {
             view.findViewById(id).setOnClickListener(popupWindowClickListener);
         }
@@ -477,8 +590,8 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
         }
         final TextView tvRentRange = view.findViewById(R.id.tv_rent_rang);
         RangeSeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
-        rangeSeekBar.setRange(0, 101);
-        rangeSeekBar.setValue(0f, 101f);
+        rangeSeekBar.setRange(0, 100);
+        rangeSeekBar.setValue(0f, 100f);
         rangeSeekBar.setRangeInterval(0f);
         rangeSeekBar.setTickMarkMode(RangeSeekBar.TRICK_MARK_MODE_NUMBER);
         rangeSeekBar.setTickMarkGravity(RangeSeekBar.TRICK_MARK_GRAVITY_CENTER);
@@ -491,20 +604,22 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
                     tvRentRange.setVisibility(View.INVISIBLE);
                     selectedFilterMap.put("startRent", "");
                     selectedFilterMap.put("endRent", "200000");
-                }else if (leftValue >= view.getMaxProgress()){
+                } else if (leftValue >= view.getMaxProgress()) {
                     tvRentRange.setVisibility(View.VISIBLE);
                     tvRentRange.setText("不限");
                     selectedFilterMap.put("startRent", "200000");
                     selectedFilterMap.put("endRent", "200000");
-                }else{
+                } else {
                     tvRentRange.setVisibility(View.VISIBLE);
-                    selectedFilterMap.put("startRent", (int) leftValue * 100);
-                    if (rightValue >= view.getMaxProgress()){
+                    selectedFilterMap.put("startRent", (int) (leftValue + 1f) * 100);
+                    if (rightValue >= view.getMaxProgress()) {
                         selectedFilterMap.put("endRent", "200000");
-                        tvRentRange.setText("¥ " + ((int) leftValue * 100) + "-不限" + " 元/月");
-                    }else{
-                        tvRentRange.setText("¥ " + ((int) leftValue * 100) + "-" + ((int) rightValue * 100) + " 元/月");
-                        selectedFilterMap.put("endRent", (int) rightValue * 100);
+                        tvRentRange.setText("¥ " + ((int) (leftValue + 1f) * 100) + "-不限" + " 元/月");
+                    } else {
+                        tvRentRange.setText("¥ " + ((int) (leftValue + 1f) * 100) + "-" + ((int) (rightValue + 1f) * 100) + " 元/月");
+//                        tvRentRange.setText("¥ " + ((int) (leftValue + 1f) * 100) + (rightValue == 0 ? "" : "-" + ((int) (rightValue + 1f) * 100)) + " 元/月");
+                        selectedFilterMap.put("endRent", ((int) (rightValue + 1f) * 100));
+
                     }
                 }
             }

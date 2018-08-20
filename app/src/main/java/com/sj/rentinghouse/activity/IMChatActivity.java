@@ -12,6 +12,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -111,11 +112,15 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
     private ArrayList<String> mMsgIdList = new ArrayList<>();
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         mTargetId = getIntent().getStringExtra("targetId");
         mTargetAppKey = SharePreferenceManager.getAppKey();
         myUserInfo = new DefaultUser(JMessageClient.getMyInfo());
+    }
+
+    @Override
+    public void setStatusView() {
     }
 
     @Override
@@ -151,22 +156,21 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
                     mData.add(MyMessage);
                 }
             }
-            UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
-            if (userInfo == null) {
-                JMessageClient.getUserInfo(mTargetId, new GetUserInfoCallback() {
-                    @Override
-                    public void gotResult(int status, String s, UserInfo userInfo) {
-                        if (status == 0) {
-                            mTargetInfo = new DefaultUser(userInfo);
-
-                        }
+//            UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
+//            if (userInfo == null) {
+            JMessageClient.getUserInfo(mTargetId, new GetUserInfoCallback() {
+                @Override
+                public void gotResult(int status, String s, UserInfo userInfo) {
+                    if (status == 0) {
+                        mTargetInfo = new DefaultUser(userInfo);
+                        setTopTitle(R.id.tv_top_title, mTargetInfo.getDisplayName());
                     }
-                });
-            } else {
-                mTargetInfo = new DefaultUser(userInfo);
-            }
-            setTopTitle(R.id.tv_top_title, mTargetInfo.getDisplayName());
-
+                }
+            });
+//            } else {
+//                mTargetInfo = new DefaultUser(userInfo);
+//                setTopTitle(R.id.tv_top_title, mTargetInfo.getDisplayName());
+//            }
             initMsgAdapter();
             mChatView.setOnTouchListener(this);
             mChatView.setMenuClickListener(new OnMenuClickListener() {
@@ -445,7 +449,7 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
 //                }
 //            });
 
-            mChatView.getChatInputView().getInputView().setOnTouchListener(new View.OnTouchListener() {
+            mChatView.getChatInputView().setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     scrollToBottom();
@@ -461,7 +465,7 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
             });
         } catch (NullPointerException e) {
             e.printStackTrace();
-            ToastUtils.showShortToast("交谈异常，请重新登录");
+            ToastUtils.showShortToast("交谈异常");
             finish();
         }
     }
@@ -682,30 +686,34 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
             public void onMessageClick(final MyMessage message) {
                 if (message.getMessage().getContentType() == ContentType.image) {
                     final ImageContent imgContent = (ImageContent) message.getMessage().getContent();
-                    final String[] path = new String[1];
-                    if (message.getOriginImagePath() == null) {
-                        showProgress();
-                        //从服务器上拿原图
+                    if (TextUtils.isEmpty(message.getOriginImagePath())) {
                         imgContent.downloadOriginImage(message.getMessage(), new DownloadCompletionCallback() {
                             @Override
                             public void onComplete(int status, String desc, File file) {
-                                dismissProgress();
+                                String path = "";
                                 if (status == 0) {
-                                    path[0] = file.getPath();
+                                    path = file.getPath();
                                 } else {
-                                    path[0] = message.getMediaFilePath();
+                                    path = message.getMediaFilePath();
+                                }
+                                if (!TextUtils.isEmpty(path)) {
+                                    List<LocalMedia> selectList = new ArrayList<>(1);
+                                    selectList.add(new LocalMedia(path, 0, PictureMimeType.ofImage(), null));
+                                    PictureSelector.create(IMChatActivity.this).themeStyle(R.style.picture_main_style).openExternalPreview(0, selectList);
+                                } else {
+                                    ToastUtils.showShortToast("未获取到图片");
                                 }
                             }
                         });
-                    }else{
-                        path[0] = message.getOriginImagePath();
-                    }
-                    List<LocalMedia> selectList = new ArrayList<>();
-                    if (TextUtils.isEmpty(path[0])) {
-                        selectList.add(new LocalMedia(path[0], 0, PictureMimeType.ofImage(), null));
-                        PictureSelector.create(IMChatActivity.this).themeStyle(R.style.picture_main_style).openExternalPreview(0, selectList);
-                    }else{
-                        ToastUtils.showShortToast("未获取到图片");
+                    } else {
+                        String path = message.getOriginImagePath();
+                        if (!TextUtils.isEmpty(path)) {
+                            List<LocalMedia> selectList = new ArrayList<>(1);
+                            selectList.add(new LocalMedia(path, 0, PictureMimeType.ofImage(), null));
+                            PictureSelector.create(IMChatActivity.this).themeStyle(R.style.picture_main_style).openExternalPreview(0, selectList);
+                        } else {
+                            ToastUtils.showShortToast("未获取到图片");
+                        }
                     }
                 }
                 // do something
@@ -816,18 +824,20 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
                             myMessage.setMediaFilePath(file.getPath());
                             mAdapter.updateMessage(myMessage);
                         }
+                        //从服务器上拿原图
+                        imgContent.downloadOriginImage(myMessage.getMessage(), new DownloadCompletionCallback() {
+                            @Override
+                            public void onComplete(int status, String desc, File file) {
+                                if (status == 0) {
+                                    mPathList.add(file.getPath());
+                                    myMessage.setMediaFilePath(file.getPath());
+                                    myMessage.setOriginImagePath(file.getPath());
+                                    mAdapter.updateMessage(myMessage);
+                                }
+                            }
+                        });
                     }
                 });
-                //从服务器上拿原图
-//                imgContent.downloadOriginImage(myMessage.getMessage(), new DownloadCompletionCallback() {
-//                    @Override
-//                    public void onComplete(int status, String desc, File file) {
-//                        if (status == 0) {
-//                            mPathList.add(file.getPath());
-//                            myMessage.setOriginImagePath(file.getPath());
-//                        }
-//                    }
-//                });
             } else {
                 mPathList.add(path);
             }
@@ -977,17 +987,17 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
     @Override
     protected void onDestroy() {
         try {
-            if (mConv!=null){
+            if (mConv != null) {
                 mConv.resetUnreadCount();
             }
             JMessageClient.exitConversation();
             unregisterReceiver(mReceiver);
-            if (mSensorManager!=null){
+            if (mSensorManager != null) {
                 mSensorManager.unregisterListener(this);
             }
             JMessageClient.unRegisterEventReceiver(this);
             EventManger.getDefault().postMessageRefreshEvent();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();

@@ -31,8 +31,12 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_white_bg"
         android:hint="确认密码"
+        android:singleLine="true"
         android:inputType="textPassword"
-        android:padding="4dp"
+        android:paddingBottom="4dp"
+        android:paddingEnd="40dp"
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
         app:layout_constraintEnd_toEndOf="@+id/et_password"
         app:layout_constraintStart_toStartOf="@+id/et_password"
         app:layout_constraintTop_toBottomOf="@+id/et_password" />
@@ -45,8 +49,12 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_white_bg"
         android:hint="输入密码"
+        android:singleLine="true"
         android:inputType="textPassword"
-        android:padding="4dp"
+        android:paddingBottom="4dp"
+        android:paddingEnd="40dp"
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
         app:layout_constraintEnd_toEndOf="@+id/et_code"
         app:layout_constraintStart_toStartOf="@+id/et_code"
         app:layout_constraintTop_toBottomOf="@+id/et_code" />
@@ -134,4 +142,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_register" />
+
+    <ImageView
+        android:id="@+id/img_new_pwd_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_password"
+        app:layout_constraintEnd_toEndOf="@+id/et_password"
+        app:layout_constraintTop_toTopOf="@+id/et_password"
+        app:srcCompat="@drawable/pwd_show_hide_selector" />
+
+    <ImageView
+        android:id="@+id/img_ensure_new_pwd_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_ensure_password"
+        app:layout_constraintEnd_toEndOf="@+id/et_ensure_password"
+        app:layout_constraintTop_toTopOf="@+id/et_ensure_password"
+        app:srcCompat="@drawable/pwd_show_hide_selector" />
 </android.support.constraint.ConstraintLayout>

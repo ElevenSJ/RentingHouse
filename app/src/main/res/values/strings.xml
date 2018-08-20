@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">租房App</string>
+    <string name="app_name">MO租房</string>
     <string name="title_home">首页</string>
     <string name="title_track">足迹单</string>
     <string name="title_notifications">消息</string>
@@ -8,6 +8,7 @@
     <string name="forget_pwd"><u>忘记密码</u></string>
     <string name="change_login_type"><u>切换登录方式</u></string>
     <string name="has_no_account">还没有账号？<u>立即注册</u></string>
+    <string name="protocol_detail">登录即表示同意<u>《租房用户协议》</u></string>
     <string name="has_account">已有账号？<u>立即登录</u></string>
 
     <string name="chat_input_hint">输入需要发送的消息</string>
@@ -102,7 +103,7 @@
         <item>已完成</item>
     </string-array>
     <string-array name="house_rent_status">
-        <item>未租</item>
+        <item>待租</item>
         <item>已租</item>
         <item>即将到期</item>
     </string-array>

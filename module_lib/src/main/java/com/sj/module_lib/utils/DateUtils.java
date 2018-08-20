@@ -50,6 +50,17 @@ public class DateUtils {
      *
      * @return
      */
+    public static int getCurrentYear() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        return year;
+    }
+
+    /**
+     * 获取时间HH:mm:ss
+     *
+     * @return
+     */
     public static String getCurrentTime() {
         String time = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -68,15 +79,9 @@ public class DateUtils {
      * @return
      */
     public static String getCurrentTime(String pattern) {
-        String time = null;
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         String date = sdf.format(new Date());
-        //"\\s"以空格截断
-        String[] split = date.split("\\s");
-        if (split.length > 1) {
-            time = split[1];
-        }
-        return time;
+        return date;
     }
 
     /**
@@ -107,6 +112,18 @@ public class DateUtils {
         String yestoday = sdf.format(calendar.getTime());
         return yestoday;
     }
+    /**
+     * 得到多一小时时间
+     *
+     * @return
+     */
+    public static String getAddOneHourDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, +1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String yestoday = sdf.format(calendar.getTime());
+        return yestoday;
+    }
 
     /**
      * 得到今天的日期
@@ -124,8 +141,18 @@ public class DateUtils {
      *
      * @return
      */
-    public static String getTime(Date date) {
+    public static String getDayTime(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(date);
+        return dateStr;
+    }
+    /**
+     * date转为String
+     *
+     * @return
+     */
+    public static String getMinTime(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateStr = sdf.format(date);
         return dateStr;
     }
@@ -344,10 +371,10 @@ public class DateUtils {
      * @param timeStamp
      * @return
      */
-    public static int nowCurrentTime(long timeStamp) {
-        long curTime = System.currentTimeMillis() / (long) 1000;
+    public static long nowCurrentTime(long timeStamp) {
+        long curTime = System.currentTimeMillis();
         long time = timeStamp - curTime;
-        return (int) time;
+        return time / (long) 1000;
     }
 
 

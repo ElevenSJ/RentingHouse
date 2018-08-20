@@ -28,7 +28,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/item_frame_gray_bg"
-        android:hint="输入证件号码"
+        android:hint="请输入证件号码"
         android:singleLine="true"
         android:inputType="text"
         android:padding="4dp"

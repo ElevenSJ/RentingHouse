@@ -22,8 +22,8 @@ android {
         applicationId "com.sj.rentinghouse"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 9
-        versionName "1.0.9"
+        versionCode 15
+        versionName "1.1.5"
         resConfigs "zh"
         signingConfig signingConfigs.release
 
@@ -87,6 +87,7 @@ dependencies {
     implementation project(':module_lib')
     implementation project(':citypicker')
     implementation project(':picture_library')
+    implementation project(':pickerview')
 
     //butterknife
     api 'com.jakewharton:butterknife:8.8.1'

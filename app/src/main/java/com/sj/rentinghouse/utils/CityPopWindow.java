@@ -134,7 +134,6 @@ public class CityPopWindow {
         citys.clear();
         if (App.allCities != null && !App.allCities.isEmpty()) {
             for (City city : App.allCities) {
-                Logger.i("城市：" + JSON.toJSONString(city));
                 CityInfo cityInfo = new CityInfo(city.getName(), city.getProvince(), city.getPinyin(), city.getCode());
                 if (cityName != null && cityName.contains(cityInfo.getName())) {
                     this.cityInfo = cityInfo;
@@ -155,7 +154,6 @@ public class CityPopWindow {
                             App.allCities.add(new City(cityInfo.getName(), cityInfo.getProvince(), cityInfo.getPinyin(), cityInfo.getCode()));
                         }
                         for (City city : App.allCities) {
-                            Logger.i("城市：" + JSON.toJSONString(city));
                             CityInfo cityInfo = new CityInfo(city.getName(), city.getProvince(), city.getPinyin(), city.getCode());
                             if (cityName != null && cityName.contains(cityInfo.getName())) {
                                 CityPopWindow.this.cityInfo = cityInfo;

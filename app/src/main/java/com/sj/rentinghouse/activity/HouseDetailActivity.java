@@ -2,6 +2,7 @@ package com.sj.rentinghouse.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -9,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.orhanobut.logger.Logger;
 import com.sj.module_lib.http.BaseResponse;
 import com.sj.module_lib.http.ServerResultBack;
@@ -69,14 +73,16 @@ public class HouseDetailActivity extends AppBaseActivity {
     TextView tvHouseDrequirement;
     int gridLayoutIndex = 0;
 
+    private List<LocalMedia> selectList = new ArrayList<>();
+
     @Override
     public int getContentView() {
         return R.layout.activity_house_detail;
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         id = getIntent().getStringExtra("id");
     }
 
@@ -97,11 +103,11 @@ public class HouseDetailActivity extends AppBaseActivity {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-
+                if (selectList.size() > 0) {
+                    PictureSelector.create(HouseDetailActivity.this).themeStyle(R.style.picture_main_style).openExternalPreview(position, selectList);
+                }
             }
         });
-        layoutFlex.setRowCount(3);
-        layoutFlex.setColumnCount(6);
         getHouseDetail();
     }
 
@@ -123,6 +129,7 @@ public class HouseDetailActivity extends AppBaseActivity {
             String[] bannerStrs = houseDetail.getHousePicture().split(",");
             List<BannerInfo> bannerInfoList = new ArrayList<>(bannerStrs.length);
             for (String bannerPic : bannerStrs) {
+                selectList.add(new LocalMedia(bannerPic, 0, PictureMimeType.ofImage(), null));
                 BannerInfo bannerInfo = new BannerInfo();
                 bannerInfo.setPictureUrl(bannerPic);
                 bannerInfoList.add(bannerInfo);
@@ -131,7 +138,7 @@ public class HouseDetailActivity extends AppBaseActivity {
             banner.start();
         }
 
-        tvHourseName.setText(houseDetail.getVillage()+(TextUtils.isEmpty(houseDetail.getBedroom())?"":" · "+houseDetail.getBedroom()+"居室"));
+        tvHourseName.setText(houseDetail.getVillage() + (TextUtils.isEmpty(houseDetail.getBedroom()) ? "" : " · " + houseDetail.getBedroom() + "居室"));
         try {
             Drawable drawable = null;
             tvType.setText(App.typeArray[Integer.valueOf(houseDetail.getType()) - 1]);
@@ -165,7 +172,7 @@ public class HouseDetailActivity extends AppBaseActivity {
             tvRoomDirection.setText(houseDetail.getDirection());
             Logger.e("房源朝向转型异常");
         }
-        tvPrice.setText("¥" + houseDetail.getRent()+"元/月");
+        tvPrice.setText("¥" + houseDetail.getRent() + "元/月");
 
         StringBuffer houseInfo1Buffer = new StringBuffer();
         houseInfo1Buffer.append("面积：");
@@ -183,7 +190,7 @@ public class HouseDetailActivity extends AppBaseActivity {
         }
         houseInfo1Buffer.append("\n");
         houseInfo1Buffer.append("地理位置：");
-        houseInfo1Buffer.append(houseDetail.getCityName() + houseDetail.getDistrictName()+"-"+tvHourseName.getText().toString());
+        houseInfo1Buffer.append(houseDetail.getCityName() + (TextUtils.isEmpty(houseDetail.getDistrictName())||houseDetail.getDistrictName().equalsIgnoreCase("null")?"":houseDetail.getDistrictName()) + "-" + tvHourseName.getText().toString());
         houseInfo1Buffer.append("\n");
         houseInfo1Buffer.append("最后更新时间：");
         houseInfo1Buffer.append(houseDetail.getUpdateTime());
@@ -250,10 +257,15 @@ public class HouseDetailActivity extends AppBaseActivity {
         if (!TextUtils.isEmpty(houseDetail.getBalcony()) && !houseDetail.getBalcony().equals("0")) {
             createNewFlexItemView(15);
         }
-
+        if (gridLayoutIndex < 5) {
+            for (int i = gridLayoutIndex; i < 5; i++) {
+                createNewFlexItemView(-1);
+            }
+        }
         tvHouseDesc.setText(houseDetail.getHouseDescription());
         tvHouseDrequirement.setText(houseDetail.getRentingRequirements());
     }
+
 
     /**
      * 动态创建TextView
@@ -261,19 +273,28 @@ public class HouseDetailActivity extends AppBaseActivity {
      * @return
      */
 
+    int drawableMinimumWidth = 0;
+    int drawableMinimumHeight = 0;
+
     private void createNewFlexItemView(int index) {
         View view = LayoutInflater.from(this).inflate(R.layout.item_house_facility, null);
-        TextView textView = view.findViewById(R.id.tv_item);
-        textView.setText(App.facilityArray[index]);
-        Drawable drawable = getResources().getDrawable(App.facilitiesResIds[index]);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-        textView.setCompoundDrawables(null, drawable, null, null);
-        GridLayout.Spec rowSpec = GridLayout.spec(gridLayoutIndex / 6, 1f);
-        GridLayout.Spec columnSpec = GridLayout.spec(gridLayoutIndex % 6, 1f);
+        if (index!=-1) {
+            if (drawableMinimumWidth == 0) {
+                Drawable drawable = getResources().getDrawable(App.facilitiesResIds[0]);
+                drawableMinimumWidth = drawable.getMinimumWidth();
+                drawableMinimumHeight = drawable.getMinimumHeight();
+            }
+            TextView textView = view.findViewById(R.id.tv_item);
+            textView.setText(App.facilityArray[index]);
+            Drawable drawable = getResources().getDrawable(App.facilitiesResIds[index]);
+            drawable.setBounds(0, 0, drawableMinimumWidth, drawableMinimumHeight);// 设置边界
+            textView.setCompoundDrawables(null, drawable, null, null);
+        }
+        GridLayout.Spec rowSpec = GridLayout.spec(gridLayoutIndex / 5, 1f);
+        GridLayout.Spec columnSpec = GridLayout.spec(gridLayoutIndex % 5, 1f);
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-        layoutParams.setGravity(Gravity.CENTER);
         int margin = DisplayUtils.dip2px(this, 2);
-        if (index / 6 == 1) {
+        if (index / 5 == 1 || index / 5 == 2) {
             layoutParams.topMargin = margin;
             layoutParams.bottomMargin = margin;
         }
@@ -305,13 +326,36 @@ public class HouseDetailActivity extends AppBaseActivity {
                 EventManger.getDefault().postMessageRefreshEvent();
                 break;
             case R.id.tv_call:
-                if (!TextUtils.isEmpty(houseDetail.getUserPhone())) {
-                    DialogUtils.showCallDialog(HouseDetailActivity.this, houseDetail.getUserIm(),houseDetail.getId(), houseDetail.getUserPhone());
-                } else {
-                    ToastUtils.showLongToast("未查询到联系号码");
-                }
+//                if (!TextUtils.isEmpty(houseDetail.getUserPhone())) {
+//                    DialogUtils.showCallDialog(HouseDetailActivity.this, houseDetail.getUserIm(),houseDetail.getId(), houseDetail.getUserPhone());
+                getHousePhone();
+//                } else {
+//                    ToastUtils.showLongToast("未查询到联系号码");
+//                }
                 break;
         }
 
+    }
+
+    private void getHousePhone() {
+        showProgress();
+        API.queryHousePhone(id, new ServerResultBack<BaseResponse<String>, String>() {
+            @Override
+            public void onSuccess(String data) {
+                if (isDestory()) {
+                    return;
+                }
+                DialogUtils.showCallDialog(HouseDetailActivity.this, houseDetail.getId(), data);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (isDestory()) {
+                    return;
+                }
+                dismissProgress();
+            }
+        });
     }
 }

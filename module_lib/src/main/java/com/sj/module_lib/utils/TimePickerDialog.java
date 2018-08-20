@@ -15,6 +15,7 @@ import android.widget.TimePicker;
 import com.sj.module_lib.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,8 @@ public class TimePickerDialog {
     private DatePicker mDatePicker;
     private int mTag = 0;
     private int mYear, mDay, mMonth;
+
+    private Date startDate;
 
     public TimePickerDialog(Context context) {
         super();
@@ -74,9 +77,36 @@ public class TimePickerDialog {
         mDatePicker = (DatePicker) inflate
                 .findViewById(R.id.dateAndTimePicker_datePicker);
         mTimePicker.setIs24HourView(true);
+        mTimePicker.setOnTimeChangedListener(mStartTimeChangedListener);
+        mStartTimeChangedListener.onTimeChanged(mTimePicker,startDate.getHours(),startDate.getMinutes());
         resizePikcer(mTimePicker);
         resizePikcer(mDatePicker);
         return inflate;
+    }
+
+    private TimePicker.OnTimeChangedListener mStartTimeChangedListener =
+            new TimePicker.OnTimeChangedListener() {
+
+                public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                    updateDisplay(view, startDate, hourOfDay, minute);
+                }
+            };
+    private void updateDisplay(TimePicker timePicker, Date date, int hourOfDay, int minute) {
+
+        int nextMinute = 0;
+        if (minute > 0 && minute <= 30)
+            nextMinute = 30;
+        else if(minute > 30)
+            nextMinute = 0;
+
+        // remove ontimechangedlistener to prevent stackoverflow/infinite loop
+//        timePicker.setOnTimeChangedListener(mNullTimeChangedListener);
+        // set minute
+        timePicker.setCurrentMinute(nextMinute);
+        // hook up ontimechangedlistener again
+        timePicker.setOnTimeChangedListener(mStartTimeChangedListener);
+        // update the date variable for use elsewhere in code
+        date.setMinutes(nextMinute);
     }
 
     /**
@@ -122,7 +152,7 @@ public class TimePickerDialog {
      * 显示时间选择器
      */
     public void showTimePickerDialog() {
-        mTag=0;
+        mTag = 0;
         View view = initTimePicker();
         mAlertDialog = new AlertDialog.Builder(mContext);
         mAlertDialog.setTitle("选择时间");
@@ -135,18 +165,20 @@ public class TimePickerDialog {
      * 显示日期选择器
      */
     public void showDatePickerDialog() {
-        mTag=1;
+        mTag = 1;
         View view = initDatePicker();
         mAlertDialog = new AlertDialog.Builder(mContext);
         mAlertDialog.setTitle("选择时间");
         initDialog(view);
         mAlertDialog.show();
     }
+
     /**
      * 显示日期选择器
      */
     public void showDateAndTimePickerDialog() {
-        mTag=2;
+        mTag = 2;
+        startDate = new Date();
         View view = initDateAndTimePicker();
         mAlertDialog = new AlertDialog.Builder(mContext);
         mAlertDialog.setTitle("选择时间");
@@ -211,7 +243,7 @@ public class TimePickerDialog {
 
     public int getMonth() {
         //返回的时间是0-11
-        return mMonth+1;
+        return mMonth + 1;
     }
 
     public int getMinute() {
@@ -228,7 +260,7 @@ public class TimePickerDialog {
     private void getDatePickerValue() {
         mYear = mDatePicker.getYear();
         mMonth = mDatePicker.getMonth();
-        mDay= mDatePicker.getDayOfMonth();
+        mDay = mDatePicker.getDayOfMonth();
     }
 
     /**
@@ -241,9 +273,9 @@ public class TimePickerDialog {
     }
 
 
+public interface TimePickerDialogInterface {
+    public void positiveListener();
 
-    public interface TimePickerDialogInterface {
-        public void positiveListener();
-        public void negativeListener();
-    }
+    public void negativeListener();
+}
 }

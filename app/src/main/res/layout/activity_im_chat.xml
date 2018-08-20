@@ -33,7 +33,7 @@
             app:avatarHeight="48dp"
             app:avatarWidth="48dp"
             app:showReceiverDisplayName="true"
-            app:showSenderDisplayName="false"
+            app:showSenderDisplayName="true"
             app:avatarRadius="5dp"
             app:bubbleMaxWidth="0.70"
             app:dateTextSize="14sp"

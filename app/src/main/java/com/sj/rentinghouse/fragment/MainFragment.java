@@ -23,6 +23,7 @@ import com.sj.module_lib.task.SerializeInfoSaveTask;
 import com.sj.module_lib.utils.SPUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.activity.HotWordActivity;
+import com.sj.rentinghouse.activity.HouseDetailActivity;
 import com.sj.rentinghouse.activity.HouseListActivity;
 import com.sj.rentinghouse.adapter.HouseRyvAdapter;
 import com.sj.rentinghouse.app.App;
@@ -31,6 +32,7 @@ import com.sj.rentinghouse.bean.BannerInfo;
 import com.sj.rentinghouse.bean.CityInfo;
 import com.sj.rentinghouse.bean.DataList;
 import com.sj.rentinghouse.bean.HouseInfo;
+import com.sj.rentinghouse.bean.OrderInfo;
 import com.sj.rentinghouse.events.MainRefreshEvent;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.DialogUtils;
@@ -48,6 +50,7 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +89,8 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
     @BindView(R.id.tv_top_title)
     EditText tvTopTitle;
     Map<String, Object> map = new ArrayMap<>();
+
+    List<BannerInfo> bannerInfoList = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -147,7 +152,14 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-
+                if (position<bannerInfoList.size()){
+                    if (!TextUtils.isEmpty(bannerInfoList.get(position).getHouseId())){
+                        Intent intent = new Intent();
+                        intent.putExtra("id", bannerInfoList.get(position).getHouseId());
+                        intent.setClass(getHoldingActivity(), HouseDetailActivity.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -176,14 +188,15 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
         API.headPicture(new ServerResultBack<BaseResponse<DataList<BannerInfo>>, DataList<BannerInfo>>() {
             @Override
             public void onSuccess(DataList<BannerInfo> data) {
+                bannerInfoList.clear();
                 if (data.getData() == null || data.getData().isEmpty()) {
-                    List<BannerInfo> bannerInfoList = new ArrayList<>();
                     BannerInfo bannerInfo = new BannerInfo();
                     bannerInfo.setPictureUrl(null);
                     bannerInfoList.add(bannerInfo);
                     banner.setImages(bannerInfoList);
                 } else {
-                    banner.setImages(data.getData());
+                    bannerInfoList.addAll(data.getData());
+                    banner.setImages(bannerInfoList);
                 }
                 banner.start();
             }
@@ -344,9 +357,9 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
                     cityCode = data.getCode();
                     imgTopLeft.setText(cityName);
                     map.put("city", cityCode);
+                    SPUtils.getInstance().commit(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE}, new Object[]{cityName, cityCode});
                     onRefresh();
                     getBannerList();
-                    SPUtils.getInstance().commit(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE}, new Object[]{cityName, cityCode});
                 }
             }
 

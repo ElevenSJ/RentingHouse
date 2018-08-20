@@ -59,7 +59,6 @@ public class SplashActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTools();
-        getCityList();
         AndPermission.with(SplashActivity.this)
                 .permission(Permission.ACCESS_COARSE_LOCATION,
                         Permission.ACCESS_FINE_LOCATION,
@@ -70,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
                 .onGranted(new Action() {
                     @Override
                     public void onAction(List<String> permissions) {
-                        toGoNext();
+                        getCityList();
                         App.getApp().getLocationService().startDefault();
                         PictureFileUtils.deleteCacheDirFile(SplashActivity.this);
                     }
@@ -153,6 +152,12 @@ public class SplashActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                }.execute(cityInfos, NameSpace.FILE_CITY_NAME);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                toGoNext();
             }
         });
     }

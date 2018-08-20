@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,30 +15,23 @@ import com.sj.module_lib.http.BaseResponse;
 import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.utils.DateUtils;
-import com.sj.module_lib.utils.TimePickerDialog;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.app.App;
 import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.bean.HouseDetail;
 import com.sj.rentinghouse.events.EventManger;
-import com.sj.rentinghouse.events.UserInfoEvent;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.DialogUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.Map;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by Sunj on 2018/7/22.
  */
 
-public class HouseManagerActivity extends AppBaseActivity implements TimePickerDialog.TimePickerDialogInterface {
+public class HouseManagerActivity extends AppBaseActivity {
     @BindView(R.id.img_house_icon)
     RoundedImageView imgHouseIcon;
     @BindView(R.id.tv_other_time)
@@ -72,23 +64,15 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
     @BindView(R.id.tv_rent_house)
     TextView tvRentHouse;
 
-    TextView tvRentStartTime;
-    TextView tvRentEndTime;
-
-    private TimePickerDialog mTimePickerDialog;
-
-    int rentTimeType =1;
-
     @Override
     public int getContentView() {
         return R.layout.activity_house_manager;
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         id = getIntent().getStringExtra("id");
-        mTimePickerDialog = new TimePickerDialog(HouseManagerActivity.this);
     }
 
     @Override
@@ -107,7 +91,7 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
         API.queryHouseInfo(id, new ServerResultBack<BaseResponse<HouseDetail>, HouseDetail>() {
             @Override
             public void onSuccess(HouseDetail data) {
-                if (isDestory()){
+                if (isDestory()) {
                     return;
                 }
                 HouseManagerActivity.this.data = data;
@@ -117,7 +101,7 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
             @Override
             public void onFinish() {
                 super.onFinish();
-                if (isDestory()){
+                if (isDestory()) {
                     return;
                 }
                 dismissProgress();
@@ -126,19 +110,19 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
     }
 
     private void initViewData() {
-        if (data==null){
+        if (data == null) {
             return;
         }
-        String[] housePictures = TextUtils.isEmpty(data.getHousePicture())||data.getHousePicture().equalsIgnoreCase("null") ? null : data.getHousePicture().split(",");
-        if (housePictures!=null&&housePictures.length > 0) {
+        String[] housePictures = TextUtils.isEmpty(data.getHousePicture()) || data.getHousePicture().equalsIgnoreCase("null") ? null : data.getHousePicture().split(",");
+        if (housePictures != null && housePictures.length > 0) {
             ImageUtils.loadImageView(housePictures[0], imgHouseIcon);
             tvImgCount.setText(housePictures.length + "图");
             tvImgCount.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             imgHouseIcon.setImageResource(R.mipmap.ic_launcher);
             tvImgCount.setVisibility(View.GONE);
         }
-        tvHouseName.setText(data.getVillage()+(TextUtils.isEmpty(data.getBedroom())?"":" · "+data.getBedroom()+"居室"));
+        tvHouseName.setText(data.getVillage() + (TextUtils.isEmpty(data.getBedroom()) ? "" : " · " + data.getBedroom() + "居室"));
         if (!TextUtils.isEmpty(data.getType())) {
             Drawable drawable = null;
             try {
@@ -174,7 +158,7 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
             tvRoomDirection.setText(data.getDirection());
             Logger.e("房源朝向数转型异常");
         }
-        tvPrice.setText("¥" + data.getRent());
+        tvPrice.setText("¥" + data.getRent() + "元/月");
         try {
             tvStatus.setText(App.rentStatusArray[Integer.valueOf(data.getStatus())]);
         } catch (Exception e) {
@@ -204,11 +188,6 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
         briefBuffer.append(data.getUnusedTime());
         tvHouseBriefInfo.setText(briefBuffer.toString());
 
-//        if (TextUtils.isEmpty(data.getStartEndTime())) {
-//            tvRentHouse.setVisibility(View.VISIBLE);
-//        }else{
-//            tvRentHouse.setVisibility(View.GONE);
-//        }
     }
 
     @OnClick({R.id.tv_modify_house, R.id.tv_delete_house, R.id.img_top_right, R.id.tv_rent_house})
@@ -242,50 +221,8 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
                 });
                 break;
             case R.id.tv_rent_house:
-                DialogUtils.showViewDialog(HouseManagerActivity.this, R.layout.dialog_rent_start_end_time, new DialogUtils.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId) {
-                        tvRentStartTime = view.findViewById(R.id.tv_start_time);
-                        tvRentEndTime = view.findViewById(R.id.tv_end_time);
-                        tvRentStartTime.setOnClickListener(timeOnClickListener);
-                        tvRentEndTime.setOnClickListener(timeOnClickListener);
-                    }
-                }, new DialogUtils.OnSureListener() {
-                    @Override
-                    public void callBack(final DialogInterface dialog, int which) {
-                        DialogUtils.setMShowing(dialog,false);
-                        if (checkAllEt()) {
-                            showProgress();
-                            final String startTime =  tvRentStartTime.getText().toString().trim();
-                            final String endTime =  tvRentEndTime.getText().toString().trim();
-                            API.upHouseStatus(data.getId(), DateUtils.getString2Milli(startTime)+"", DateUtils.getString2Milli(endTime)+"", new CommonCallback() {
-                                @Override
-                                public void onSuccess(String message) {
-                                    EventManger.getDefault().postMyRefreshEvent();
-                                    if (isDestory()){
-                                        return;
-                                    }
-                                    DialogUtils.setMShowing(dialog,true);
-                                    dialog.dismiss();
-                                    data.setStartEndTime(startTime+" 至 "+endTime);
-//                                    data.setStartTime(DateUtils.getString2Date(startTime)+"");
-//                                    data.setEndTime(DateUtils.getString2Date(endTime)+"");
-                                    data.setStatus("1");
-                                    initViewData();
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    super.onFinish();
-                                    if (isDestory()){
-                                        return;
-                                    }
-                                    dismissProgress();
-                                }
-                            });
-                        }
-                    }
-                });
+                Intent intent2 = new Intent(this,SetRentActivity.class);
+                startActivityForResult(intent2,100);
                 break;
             case R.id.img_top_right:
                 Intent intent1 = new Intent();
@@ -296,45 +233,33 @@ public class HouseManagerActivity extends AppBaseActivity implements TimePickerD
     }
 
 
-    private boolean checkAllEt() {
-        if (TextUtils.isEmpty(tvRentStartTime.getText().toString())) {
-            ToastUtils.showShortToast("请选择开始时间");
-            return false;
-        } else if (TextUtils.isEmpty(tvRentEndTime.getText().toString())) {
-            ToastUtils.showShortToast("请选择结束时间");
-            return false;
-        }
-        return true;
-    }
-    private View.OnClickListener timeOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.tv_start_time:
-                    rentTimeType = 1;
-                    break;
-                case R.id.tv_end_time:
-                    rentTimeType = 2;
-                    break;
-            }
-            mTimePickerDialog.showDatePickerDialog();
-        }
-    };
-
     @Override
-    public void positiveListener() {
-        int year = mTimePickerDialog.getYear();
-        int month = mTimePickerDialog.getMonth();
-        int day = mTimePickerDialog.getDay();
-        if (rentTimeType == 1){
-            tvRentStartTime.setText(year + "-" + month + "-" + day);
-        }else{
-            tvRentEndTime.setText(year + "-" + month + "-" + day);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intentData) {
+        super.onActivityResult(requestCode, resultCode, intentData);
+        if (requestCode == 100 && resultCode == RESULT_OK){
+            showProgress();
+            final String startTime = intentData.getStringExtra("startTime");
+            final String endTime =  intentData.getStringExtra("endTime");
+            API.upHouseStatus(data.getId(), DateUtils.getString2Milli(startTime) + "", DateUtils.getString2Milli(endTime) + "", new CommonCallback() {
+                @Override
+                public void onSuccess(String message) {
+                    EventManger.getDefault().postMyRefreshEvent();
+                    if (isDestory()) {
+                        return;
+                    }
+                    data.setStartEndTime(startTime + " 至 " + endTime);
+                    data.setStatus("1");
+                    initViewData();
+                }
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    if (isDestory()) {
+                        return;
+                    }
+                    dismissProgress();
+                }
+            });
         }
-    }
-
-    @Override
-    public void negativeListener() {
-
     }
 }

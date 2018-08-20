@@ -51,6 +51,7 @@ public class ChatView extends RelativeLayout {
         mPtrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
         Logger.i("mChatInput 高度："+SharePreferenceManager.getCachedKeyboardHeight());
         mChatInput.setMenuContainerHeight(SharePreferenceManager.getCachedKeyboardHeight());
+//        mChatInput.setMenuContainerHeight(819);
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
         mSelectAlbumIb = mChatInput.getSelectAlbumBtn();
         PtrDefaultHeader header = new PtrDefaultHeader(getContext());

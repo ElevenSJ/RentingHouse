@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.orhanobut.logger.Logger;
 import com.sj.module_lib.utils.DisplayUtils;
+import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.activity.HouseDetailActivity;
 import com.sj.rentinghouse.events.EventManger;
@@ -265,7 +266,7 @@ public class DialogUtils {
 
 
     public static AlertDialog showCallDialog(final Context mContext, final String houseId, final String telNum) {
-        return showCallDialog(mContext, telNum, houseId, telNum);
+        return showCallDialog(mContext, "是否立即电话联系对方", houseId, telNum);
     }
 
     public static AlertDialog showCallDialog(final Context mContext, final String msg, final String houseId, final String telNum) {
@@ -279,8 +280,12 @@ public class DialogUtils {
                     API.addDialingRecord(houseId, null);
                 }
                 dialog.dismiss();
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + telNum));//跳转到拨号界面，同时传递电话号码
-                mContext.startActivity(dialIntent);
+                if (TextUtils.isEmpty(telNum)){
+                    ToastUtils.showShortToast("手机号码为空");
+                }else {
+                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + telNum));//跳转到拨号界面，同时传递电话号码
+                    mContext.startActivity(dialIntent);
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:divider="@color/gray_AD"
+    android:showDividers="middle"
+    android:background="@drawable/bg_white_frame"
+    android:padding="16dp">
+
+
+    <TextView
+        android:id="@+id/tv_default"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:tag=""
+        android:text="默认排序"
+        android:textColor="@color/txt_red_black_selector"/>
+
+    <TextView
+        android:id="@+id/tv_upRent"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:tag="upRent"
+        android:text="租金低到高"
+        android:textColor="@color/txt_red_black_selector" />
+    <TextView
+        android:id="@+id/tv_downRent"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:tag="downRent"
+        android:text="租金高到低"
+        android:textColor="@color/txt_red_black_selector" />
+
+    <TextView
+        android:id="@+id/tv_upArea"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:tag="upArea"
+        android:text="面积小到大"
+        android:textColor="@color/txt_red_black_selector" />
+    <TextView
+        android:id="@+id/tv_downArea"
+        style="@style/TxtCommonGrayNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:tag="downArea"
+        android:text="面积大到小"
+        android:textColor="@color/txt_red_black_selector" />
+
+</LinearLayout>

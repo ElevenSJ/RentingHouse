@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -126,8 +125,8 @@ public class UserInfoActivity extends AppBaseActivity {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         userInfo = getIntent().getParcelableExtra("data");
 //        imgTopRight.setText("保存");
     }
@@ -217,7 +216,7 @@ public class UserInfoActivity extends AppBaseActivity {
                         showEditDialog(position, userInfo.getEmail());
                         break;
                     case 5:
-                    case 6:
+//                    case 6:
                         DialogUtils.showViewDialog(UserInfoActivity.this, R.layout.dialog_update_user_card, new DialogUtils.ViewInterface() {
                             @Override
                             public void getChildView(View view, int layoutResId) {
@@ -248,10 +247,10 @@ public class UserInfoActivity extends AppBaseActivity {
                                             }
                                             DialogUtils.setMShowing(dialog,true);
                                             dialog.dismiss();
-                                            myItemList.get(5).setItemRemark(cardName);
-                                            myItemList.get(6).setItemRemark(cardId);
+//                                            myItemList.get(5).setItemRemark(cardName);
+                                            myItemList.get(5).setItemRemark(cardId);
                                             mAdapter.update(myItemList.get(5), 5);
-                                            mAdapter.update(myItemList.get(6), 6);
+//                                            mAdapter.update(myItemList.get(6), 6);
 
                                         }
 
@@ -465,9 +464,9 @@ public class UserInfoActivity extends AppBaseActivity {
         myItemList.add(new MyItem(0, "头像", null, userInfo == null || TextUtils.isEmpty(userInfo.getImgUrl()) ? "R.drawable.img_user_icon" : userInfo.getImgUrl()));
         myItemList.add(new MyItem(0, "昵称", userInfo == null ? "昵称" : userInfo.getNickname()));
         myItemList.add(new MyItem(0, "手机号", userInfo == null ? "手机号" : userInfo.getUserId()));
-        myItemList.add(new MyItem(0, "性别", userInfo == null ? "男/女" : userInfo.getSex().equals("0") ? "男/女" : userInfo.getSex().equals("1") ? "男" : "女"));
+        myItemList.add(new MyItem(0, "性别", userInfo == null ? "未设置" : userInfo.getSex().equals("0") ? "未设置" : userInfo.getSex().equals("1") ? "男" : "女"));
         myItemList.add(new MyItem(0, "绑定邮箱", userInfo == null ? "邮箱地址" : userInfo.getEmail()));
-        myItemList.add(new MyItem(0, "证件姓名", userInfo == null ? "证件姓名" : userInfo.getName()));
+//        myItemList.add(new MyItem(0, "证件姓名", userInfo == null ? "证件姓名" : userInfo.getName()));
         myItemList.add(new MyItem(0, "证件信息", userInfo == null ? "证件号码" : userInfo.getIdCard()));
     }
 
@@ -520,8 +519,4 @@ public class UserInfoActivity extends AppBaseActivity {
         }
     }
 
-    @OnClick(R.id.img_top_right)
-    public void onViewClicked() {
-
-    }
 }

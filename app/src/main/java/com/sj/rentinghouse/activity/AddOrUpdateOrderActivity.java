@@ -1,16 +1,19 @@
 package com.sj.rentinghouse.activity;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.itheima.roundedimageview.RoundedImageView;
 import com.orhanobut.logger.Logger;
 import com.sj.module_lib.glide.ImageUtils;
 import com.sj.module_lib.http.CommonCallback;
+import com.sj.module_lib.utils.DateUtils;
 import com.sj.module_lib.utils.TimePickerDialog;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
@@ -21,6 +24,9 @@ import com.sj.rentinghouse.bean.OrderInfo;
 import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.http.API;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,7 +35,9 @@ import butterknife.OnClick;
  * Created by Sunj on 2018/7/18.
  */
 
-public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePickerDialog.TimePickerDialogInterface {
+public class AddOrUpdateOrderActivity extends AppBaseActivity
+//        implements TimePickerDialog.TimePickerDialogInterface
+{
     @BindView(R.id.img_house_icon)
     RoundedImageView imgHouseIcon;
     @BindView(R.id.tv_other_time)
@@ -65,7 +73,8 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
     String[] sexType;
     @BindView(R.id.spinner)
     Spinner spinner;
-    private TimePickerDialog mTimePickerDialog;
+//    private TimePickerDialog mTimePickerDialog;
+    private TimePickerView timePickerView;
 
     @Override
     public int getContentView() {
@@ -73,15 +82,41 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         Object dataObject = getIntent().getParcelableExtra("data");
         if (dataObject instanceof HouseDetail) {
             houseDetail = (HouseDetail) dataObject;
         } else if (dataObject instanceof OrderInfo) {
             orderInfo = (OrderInfo) dataObject;
         }
-        mTimePickerDialog = new TimePickerDialog(AddOrUpdateOrderActivity.this);
+//        mTimePickerDialog = new TimePickerDialog(AddOrUpdateOrderActivity.this);
+    }
+
+    private void showTimePickerView() {
+        if (timePickerView == null){
+            ArrayList<Integer> minList= new ArrayList<>();
+            minList.add(0);
+            minList.add(30);
+            timePickerView = new TimePickerView(this, TimePickerView.Type.MONTH_DAY_HOUR_MIN,minList);
+            timePickerView.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date) {
+//                    ToastUtils.showShortToast(DateUtils.getMinTime(date));
+                    long betweenTime = DateUtils.nowCurrentTime(date.getTime());
+                    if (betweenTime<0) {
+                        ToastUtils.showShortToast("请选择未来5天内的预约时间");
+                    }else if (betweenTime>5*24*60*60){
+                        ToastUtils.showShortToast("预约时间请勿超过5天");
+                    }else{
+                        edtTimeValue.setText(DateUtils.getMinTime(date));
+                    }
+                }
+            });
+            timePickerView.setRange(DateUtils.getCurrentYear(), DateUtils.getCurrentYear());
+        }
+        timePickerView.setCustomTime(new Date(),1);
+        timePickerView.show();
     }
 
     @Override
@@ -138,11 +173,11 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
             tvPrice.setText("¥" + houseDetail.getRent() + "元/月");
         } else if (orderInfo != null) {
             String[] housePictures = TextUtils.isEmpty(orderInfo.getHousePicture()) || orderInfo.getHousePicture().equalsIgnoreCase("null") ? null : orderInfo.getHousePicture().split(",");
-            if (housePictures!=null&&housePictures.length > 0) {
+            if (housePictures != null && housePictures.length > 0) {
                 ImageUtils.loadImageView(housePictures[0], imgHouseIcon);
                 tvImgCount.setVisibility(View.VISIBLE);
                 tvImgCount.setText(housePictures.length + "图");
-            }else{
+            } else {
                 imgHouseIcon.setImageResource(R.mipmap.ic_launcher);
                 tvImgCount.setVisibility(View.GONE);
             }
@@ -182,7 +217,7 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
                 tvRoomDirection.setText(orderInfo.getDirection());
                 Logger.e("房源朝向转型异常");
             }
-            tvPrice.setText("¥" + orderInfo.getRent());
+            tvPrice.setText("¥" + orderInfo.getRent()+"元/月");
 
         }
     }
@@ -196,7 +231,8 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
         int viewId = view.getId();
         switch (viewId) {
             case R.id.edt_time_value:
-                mTimePickerDialog.showDateAndTimePickerDialog();
+//                mTimePickerDialog.showDateAndTimePickerDialog();
+                showTimePickerView();
                 break;
             case R.id.bt_sure:
                 if (TextUtils.isEmpty(edtNameValue.getText().toString())) {
@@ -214,7 +250,7 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
                         if (isDestory()) {
                             return;
                         }
-                        ToastUtils.showShortToast("预约成功");
+                        ToastUtils.showShortToast("预约完成请等待房东确认");
                         EventManger.getDefault().postTrackRefreshEvent();
                         EventManger.getDefault().postMessageRefreshEvent();
                         finish();
@@ -234,18 +270,25 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity implements TimePic
 
     }
 
-    @Override
-    public void positiveListener() {
-        int year = mTimePickerDialog.getYear();
-        int month = mTimePickerDialog.getMonth();
-        int day = mTimePickerDialog.getDay();
-        int hour = mTimePickerDialog.getHour();
-        int minute = mTimePickerDialog.getMinute();
-        edtTimeValue.setText(year + "-" + month + "-" + day + " " + hour + ":" + minute);
-    }
+//    @Override
+//    public void positiveListener() {
+//        int year = mTimePickerDialog.getYear();
+//        int month = mTimePickerDialog.getMonth();
+//        int day = mTimePickerDialog.getDay();
+//        int hour = mTimePickerDialog.getHour();
+//        int minute = mTimePickerDialog.getMinute();
+//        long betweenTime = DateUtils.nowCurrentTime(DateUtils.getStringToDate(year + "-" + month + "-" + day+" "+hour+":"+minute));
+//        if (betweenTime<0) {
+//            ToastUtils.showShortToast("请选择未来5天内的预约时间");
+//        }else if (betweenTime>5*24*60*60){
+//            ToastUtils.showShortToast("预约时间请勿超过5天");
+//        }else{
+//            edtTimeValue.setText(DateUtils.timeStampToStr1(DateUtils.getStringToDate(year + "-" + month + "-" + day + " " + hour + ":" + minute)));
+//        }
+//    }
 
-    @Override
-    public void negativeListener() {
-
-    }
+//    @Override
+//    public void negativeListener() {
+//
+//    }
 }

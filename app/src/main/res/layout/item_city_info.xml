@@ -6,4 +6,4 @@
     android:layout_height="wrap_content"
     android:textColor="@color/txt_red_black_selector"
     android:gravity="left|center_vertical"
-    android:padding="6dp"></TextView>
+    android:padding="10dp"></TextView>

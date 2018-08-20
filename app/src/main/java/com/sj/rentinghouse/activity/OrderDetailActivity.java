@@ -1,5 +1,6 @@
 package com.sj.rentinghouse.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,8 +54,8 @@ public class OrderDetailActivity extends AppBaseActivity {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         id = getIntent().getStringExtra("id");
         status= getIntent().getStringExtra("status");
     }
@@ -101,8 +102,11 @@ public class OrderDetailActivity extends AppBaseActivity {
         tvUserTime.setText(orderDetail.getShowTime());
         tvNote.setText(orderDetail.getNote());
         if (!status.equals("1")){
-            btAgree.setVisibility(View.INVISIBLE);
-            btRefuse.setVisibility(View.INVISIBLE);
+            btAgree.setVisibility(View.GONE);
+            btRefuse.setVisibility(View.GONE);
+        }else{
+            btAgree.setVisibility(View.VISIBLE);
+            btRefuse.setVisibility(View.VISIBLE);
         }
     }
 
@@ -149,9 +153,31 @@ public class OrderDetailActivity extends AppBaseActivity {
                 });
                 break;
             case R.id.tv_contact:
-                DialogUtils.showCallDialog(this, orderDetail.getPhone());
+                getOrderPhone();
                 break;
         }
+    }
+
+    private void getOrderPhone() {
+        showProgress();
+        API.queryOrderPhone(id, new ServerResultBack<BaseResponse<String>,String>() {
+            @Override
+            public void onSuccess(String data) {
+                if (isDestory()){
+                    return;
+                }
+                DialogUtils.showCallDialog(OrderDetailActivity.this, data);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (isDestory()){
+                    return;
+                }
+                dismissProgress();
+            }
+        });
     }
     public void backFinish(boolean isRefresh){
        if (isRefresh){

@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.sj.module_lib.R;
-import com.sj.module_lib.utils.DisplayUtils;
 import com.sj.module_lib.utils.StatusBarUtils;
 import com.sj.module_lib.utils.ViewUtils;
 import com.sj.module_lib.widgets.CustomDialog;
@@ -32,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         rootView = LayoutInflater.from(this).inflate(getContentView(), null);
         setContentView(rootView);
         setStatusView();
-        init();
+        init(savedInstanceState);
         rootView.post(new Runnable() {
             @Override
             public void run() {
@@ -102,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getContentView();
 
-    public void init() {
+    public void init(Bundle savedInstanceState) {
     }
 
     public void initEvent() {

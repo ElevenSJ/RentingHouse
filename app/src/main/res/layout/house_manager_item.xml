@@ -71,11 +71,11 @@
         style="@style/TxtCommonGraySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:drawableLeft="@drawable/img_room_type"
+        android:paddingEnd="8dp"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/tv_room_direction"
+        app:layout_constraintStart_toStartOf="@+id/tv_hourse_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_hourse_name" />
 
     <TextView
@@ -83,9 +83,10 @@
         style="@style/TxtCommonGraySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:drawableLeft="@drawable/img_house_area"
-        app:layout_constraintStart_toStartOf="@+id/tv_hourse_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_hourse_room"
         app:layout_constraintTop_toBottomOf="@+id/tv_hourse_name" />
 
     <TextView

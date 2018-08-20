@@ -102,11 +102,13 @@ public class MyRenterFragment extends AppBaseFragment {
                 switch (position) {
                     case 0:
                         intent.putExtra("title", "客服");
+                        intent.putExtra("url","https://www.sobot.com/chat/h5/index.html?sysNum=61818b7110bd4498b7c87f26db6ec760&source=2");
                         intent.setClass(MyRenterFragment.this.getContext(), HtmlActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
                         intent.putExtra("title", "客服");
+                        intent.putExtra("url","https://www.sobot.com/chat/h5/index.html?sysNum=61818b7110bd4498b7c87f26db6ec760&source=2");
                         intent.setClass(MyRenterFragment.this.getContext(), HtmlActivity.class);
                         startActivity(intent);
                         break;

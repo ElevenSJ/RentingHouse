@@ -1,23 +1,23 @@
 package com.sj.rentinghouse.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import com.alibaba.fastjson.JSON;
+import com.bigkoo.pickerview.TimePickerView;
 import com.orhanobut.logger.Logger;
-import com.sj.module_lib.adapter.FragmentStateAdapter;
-import com.sj.module_lib.task.SerializeInfoGetTask;
+import com.sj.module_lib.adapter.FragmentAdapter;
 import com.sj.module_lib.utils.BottomNavigationViewHelper;
 import com.sj.module_lib.utils.SPUtils;
 import com.sj.module_lib.utils.ToastUtils;
+import com.sj.module_lib.utils.Utils;
 import com.sj.module_lib.utils.ViewManager;
 import com.sj.module_lib.widgets.NoScrollViewPager;
 import com.sj.rentinghouse.R;
-import com.sj.rentinghouse.app.App;
 import com.sj.rentinghouse.base.AppBaseActivity;
-import com.sj.rentinghouse.bean.CityInfo;
 import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MainPageSwitchEvent;
 import com.sj.rentinghouse.fragment.MainFragment;
@@ -25,13 +25,12 @@ import com.sj.rentinghouse.fragment.MessageFragment;
 import com.sj.rentinghouse.fragment.MyFragment;
 import com.sj.rentinghouse.fragment.TrackFragment;
 import com.sj.rentinghouse.utils.NameSpace;
-import com.zaaach.citypicker.model.City;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
+import java.util.Date;
 
 import butterknife.BindView;
 import cn.jiguang.api.JCoreInterface;
@@ -44,7 +43,12 @@ public class MainActivity extends AppBaseActivity {
     NoScrollViewPager containerPager;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
-    FragmentStateAdapter mAdapter;
+    FragmentAdapter mAdapter;
+
+    Fragment mainFragment;
+    Fragment trackFragment;
+    Fragment messageFragment;
+    Fragment myFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,16 +81,29 @@ public class MainActivity extends AppBaseActivity {
 
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
+        Utils.setMainActivity(this.getClass());
         EventBus.getDefault().register(this);
-        if (ViewManager.getInstance().getAllFragment() == null || ViewManager.getInstance().getAllFragment().isEmpty()) {
-            ViewManager.getInstance().addFragment(0, new MainFragment());
-            ViewManager.getInstance().addFragment(1, new TrackFragment());
-            ViewManager.getInstance().addFragment(2, new MessageFragment());
-            ViewManager.getInstance().addFragment(3, new MyFragment());
+        if (savedInstanceState != null) {
+            mainFragment = getSupportFragmentManager().findFragmentByTag(MainFragment.class.getName());
+            trackFragment = getSupportFragmentManager().findFragmentByTag(TrackFragment.class.getName());
+            messageFragment = getSupportFragmentManager().findFragmentByTag(MessageFragment.class.getName());
+            myFragment = getSupportFragmentManager().findFragmentByTag(MyFragment.class.getName());
+        } else {
+            mainFragment = new MainFragment();
+            trackFragment = new TrackFragment();
+            messageFragment = new MessageFragment();
+            myFragment = new MyFragment();
         }
-        mAdapter = new FragmentStateAdapter(getSupportFragmentManager(), ViewManager.getInstance().getAllFragment());
+        if (ViewManager.getInstance().getAllFragment() != null && !ViewManager.getInstance().getAllFragment().isEmpty()) {
+            ViewManager.getInstance().getAllFragment().clear();
+        }
+        ViewManager.getInstance().addFragment(0, mainFragment);
+        ViewManager.getInstance().addFragment(1, trackFragment);
+        ViewManager.getInstance().addFragment(2, messageFragment);
+        ViewManager.getInstance().addFragment(3, myFragment);
+        mAdapter = new FragmentAdapter(getSupportFragmentManager(), new String[]{"首页", "足迹单", "消息", "我的"}, ViewManager.getInstance().getAllFragment());
     }
 
     @Override
@@ -113,6 +130,7 @@ public class MainActivity extends AppBaseActivity {
 
     public void backLogin() {
         Intent i = new Intent();
+        i.putExtra("mainFinished",true);
         i.setClass(this, LoginActivity.class);
         startActivity(i);
         finish();
@@ -128,14 +146,13 @@ public class MainActivity extends AppBaseActivity {
     public void onExitApp(LoginOutEvent event) {
         SPUtils.getInstance().commit(new String[]{NameSpace.USER_ACCOUNT, NameSpace.TOKEN_ID, NameSpace.IS_LOGIN}, new Object[]{"", "", false});
         JMessageClient.logout();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        backLogin();
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        Utils.setMainActivity(this.getClass());
         super.onDestroy();
     }
 

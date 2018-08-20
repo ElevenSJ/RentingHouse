@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_register">
+
+    <include
+        android:id="@+id/layout_title"
+        layout="@layout/activity_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_register">
+
+        <include
+        layout="@layout/dialog_forget_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/bt_sure"
+        style="@style/TxtCommonWhiteBig"
+        android:layout_width="wrap_content"
+        android:ems="14"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="确定"
+        android:background="@drawable/shape_circle_button" />
+</LinearLayout>
+</LinearLayout>

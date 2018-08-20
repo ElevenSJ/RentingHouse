@@ -18,7 +18,7 @@ public class UrlConfig {
      * 用户服务
      */
     //baseUrl
-    public static final String USERSERVICE_BASE_URL = "http://userservice.app-service-node.com";
+    public static final String USERSERVICE_BASE_URL = "https://userservice.app-service-node.com";
     //获取验证码
     public static final String GET_SMSCODE_URL = "/sendMsgCode";
     //注册
@@ -42,7 +42,7 @@ public class UrlConfig {
      * 约看服务
      */
     //baseUrl
-    public static final String ORDERSERVICE_BASE_URL = "http://orderservice.app-service-node.com";
+    public static final String ORDERSERVICE_BASE_URL = "https://orderservice.app-service-node.com";
     //添加约看
     public static final String ADD_ORDER_URL = "/addOrder";
     //约看状态更新
@@ -59,13 +59,15 @@ public class UrlConfig {
     public static final String MY_ORDER_COUNT_URL = "/getOrderCount";
     //系统消息列表
     public static final String NOTICE_LIST_URL = "/noticeList";
+    //约看详情获取手机号码
+    public static final String QUERY_ORDER_PHONE_URL = "/queryPhone";
 
 
     /**
      * 房源服务
      */
     //baseUrl
-    public static final String HOUSESERVICE_BASE_URL = "http://houseservice.app-service-node.com";
+    public static final String HOUSESERVICE_BASE_URL = "https://houseservice.app-service-node.com";
     //首页查询房产列表
     public static final String ALL_HOUSE_LIST_URL = "/allHouseList";
     //首页查询房产列表价格筛选
@@ -94,16 +96,22 @@ public class UrlConfig {
     public static final String HOT_WORD_URL = "/hotWord";
     //我的房产总数
     public static final String MY_HOUSE_COUNT_URL = "/getMyHouseCount";
+    //获取手机号码
+    public static final String QUERY_HOUSE_PHONE_URL = "/queryPhone";
 
     /**
      * 系统服务
      */
     //baseUrl
-    public static final String SYSTEMSERVICE_BASE_URL = "http://systemservices.app-service-node.com";
+    public static final String SYSTEMSERVICE_BASE_URL = "https://systemservices.app-service-node.com";
     //城市列表
     public static final String CITY_LIST_URL = "/cityList";
     //首页轮播图
     public static final String HEAD_PICTURE_URL = "/headPicture";
     //七牛上传token接口
     public static final String QINNIU_TOKEN_URL = "/getToken";
+    //获得城市地铁线路
+    public static final String GET_TRAIN_LINE_URL = "/getLine";
+    //城市地铁线路地铁站
+    public static final String GET_SUBWAY_URL = "/getSubway";
 }

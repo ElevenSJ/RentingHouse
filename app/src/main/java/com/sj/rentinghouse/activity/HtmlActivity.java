@@ -1,6 +1,8 @@
 package com.sj.rentinghouse.activity;
 
 import android.os.Build;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -22,6 +24,7 @@ public class HtmlActivity extends AppBaseActivity {
     FrameLayout layoutContent;
     WebView webView;
     String title;
+    String url;
 
     @Override
     public int getContentView() {
@@ -29,9 +32,10 @@ public class HtmlActivity extends AppBaseActivity {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         title = getIntent().getStringExtra("title");
+        url= getIntent().getStringExtra("url");
         setTopTitle(R.id.tv_top_title, title);
     }
 
@@ -44,7 +48,10 @@ public class HtmlActivity extends AppBaseActivity {
         layoutContent.addView(webView);
 
         initWebSetting();
-        webView.loadUrl("https://www.sobot.com/chat/h5/index.html?sysNum=61818b7110bd4498b7c87f26db6ec760&source=2");
+        if (!TextUtils.isEmpty(url)){
+            webView.loadUrl(url);
+        }
+
     }
 
     private void initWebSetting() {

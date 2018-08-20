@@ -3,6 +3,8 @@ package com.sj.rentinghouse.activity;
 import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,7 +101,7 @@ public class RegisterActivity extends AppBaseActivity {
 //            Logger.d("城市编码转换完毕");
 //        }
 //    }
-    @OnClick({R.id.tv_getcode, R.id.tv_to_login, R.id.bt_register})
+    @OnClick({R.id.tv_getcode, R.id.tv_to_login, R.id.bt_register, R.id.img_new_pwd_status, R.id.img_ensure_new_pwd_status})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.tv_getcode:
@@ -115,7 +117,7 @@ public class RegisterActivity extends AppBaseActivity {
                     if (etPassword.getText().toString().equals(etEnsurePassword.getText().toString())) {
                         doRegister(etPhone.getText().toString(), etCode.getText().toString(), etPassword.getText().toString());
                     }else{
-                        ToastUtils.showShortToast("密码不一致");
+                        ToastUtils.showShortToast("密码不一致，重新输入");
                     }
                 } else {
                     ToastUtils.showShortToast("请输入所有项");
@@ -123,6 +125,14 @@ public class RegisterActivity extends AppBaseActivity {
                 break;
             case R.id.tv_to_login:
                 finish();
+                break;
+            case R.id.img_new_pwd_status:
+                view.setSelected(!view.isSelected());
+                etPassword.setTransformationMethod(view.isSelected() ? HideReturnsTransformationMethod.getInstance() : PasswordTransformationMethod.getInstance());
+                break;
+            case R.id.img_ensure_new_pwd_status:
+                view.setSelected(!view.isSelected());
+                etEnsurePassword.setTransformationMethod(view.isSelected() ? HideReturnsTransformationMethod.getInstance() : PasswordTransformationMethod.getInstance());
                 break;
         }
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -72,12 +73,12 @@
         style="@style/TxtCommonGraySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:drawableLeft="@drawable/img_room_type"
+        android:paddingEnd="8dp"
         android:text="主卧"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/tv_room_direction"
+        app:layout_constraintStart_toStartOf="@+id/tv_hourse_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_hourse_name" />
 
     <TextView
@@ -88,7 +89,7 @@
         android:layout_marginTop="4dp"
         android:drawableLeft="@drawable/img_house_area"
         android:text="面积"
-        app:layout_constraintStart_toStartOf="@+id/tv_hourse_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_hourse_room"
         app:layout_constraintTop_toBottomOf="@+id/tv_hourse_name" />
 
     <TextView

@@ -2,6 +2,7 @@ package com.sj.rentinghouse.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +32,6 @@ import com.sj.module_lib.http.BaseResponse;
 import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.manager.ThreadPoolManager;
-import com.sj.module_lib.utils.DateUtils;
 import com.sj.module_lib.utils.DisplayUtils;
 import com.sj.module_lib.utils.FileToolUtils;
 import com.sj.module_lib.utils.SPUtils;
@@ -236,8 +236,8 @@ public class AddOrUpdateHouseActivity extends AppBaseActivity implements TimePic
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         cityCode = (String) SPUtils.getInstance().getSharedPreference(NameSpace.CITY_CODE, "");
         cityName = (String) SPUtils.getInstance().getSharedPreference(NameSpace.CITY_NAME, "");
         houseDetail = getIntent().getParcelableExtra("data") == null ? new HouseDetail() : (HouseDetail) getIntent().getParcelableExtra("data");
@@ -389,12 +389,11 @@ public class AddOrUpdateHouseActivity extends AppBaseActivity implements TimePic
         Drawable drawable = getResources().getDrawable(App.facilitiesResIds[index]);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
         textView.setCompoundDrawables(null, drawable, null, null);
-        GridLayout.Spec rowSpec = GridLayout.spec(index / 6, 1f);
-        GridLayout.Spec columnSpec = GridLayout.spec(index % 6, 1f);
+        GridLayout.Spec rowSpec = GridLayout.spec(index / 5, 1f);
+        GridLayout.Spec columnSpec = GridLayout.spec(index % 5, 1f);
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-        layoutParams.setGravity(Gravity.CENTER);
         int margin = DisplayUtils.dip2px(this, 2);
-        if (index / 6 == 1) {
+        if (index / 5 == 1||index / 5 == 2) {
             layoutParams.topMargin = margin;
             layoutParams.bottomMargin = margin;
         }
@@ -642,6 +641,7 @@ public class AddOrUpdateHouseActivity extends AppBaseActivity implements TimePic
                 }
                 ToastUtils.showShortToast("保存成功");
                 EventManger.getDefault().postMyRefreshEvent();
+                EventManger.getDefault().postMainRefreshEvent();
                 finish();
             }
 

@@ -50,6 +50,9 @@
             android:theme="@style/DefaultCityPickerTheme"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
+            android:name=".activity.ForgetPwdActivity"
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
+        <activity
             android:name=".activity.RegisterActivity"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
@@ -91,7 +94,11 @@
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.IMChatActivity"
+            android:theme="@style/AppThemeBase"
             android:windowSoftInputMode="stateUnchanged|adjustResize"/>
+        <activity
+            android:name=".activity.SetRentActivity"
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.sj.rentinghouse.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -25,6 +26,7 @@ import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.events.EventManger;
+import com.sj.rentinghouse.fragment.MyRenterFragment;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.DialogUtils;
 import com.sj.rentinghouse.utils.NameSpace;
@@ -67,11 +69,18 @@ public class LoginActivity extends AppBaseActivity {
     TextView tvGetFgtCode;
     String getCodeType = "";
 
+    boolean isMainFinished = false;
+
     @Override
     public int getContentView() {
         return R.layout.activity_login;
     }
 
+    @Override
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
+        isMainFinished = getIntent().getBooleanExtra("mainFinished", false);
+    }
 
     @Override
     public void initEvent() {
@@ -79,6 +88,7 @@ public class LoginActivity extends AppBaseActivity {
         final View myLayout = getWindow().getDecorView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             private int statusBarHeight;
+
             @Override
             public void onGlobalLayout() {
                 Rect r = new Rect();
@@ -100,8 +110,8 @@ public class LoginActivity extends AppBaseActivity {
                     e.printStackTrace();
                 }
                 int realKeyboardHeight = heightDiff - statusBarHeight;
-                Logger.i("软键盘高度(单位像素) ="+realKeyboardHeight);
-                if (realKeyboardHeight>0){
+                Logger.i("软键盘高度(单位像素) =" + realKeyboardHeight);
+                if (realKeyboardHeight > 0) {
                     SharePreferenceManager.setCachedKeyboardHeight(realKeyboardHeight);
                 }
             }
@@ -114,10 +124,10 @@ public class LoginActivity extends AppBaseActivity {
     CountDownTimer timer = new CountDownTimer(60 * 1000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            if(getCodeType.equals("2")) {
+            if (getCodeType.equals("2")) {
                 tvGetcode.setEnabled(false);
                 tvGetcode.setText(millisUntilFinished / 1000 + "秒");
-            }else{
+            } else {
                 tvGetFgtCode.setEnabled(false);
                 tvGetFgtCode.setText(millisUntilFinished / 1000 + "秒");
             }
@@ -125,69 +135,83 @@ public class LoginActivity extends AppBaseActivity {
 
         @Override
         public void onFinish() {
-            if(getCodeType.equals("2")) {
+            if (getCodeType.equals("2")) {
                 tvGetcode.setEnabled(true);
                 tvGetcode.setText("获取验证码");
-            }else{
+            } else {
                 tvGetFgtCode.setEnabled(true);
                 tvGetFgtCode.setText("获取验证码");
             }
         }
     };
 
-    @OnClick({R.id.tv_forget_pwd, R.id.tv_getcode, R.id.bt_login, R.id.tv_register_detail, R.id.tv_change_login_type, R.id.img_pwd_status})
+    @OnClick({R.id.tv_forget_pwd, R.id.tv_getcode, R.id.bt_login, R.id.tv_register_detail, R.id.tv_change_login_type, R.id.img_pwd_status, R.id.tv_protocol_detail})
     public void onClick(View view) {
-        Logger.i("onClick(View view):" + view.getId());
         switch (view.getId()) {
             case R.id.tv_forget_pwd:
-                DialogUtils.showViewDialog(LoginActivity.this, R.layout.dialog_forget_pwd, new DialogUtils.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId) {
-                        edtFgtPhoneValue = view.findViewById(R.id.edt_fgt_phone_value);
-                        edtFgtCodeValue = view.findViewById(R.id.et_fgt_code_value);
-                        edtFgtNewPwdValue = view.findViewById(R.id.et_fgt_new_password);
-                        edtFgtNewPwdEnsureValue = view.findViewById(R.id.et_fgt_ensure_new_password);
-                        tvGetFgtCode = view.findViewById(R.id.tv_fgt_getcode);
-                        tvGetFgtCode.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                getCode(edtFgtPhoneValue.getText().toString().trim(), "3");
-                            }
-                        });
-                    }
-                }, new DialogUtils.OnSureListener() {
-                    @Override
-                    public void callBack(final DialogInterface dialog, int which) {
-                        DialogUtils.setMShowing(dialog,false);
-                        if (checkPhoneAllEt()) {
-                            final String newPhone = edtFgtPhoneValue.getText().toString().trim();
-                            final String msgCode = edtFgtCodeValue.getText().toString().trim();
-                            final String newPwd = edtFgtNewPwdValue.getText().toString().trim();
-                            final String ensureNewPwd = edtFgtNewPwdEnsureValue.getText().toString().trim();
-                            showProgress();
-                            API.forgetPwd(newPhone,msgCode,newPwd,ensureNewPwd, new CommonCallback() {
-                                @Override
-                                public void onSuccess(String message) {
-                                    if (isDestory()){
-                                        return;
-                                    }
-                                    DialogUtils.setMShowing(dialog,true);
-                                    dialog.dismiss();
-                                    ToastUtils.showShortToast("密码重置成功");
-                                }
-                                @Override
-                                public void onFinish() {
-                                    super.onFinish();
-                                    if (isDestory()){
-                                        return;
-                                    }
-                                    refreshCodeTxt(false);
-                                    dismissProgress();
-                                }
-                            });
-                        }
-                    }
-                });
+                toForgetPwd();
+//                DialogUtils.showViewDialog(LoginActivity.this, R.layout.dialog_forget_pwd, new DialogUtils.ViewInterface() {
+//                    @Override
+//                    public void getChildView(View view, int layoutResId) {
+//                        edtFgtPhoneValue = view.findViewById(R.id.edt_fgt_phone_value);
+//                        edtFgtCodeValue = view.findViewById(R.id.et_fgt_code_value);
+//                        edtFgtNewPwdValue = view.findViewById(R.id.et_fgt_new_password);
+//                        edtFgtNewPwdEnsureValue = view.findViewById(R.id.et_fgt_ensure_new_password);
+//                        tvGetFgtCode = view.findViewById(R.id.tv_fgt_getcode);
+//                        tvGetFgtCode.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                getCode(edtFgtPhoneValue.getText().toString().trim(), "3");
+//                            }
+//                        });
+//                        view.findViewById(R.id.img_fgt_new_pwd_status).setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                view.setSelected(!view.isSelected());
+//                                edtFgtNewPwdValue.setTransformationMethod(view.isSelected() ? HideReturnsTransformationMethod.getInstance() : PasswordTransformationMethod.getInstance());
+//                            }
+//                        });
+//                        view.findViewById(R.id.img_fgt_ensure_new_pwd_status).setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                view.setSelected(!view.isSelected());
+//                                edtFgtNewPwdEnsureValue.setTransformationMethod(view.isSelected() ? HideReturnsTransformationMethod.getInstance() : PasswordTransformationMethod.getInstance());
+//                            }
+//                        });
+//                    }
+//                }, new DialogUtils.OnSureListener() {
+//                    @Override
+//                    public void callBack(final DialogInterface dialog, int which) {
+//                        DialogUtils.setMShowing(dialog,false);
+//                        if (checkPhoneAllEt()) {
+//                            final String newPhone = edtFgtPhoneValue.getText().toString().trim();
+//                            final String msgCode = edtFgtCodeValue.getText().toString().trim();
+//                            final String newPwd = edtFgtNewPwdValue.getText().toString().trim();
+//                            final String ensureNewPwd = edtFgtNewPwdEnsureValue.getText().toString().trim();
+//                            showProgress();
+//                            API.forgetPwd(newPhone,msgCode,newPwd,ensureNewPwd, new CommonCallback() {
+//                                @Override
+//                                public void onSuccess(String message) {
+//                                    if (isDestory()){
+//                                        return;
+//                                    }
+//                                    DialogUtils.setMShowing(dialog,true);
+//                                    dialog.dismiss();
+//                                    ToastUtils.showShortToast("密码重置成功");
+//                                }
+//                                @Override
+//                                public void onFinish() {
+//                                    super.onFinish();
+//                                    if (isDestory()){
+//                                        return;
+//                                    }
+//                                    refreshCodeTxt(false);
+//                                    dismissProgress();
+//                                }
+//                            });
+//                        }
+//                    }
+//                });
                 break;
             case R.id.tv_getcode:
                 getCode(edtPhoneValue.getText().toString().trim(), "2");
@@ -213,6 +237,13 @@ public class LoginActivity extends AppBaseActivity {
                     //否则隐藏密码
                     edtCodeValue.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
+                break;
+            case R.id.tv_protocol_detail:
+                Intent intent = new Intent();
+                intent.putExtra("title", "用户协议");
+                intent.putExtra("url","https://systemservices.app-service-node.com/xieyi");
+                intent.setClass(this, HtmlActivity.class);
+                startActivity(intent);
                 break;
             default:
         }
@@ -261,6 +292,11 @@ public class LoginActivity extends AppBaseActivity {
         startActivity(intent);
     }
 
+    private void toForgetPwd() {
+        Intent intent = new Intent(this, ForgetPwdActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -270,8 +306,10 @@ public class LoginActivity extends AppBaseActivity {
     }
 
     public void toMainActivity() {
-        Intent mainIntent = new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
+        if (isMainFinished) {
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            startActivity(mainIntent);
+        }
         finish();
     }
 
@@ -307,7 +345,7 @@ public class LoginActivity extends AppBaseActivity {
             @Override
             public void onFailed(String error_code, String error_message) {
                 super.onFailed(error_code, error_message);
-                if (isDestory()){
+                if (isDestory()) {
                     return;
                 }
                 refreshCodeTxt(false);
@@ -333,11 +371,12 @@ public class LoginActivity extends AppBaseActivity {
                 @Override
                 public void onSuccess(BaseResponse<String> data) {
                     super.onSuccess(data);
-                    if (isDestory()){
+                    if (isDestory()) {
                         return;
                     }
-                    doLoginSuccess(phoneNum, data.getData(),data.getMessage());
+                    doLoginSuccess(phoneNum, data.getData(), data.getMessage());
                 }
+
                 @Override
                 public void onSuccess(String data) {
 
@@ -346,7 +385,7 @@ public class LoginActivity extends AppBaseActivity {
                 @Override
                 public void onFailed(String error_code, String error_message) {
                     super.onFailed(error_code, error_message);
-                    if (isDestory()){
+                    if (isDestory()) {
                         return;
                     }
                     dismissProgress();
@@ -357,20 +396,21 @@ public class LoginActivity extends AppBaseActivity {
                 @Override
                 public void onSuccess(BaseResponse<String> data) {
                     super.onSuccess(data);
-                    if (isDestory()){
+                    if (isDestory()) {
                         return;
                     }
-                    doLoginSuccess(phoneNum, data.getData(),data.getMessage());
+                    doLoginSuccess(phoneNum, data.getData(), data.getMessage());
                 }
 
                 @Override
                 public void onFailed(String error_code, String error_message) {
                     super.onFailed(error_code, error_message);
-                    if (isDestory()){
+                    if (isDestory()) {
                         return;
                     }
                     dismissProgress();
                 }
+
                 @Override
                 public void onSuccess(String data) {
 
@@ -379,7 +419,7 @@ public class LoginActivity extends AppBaseActivity {
         }
     }
 
-    private void doLoginSuccess(String phoneNum, String data,String im) {
+    private void doLoginSuccess(String phoneNum, String data, String im) {
         SPUtils.getInstance().apply(new String[]{NameSpace.IS_LOGIN, NameSpace.USER_ACCOUNT, NameSpace.TOKEN_ID}, new Object[]{true, phoneNum, data});
         EventManger.getDefault().postLoginEvent(true);
         JMessageClient.login(im, im, new BasicCallback() {

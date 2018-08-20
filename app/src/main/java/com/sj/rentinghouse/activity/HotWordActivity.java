@@ -1,16 +1,13 @@
 package com.sj.rentinghouse.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +32,12 @@ import com.sj.rentinghouse.bean.HotWord;
 import com.sj.rentinghouse.bean.HouseInfo;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.NameSpace;
-import com.zaaach.citypicker.adapter.decoration.SectionItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -102,8 +97,8 @@ public class HotWordActivity extends AppBaseActivity implements  RecyclerArrayAd
     };
 
     @Override
-    public void init() {
-        super.init();
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         map.put("city", SPUtils.getInstance().getSharedPreference(NameSpace.CITY_CODE, ""));
     }
 

@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
-import com.orhanobut.logger.Logger;
 import com.sj.module_lib.base.BaseActivity;
 import com.sj.module_lib.task.SerializeInfoGetTask;
 import com.sj.module_lib.utils.AndroidWorkaround;

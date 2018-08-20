@@ -284,7 +284,34 @@ public class API {
         HttpManager.setTmpBaseUrl(UrlConfig.ORDERSERVICE_BASE_URL);
         HttpManager.get(UrlConfig.NOTICE_LIST_URL, parameters, callback);
     }
+
+    /**
+     * 约看查询手机号
+     *
+     * @param callback
+     */
+    public static void queryOrderPhone(String id, HttpCallback callback) {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("token", SPUtils.getInstance().getSharedPreference(NameSpace.TOKEN_ID, ""));
+        parameters.put("id", id);
+        HttpManager.setTmpBaseUrl(UrlConfig.ORDERSERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.QUERY_ORDER_PHONE_URL, parameters, callback);
+    }
+
     //------------------------------------------------------房源服务------------------------------------------
+
+    /**
+     * 房源查询手机号
+     *
+     * @param callback
+     */
+    public static void queryHousePhone(String id, HttpCallback callback) {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("token", SPUtils.getInstance().getSharedPreference(NameSpace.TOKEN_ID, ""));
+        parameters.put("id", id);
+        HttpManager.setTmpBaseUrl(UrlConfig.HOUSESERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.QUERY_HOUSE_PHONE_URL, parameters, callback);
+    }
 
     /**
      * 添加/修改 房屋信息
@@ -329,12 +356,13 @@ public class API {
         parameters.put("pageNum", 10);
         HttpManager.setTmpBaseUrl(UrlConfig.HOUSESERVICE_BASE_URL);
         //价格刷选使用另外一个地址
-        if(parameters.containsKey("startRent")&& !TextUtils.isEmpty(parameters.get("startRent").toString())&&!parameters.get("endRent").toString().equals("0")){
+        if (parameters.containsKey("startRent") && !TextUtils.isEmpty(parameters.get("startRent").toString()) && !parameters.get("endRent").toString().equals("0")) {
             HttpManager.get(UrlConfig.ALL_HOUSE_RANGE_RENT_LIST_URL, parameters, callback);
-        }else{
+        } else {
             HttpManager.get(UrlConfig.ALL_HOUSE_LIST_URL, parameters, callback);
         }
     }
+
     /**
      * 房东查询房产列表
      *
@@ -519,6 +547,32 @@ public class API {
         parameters.put("token", SPUtils.getInstance().getSharedPreference(NameSpace.TOKEN_ID, ""));
         HttpManager.setTmpBaseUrl(UrlConfig.SYSTEMSERVICE_BASE_URL);
         HttpManager.get(UrlConfig.QINNIU_TOKEN_URL, parameters, callback);
+    }
+
+    /**
+     * 获得城市地铁线路
+     *
+     * @param cityId
+     * @param callback
+     */
+    public static void getLine(String cityId, HttpCallback callback) {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("cityId", cityId);
+        HttpManager.setTmpBaseUrl(UrlConfig.SYSTEMSERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.GET_TRAIN_LINE_URL, parameters, callback);
+    }
+
+    /**
+     * 城市地铁线路地铁站
+     *
+     * @param callback
+     */
+    public static void getSubway(String cityId,String line,HttpCallback callback) {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("cityId", cityId);
+        parameters.put("line", line==null?"":line);
+        HttpManager.setTmpBaseUrl(UrlConfig.SYSTEMSERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.GET_SUBWAY_URL, parameters, callback);
     }
 
 }

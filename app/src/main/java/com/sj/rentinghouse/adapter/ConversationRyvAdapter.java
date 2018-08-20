@@ -203,7 +203,7 @@ public class ConversationRyvAdapter extends RecyclerArrayAdapter<Conversation> {
                 @Override
                 public void onClick(View view) {
                     Intent imIntent = new Intent(getContext(), IMChatActivity.class);
-                    imIntent.putExtra("targetId", lastMsg.getTargetID());
+                    imIntent.putExtra("targetId",  convItem.getTargetId());
                     view.getContext().startActivity(imIntent);
                 }
             });

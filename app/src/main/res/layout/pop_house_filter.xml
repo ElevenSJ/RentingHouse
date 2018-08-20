@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="¥ 0"
+        android:text="¥ 100"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/rangeSeekBar"
         app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="排序"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/tv_downRent"
         app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
@@ -88,6 +89,7 @@
         android:tag="downRent"
         android:text="租金高到低"
         android:textColor="@color/color_black_white_selector"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/tv_upRent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView46" />
@@ -105,6 +107,7 @@
         android:tag="upRent"
         android:text="租金低到高"
         android:textColor="@color/color_black_white_selector"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
         app:layout_constraintEnd_toStartOf="@+id/tv_downArea"
         app:layout_constraintHorizontal_bias="0.5"
@@ -124,6 +127,7 @@
         android:tag="downArea"
         android:text="面积大到小"
         android:textColor="@color/color_black_white_selector"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
         app:layout_constraintEnd_toStartOf="@+id/tv_upArea"
         app:layout_constraintHorizontal_bias="0.5"
@@ -144,6 +148,7 @@
         android:tag="upArea"
         android:text="面积小到大"
         android:textColor="@color/color_black_white_selector"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_downRent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -315,7 +320,7 @@
         android:id="@+id/bt_sure"
         style="@style/TxtCommonWhiteBig"
         android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/item_frame_red_bg"
         android:text="确定"

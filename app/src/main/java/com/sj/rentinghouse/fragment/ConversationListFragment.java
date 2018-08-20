@@ -79,7 +79,8 @@ public class ConversationListFragment extends AppBaseFragment implements SwipeRe
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void imLoginEvent(IMLoginEvent event) {
         if (event.isSuccess()) {
-            getData();
+            Logger.d("极光推送登录成功，获取会话消息");
+            onRefresh();
         }
     }
 

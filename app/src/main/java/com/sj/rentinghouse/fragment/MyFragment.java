@@ -2,7 +2,7 @@ package com.sj.rentinghouse.fragment;
 
 import android.support.v4.app.Fragment;
 
-import com.sj.module_lib.adapter.FragmentStateAdapter;
+import com.sj.module_lib.adapter.FragmentAdapter;
 import com.sj.module_lib.widgets.NoScrollViewPager;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseFragment;
@@ -26,7 +26,7 @@ public class MyFragment extends AppBaseFragment {
     NoScrollViewPager containerPager;
 
     List<Fragment> fragmentList = new ArrayList<>(2);
-    FragmentStateAdapter mAdapter;
+    FragmentAdapter mAdapter;
 
     @Override
     public int getContentView() {
@@ -44,7 +44,7 @@ public class MyFragment extends AppBaseFragment {
     @Override
     public void initEvent() {
         super.initEvent();
-        mAdapter = new FragmentStateAdapter(getChildFragmentManager(), fragmentList);
+        mAdapter = new FragmentAdapter(getChildFragmentManager(),new String[]{"房客","房东"}, fragmentList);
         containerPager.setPagerEnabled(false);
         containerPager.setAdapter(mAdapter);
         containerPager.setCurrentItem(0);

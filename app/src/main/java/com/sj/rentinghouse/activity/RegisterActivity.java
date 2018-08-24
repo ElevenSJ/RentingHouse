@@ -17,6 +17,7 @@ import com.orhanobut.logger.Logger;
 import com.sj.module_lib.events.LocationEvent;
 import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.utils.SPUtils;
+import com.sj.module_lib.utils.SoftKeyboardUtil;
 import com.sj.module_lib.utils.StatusBarUtils;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
@@ -113,6 +114,7 @@ public class RegisterActivity extends AppBaseActivity {
                 }
                 break;
             case R.id.bt_register:
+                SoftKeyboardUtil.hideSoftKeyboard(this);
                 if (checkAllEt()) {
                     if (etPassword.getText().toString().equals(etEnsurePassword.getText().toString())) {
                         doRegister(etPhone.getText().toString(), etCode.getText().toString(), etPassword.getText().toString());

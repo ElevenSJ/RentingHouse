@@ -40,10 +40,12 @@ import com.sj.im.SharePreferenceManager;
 import com.sj.im.models.DefaultUser;
 import com.sj.im.models.MyMessage;
 import com.sj.im.view.ChatView;
+import com.sj.module_lib.utils.SPUtils;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.events.EventManger;
+import com.sj.rentinghouse.utils.NameSpace;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -465,7 +467,8 @@ public class IMChatActivity extends AppBaseActivity implements View.OnTouchListe
             });
         } catch (NullPointerException e) {
             e.printStackTrace();
-            ToastUtils.showShortToast("交谈异常");
+            ToastUtils.showShortToast("交谈异常,请重试!");
+            SPUtils.getInstance().apply(NameSpace.IS_IM_LOGIN,false);
             finish();
         }
     }

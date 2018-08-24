@@ -15,14 +15,20 @@ import android.widget.TextView;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.orhanobut.logger.Logger;
 import com.sj.im.ChatActivity;
 import com.sj.im.JMUIMessage;
 import com.sj.im.JMUserInfo;
+import com.sj.im.SharePreferenceManager;
 import com.sj.im.TimeFormat;
+import com.sj.module_lib.utils.SPUtils;
+import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
+import com.sj.rentinghouse.activity.HouseDetailActivity;
 import com.sj.rentinghouse.activity.IMChatActivity;
 import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.utils.DialogUtils;
+import com.sj.rentinghouse.utils.NameSpace;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
@@ -36,6 +42,7 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 
 /**
  * Created by Sunj on 2018/7/8.
@@ -51,7 +58,7 @@ public class ConversationRyvAdapter extends RecyclerArrayAdapter<Conversation> {
         return new ConversationRyvHolder(parent);
     }
 
-    public static class ConversationRyvHolder extends BaseViewHolder<Conversation> {
+    public class ConversationRyvHolder extends BaseViewHolder<Conversation> {
         ImageView headIcon;
         TextView convName;
         TextView content;
@@ -202,9 +209,11 @@ public class ConversationRyvAdapter extends RecyclerArrayAdapter<Conversation> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent imIntent = new Intent(getContext(), IMChatActivity.class);
-                    imIntent.putExtra("targetId",  convItem.getTargetId());
-                    view.getContext().startActivity(imIntent);
+                    if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_IM_LOGIN, false)) {
+                        doImLogin(view,convItem.getTargetId(),(String)SPUtils.getInstance().getSharedPreference(NameSpace.IM_ACCOUNT, ""));
+                    }else{
+                        toImChat(view,convItem.getTargetId());
+                    }
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -225,5 +234,32 @@ public class ConversationRyvAdapter extends RecyclerArrayAdapter<Conversation> {
                 }
             });
         }
+    }
+
+    public void toImChat(View v,String id) {
+        Intent imIntent = new Intent(getContext(), IMChatActivity.class);
+        imIntent.putExtra("targetId", id);
+        v.getContext().startActivity(imIntent);
+    }
+
+    public void doImLogin(final View v, final String id, String imAccount) {
+        JMessageClient.login(imAccount, imAccount, new BasicCallback() {
+            @Override
+            public void gotResult(final int status, final String desc) {
+                SPUtils.getInstance().apply(NameSpace.IS_IM_LOGIN,status == 0);
+                EventManger.getDefault().postIMLoginEvent(status == 0);
+                if (status == 0) {
+                    String username = JMessageClient.getMyInfo().getUserName();
+                    String appKey = JMessageClient.getMyInfo().getAppKey();
+                    SharePreferenceManager.setCachedUsername(username);
+                    SharePreferenceManager.setAppKey(appKey);
+                    Logger.e("极光IM登录成功 status= " + status);
+                    toImChat(v,id);
+                } else {
+                    Logger.e("极光IM登录失败 status= " + status);
+                    ToastUtils.showShortToast("交谈登录失败，请重试！");
+                }
+            }
+        });
     }
 }

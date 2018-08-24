@@ -158,13 +158,13 @@ public class HouseManagerActivity extends AppBaseActivity {
             tvRoomDirection.setText(data.getDirection());
             Logger.e("房源朝向数转型异常");
         }
-        tvPrice.setText("¥" + data.getRent() + "元/月");
-        try {
-            tvStatus.setText(App.rentStatusArray[Integer.valueOf(data.getStatus())]);
-        } catch (Exception e) {
-            tvStatus.setText(data.getStatus());
-            Logger.e("房源出租转型异常");
-        }
+        tvPrice.setText("¥ " + data.getRent() + " 元/月");
+//        try {
+//            tvStatus.setText(App.rentStatusArray[Integer.valueOf(data.getStatus())]);
+//        } catch (Exception e) {
+//            tvStatus.setText(data.getStatus());
+//            Logger.e("房源出租转型异常");
+//        }
         StringBuffer briefBuffer = new StringBuffer();
         briefBuffer.append("租期：");
         briefBuffer.append(data.getStartEndTime());

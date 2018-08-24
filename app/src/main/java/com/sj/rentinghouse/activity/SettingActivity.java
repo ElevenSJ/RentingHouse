@@ -14,6 +14,7 @@ import com.sj.module_lib.utils.DateUtils;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
+import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.http.API;
 import com.sj.rentinghouse.utils.DialogUtils;
@@ -50,7 +51,7 @@ public class SettingActivity extends AppBaseActivity {
         API.out(new CommonCallback() {
             @Override
             public void onSuccess(String message) {
-                EventBus.getDefault().post(new LoginOutEvent(true));
+                EventManger.getDefault().postLoginOutEvent(true);
             }
 
             @Override

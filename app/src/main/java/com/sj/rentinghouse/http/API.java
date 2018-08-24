@@ -284,6 +284,18 @@ public class API {
         HttpManager.setTmpBaseUrl(UrlConfig.ORDERSERVICE_BASE_URL);
         HttpManager.get(UrlConfig.NOTICE_LIST_URL, parameters, callback);
     }
+    /**
+     * 系统消息删除
+     *
+     * @param callback
+     */
+    public static void delNotice(String id, HttpCallback callback) {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("token", SPUtils.getInstance().getSharedPreference(NameSpace.TOKEN_ID, ""));
+        parameters.put("id", id);
+        HttpManager.setTmpBaseUrl(UrlConfig.ORDERSERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.DEL_NOTICE_URL, parameters, callback);
+    }
 
     /**
      * 约看查询手机号
@@ -573,6 +585,16 @@ public class API {
         parameters.put("line", line==null?"":line);
         HttpManager.setTmpBaseUrl(UrlConfig.SYSTEMSERVICE_BASE_URL);
         HttpManager.get(UrlConfig.GET_SUBWAY_URL, parameters, callback);
+    }
+    /**
+     * 用户活跃统计
+     *
+     */
+    public static void liveUser() {
+        Map<String, Object> parameters = new ArrayMap<>();
+        parameters.put("token", SPUtils.getInstance().getSharedPreference(NameSpace.TOKEN_ID, ""));
+        HttpManager.setTmpBaseUrl(UrlConfig.SYSTEMSERVICE_BASE_URL);
+        HttpManager.get(UrlConfig.LIVE_USER_URL, parameters, null);
     }
 
 }

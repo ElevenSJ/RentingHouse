@@ -22,8 +22,8 @@ android {
         applicationId "com.sj.rentinghouse"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.1.5"
+        versionCode 1
+        versionName "1.0"
         resConfigs "zh"
         signingConfig signingConfigs.release
 

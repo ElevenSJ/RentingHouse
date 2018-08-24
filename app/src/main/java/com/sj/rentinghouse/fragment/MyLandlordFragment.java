@@ -26,6 +26,7 @@ import com.sj.rentinghouse.base.AppBaseFragment;
 import com.sj.rentinghouse.bean.UserInfo;
 import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.events.LoginEvent;
+import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MainPageSwitchEvent;
 import com.sj.rentinghouse.events.MyPageSwitchEvent;
 import com.sj.rentinghouse.events.MyRefreshEvent;
@@ -159,6 +160,9 @@ public class MyLandlordFragment extends AppBaseFragment {
         tvMyMessageCount.setText(JMessageClient.getAllUnReadMsgCount()<0?"0":JMessageClient.getAllUnReadMsgCount()+"");
     }
     private void getMyHouseCount() {
+        if(!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
+            return;
+        }
         API.getMyHouseCount(new ServerResultBack<BaseResponse<String>, String>() {
             @Override
             public void onSuccess(String data) {
@@ -227,11 +231,24 @@ public class MyLandlordFragment extends AppBaseFragment {
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginOutEvent(LoginOutEvent event) {
+        if (event.isSuccess()){
+            tvMyHouseCount.setText("0");
+            tvMyHouseCount.setSelected(false);
+            tvMyOrderCount.setText("0");
+            tvMyOrderCount.setSelected(false);
+            tvMyMessageCount.setText("0");
+            tvMyMessageCount.setSelected(false);
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshData(MyRefreshEvent event) {
         Logger.e("房东页面，刷新event");
-        getMyHouseCount();
-        getOrderCount();
-        getMyMessageCount();
+        if((Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
+            getMyHouseCount();
+            getOrderCount();
+            getMyMessageCount();
+        }
     }
     private void initUserData(UserInfo data) {
         if (null == data) {

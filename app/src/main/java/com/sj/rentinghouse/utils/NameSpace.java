@@ -8,8 +8,10 @@ package com.sj.rentinghouse.utils;
 public class NameSpace {
 
     public static final String IS_LOGIN = "is_login";
+    public static final String IS_IM_LOGIN = "is_im_login";
     public static final String TOKEN_ID = "token_id";
     public static final String USER_ACCOUNT = "user_account";
+    public static final String IM_ACCOUNT = "im_account";
     public static final String CITY_NAME = "city_name";
     public static final String CITY_CODE = "city_code";
     public static final String LOCAL_CITY_NAME = "local_city_name";

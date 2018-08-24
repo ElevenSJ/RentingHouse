@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sj.module_lib.http.CommonCallback;
+import com.sj.module_lib.utils.SoftKeyboardUtil;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
@@ -71,6 +72,7 @@ public class ForgetPwdActivity extends AppBaseActivity {
                 etFgtEnsureNewPassword.setTransformationMethod(view.isSelected() ? HideReturnsTransformationMethod.getInstance() : PasswordTransformationMethod.getInstance());
                 break;
             case R.id.bt_sure:
+                SoftKeyboardUtil.hideSoftKeyboard(this);
                 if (checkPhoneAllEt()) {
                     final String newPhone = edtFgtPhoneValue.getText().toString().trim();
                     final String msgCode = etFgtCodeValue.getText().toString().trim();

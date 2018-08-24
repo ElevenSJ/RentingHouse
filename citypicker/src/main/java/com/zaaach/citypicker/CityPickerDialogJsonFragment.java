@@ -219,7 +219,7 @@ public class CityPickerDialogJsonFragment extends AppCompatDialogFragment implem
                 mAllCities.remove(0);
                 mAllCities.add(0, mLocatedCity);
             }
-            if (mAllCities.get(1) instanceof HotCity) {
+            if (mAllCities.size() > 1 && mAllCities.get(1) instanceof HotCity) {
                 if (mHotCities == null || mHotCities.isEmpty()) {
                     mAllCities.remove(1);
                 }
@@ -235,11 +235,14 @@ public class CityPickerDialogJsonFragment extends AppCompatDialogFragment implem
     }
 
     private void initCityData() {
-        if (mAllCities.get(0) instanceof LocatedCity) {
+        if (mAllCities == null) {
+            return;
+        }
+        if (mAllCities.size() > 0 && mAllCities.get(0) instanceof LocatedCity) {
             mAllCities.remove(0);
             mAllCities.add(0, mLocatedCity);
         }
-        if (mAllCities.get(1) instanceof HotCity) {
+        if (mAllCities.size() > 1 && mAllCities.get(1) instanceof HotCity) {
             if (mHotCities == null || mHotCities.isEmpty()) {
                 mAllCities.remove(1);
             }
@@ -355,7 +358,7 @@ public class CityPickerDialogJsonFragment extends AppCompatDialogFragment implem
         protected Boolean doInBackground(String... params) {
             Map<String, Map<String, String>> allCityMap = (Map<String, Map<String, String>>) JSON.parse(FileToolUtils.ReadAssetsString(CityPickerDialogJsonFragment.this.getActivity().getApplicationContext(), "city.json"));
             Map<String, String> provinceMap = allCityMap.get("1");
-            if (mAllCities == null){
+            if (mAllCities == null) {
                 mAllCities = new ArrayList<>();
             }
             //遍历map中的值

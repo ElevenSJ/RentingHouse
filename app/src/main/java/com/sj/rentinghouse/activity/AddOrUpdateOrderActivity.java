@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import com.sj.module_lib.glide.ImageUtils;
 import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.utils.DateUtils;
+import com.sj.module_lib.utils.SoftKeyboardUtil;
 import com.sj.module_lib.utils.TimePickerDialog;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
@@ -170,7 +171,7 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity
                 tvRoomDirection.setText(houseDetail.getDirection());
                 Logger.e("房源朝向转型异常");
             }
-            tvPrice.setText("¥" + houseDetail.getRent() + "元/月");
+            tvPrice.setText("¥ " + houseDetail.getRent() + " 元/月");
         } else if (orderInfo != null) {
             String[] housePictures = TextUtils.isEmpty(orderInfo.getHousePicture()) || orderInfo.getHousePicture().equalsIgnoreCase("null") ? null : orderInfo.getHousePicture().split(",");
             if (housePictures != null && housePictures.length > 0) {
@@ -217,7 +218,7 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity
                 tvRoomDirection.setText(orderInfo.getDirection());
                 Logger.e("房源朝向转型异常");
             }
-            tvPrice.setText("¥" + orderInfo.getRent()+"元/月");
+            tvPrice.setText("¥ " + orderInfo.getRent()+" 元/月");
 
         }
     }
@@ -232,9 +233,11 @@ public class AddOrUpdateOrderActivity extends AppBaseActivity
         switch (viewId) {
             case R.id.edt_time_value:
 //                mTimePickerDialog.showDateAndTimePickerDialog();
+                SoftKeyboardUtil.hideSoftKeyboard(this);
                 showTimePickerView();
                 break;
             case R.id.bt_sure:
+                SoftKeyboardUtil.hideSoftKeyboard(this);
                 if (TextUtils.isEmpty(edtNameValue.getText().toString())) {
                     ToastUtils.showShortToast("请输入您的姓名");
                     return;

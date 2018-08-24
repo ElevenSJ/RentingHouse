@@ -15,6 +15,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.sj.module_lib.BuildConfig;
 import com.sj.module_lib.http.BaseResponse;
+import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.task.SerializeInfoGetTask;
 import com.sj.module_lib.task.SerializeInfoSaveTask;
@@ -39,9 +40,9 @@ import java.util.List;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    List<CityInfo> cityInfos ;
+    List<CityInfo> cityInfos;
 
-    Handler handler = new Handler(Looper.getMainLooper()){
+    Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -55,6 +56,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onAction(List<String> permissions) {
                         getCityList();
+                        liveUser();
                         App.getApp().getLocationService().startDefault();
                         PictureFileUtils.deleteCacheDirFile(SplashActivity.this);
                     }
@@ -80,6 +83,10 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }).start();
+    }
+
+    private void liveUser() {
+        API.liveUser();
     }
 
     private void initTools() {
@@ -102,14 +109,15 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void toGoNext() {
-        handler.sendEmptyMessageDelayed(0,800);
+        handler.sendEmptyMessageDelayed(0, 800);
     }
+
     private void getCityList() {
         API.cityList(new ServerResultBack<BaseResponse<DataList<CityInfo>>, DataList<CityInfo>>() {
             @Override
             public void onSuccess(DataList<CityInfo> data) {
                 cityInfos = data.getData();
-                if (cityInfos!=null&&cityInfos.size() > 0) {
+                if (cityInfos != null && cityInfos.size() > 0) {
                     if (App.allCities != null && !App.allCities.isEmpty()) {
                         App.allCities.clear();
                     } else {
@@ -129,11 +137,11 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
                     App.allCities = new ArrayList<>();
                 }
-                new SerializeInfoGetTask(){
+                new SerializeInfoGetTask() {
                     @Override
                     protected void onPostExecute(Object obj) {
                         super.onPostExecute(obj);
-                        if (obj!=null) {
+                        if (obj != null) {
                             cityInfos = (List<CityInfo>) obj;
                             for (CityInfo cityInfo : cityInfos) {
                                 App.allCities.add(new City(cityInfo.getName(), cityInfo.getProvince(), cityInfo.getPinyin(), cityInfo.getCode()));

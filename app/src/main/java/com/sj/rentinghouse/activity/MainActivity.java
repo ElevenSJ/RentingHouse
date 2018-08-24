@@ -133,7 +133,7 @@ public class MainActivity extends AppBaseActivity {
         i.putExtra("mainFinished",true);
         i.setClass(this, LoginActivity.class);
         startActivity(i);
-        finish();
+//        finish();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -144,7 +144,7 @@ public class MainActivity extends AppBaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onExitApp(LoginOutEvent event) {
-        SPUtils.getInstance().commit(new String[]{NameSpace.USER_ACCOUNT, NameSpace.TOKEN_ID, NameSpace.IS_LOGIN}, new Object[]{"", "", false});
+        SPUtils.getInstance().commit(new String[]{NameSpace.USER_ACCOUNT, NameSpace.IM_ACCOUNT,NameSpace.TOKEN_ID, NameSpace.IS_LOGIN,NameSpace.IS_IM_LOGIN}, new Object[]{"","", "", false,false});
         JMessageClient.logout();
         backLogin();
     }

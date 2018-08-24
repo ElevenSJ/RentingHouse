@@ -110,7 +110,7 @@ public class OrderDetailActivity extends AppBaseActivity {
         }
     }
 
-    @OnClick({R.id.bt_agree, R.id.bt_refuse,R.id.tv_contact})
+    @OnClick({R.id.bt_agree, R.id.bt_refuse})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_agree:

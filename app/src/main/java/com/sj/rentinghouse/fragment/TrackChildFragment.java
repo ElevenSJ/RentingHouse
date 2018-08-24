@@ -20,6 +20,7 @@ import com.sj.rentinghouse.bean.MyHouseInfo;
 import com.sj.rentinghouse.bean.MyLetHouseInfo;
 import com.sj.rentinghouse.bean.OrderInfo;
 import com.sj.rentinghouse.events.LoginEvent;
+import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MyRefreshEvent;
 import com.sj.rentinghouse.events.TrackRefreshEvent;
 import com.sj.rentinghouse.http.API;
@@ -89,6 +90,18 @@ public class TrackChildFragment extends AppBaseFragment implements SwipeRefreshL
     public void loginEvent(LoginEvent event) {
         onRefresh();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginOutEvent(LoginOutEvent event) {
+        if (event.isSuccess()){
+            pageNum = 1;
+            nextFirstIndex = "-1";
+            if (mAdapter!=null) {
+                mAdapter.clear();
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshData(MyRefreshEvent event) {
         if (index>=3) {

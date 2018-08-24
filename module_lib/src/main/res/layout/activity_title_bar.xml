@@ -34,7 +34,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:gravity="center_horizontal"
-        android:text="TextView"
         android:maxLength="16"
         app:layout_constraintBottom_toBottomOf="@+id/img_top_left"
         app:layout_constraintEnd_toStartOf="parent"

@@ -26,6 +26,7 @@ import com.sj.rentinghouse.base.AppBaseFragment;
 import com.sj.rentinghouse.bean.MyItem;
 import com.sj.rentinghouse.bean.UserInfo;
 import com.sj.rentinghouse.events.LoginEvent;
+import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MyPageSwitchEvent;
 import com.sj.rentinghouse.events.UserInfoEvent;
 import com.sj.rentinghouse.http.API;
@@ -191,6 +192,14 @@ public class MyRenterFragment extends AppBaseFragment {
         getUserInfo();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginOutEvent(LoginOutEvent event) {
+        if (event.isSuccess()){
+            ImageUtils.loadImageWithError(null, R.drawable.img_user_icon, imgUserIcon);
+            tvNikeName.setText("登录/注册");
+            tvAccount.setText(null);
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();

@@ -5,16 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/img_banner_bg"
-        app:layout_constraintDimensionRatio="3:2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></com.youth.banner.Banner>
 
     <include
         android:id="@+id/layout_title"
@@ -25,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/img_banner_bg"
+        app:layout_constraintDimensionRatio="3:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_title"></com.youth.banner.Banner>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -280,6 +280,7 @@
             android:drawablePadding="8dp"
             android:gravity="center"
             android:text="约看"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_contact"
             app:layout_constraintStart_toStartOf="parent"
@@ -296,6 +297,7 @@
             android:drawablePadding="8dp"
             android:gravity="center"
             android:text="交谈"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_add_order"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -303,15 +305,17 @@
 
         <TextView
             android:id="@+id/tv_call"
-            style="@style/TxtCommonWhiteNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:drawableLeft="@drawable/img_call"
+            android:drawableLeft="@drawable/img_call_gray"
             android:drawablePadding="8dp"
             android:gravity="center"
             android:text="电话"
+            android:textColor="#8c939b"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_add_order"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_contact"

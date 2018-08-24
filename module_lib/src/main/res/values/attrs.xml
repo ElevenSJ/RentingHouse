@@ -48,6 +48,7 @@
         <!--标题文本是否大写，默认为true-->
         <attr name="pstsTextAllCaps" format="boolean" />
         <attr name="selectedTabTextColor" format="color" />
+        <attr name="tabTextSize" format="dimension" />
     </declare-styleable>
 
 

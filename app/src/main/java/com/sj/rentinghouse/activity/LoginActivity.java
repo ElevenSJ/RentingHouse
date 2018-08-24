@@ -22,6 +22,7 @@ import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.utils.DeviceUtils;
 import com.sj.module_lib.utils.SPUtils;
+import com.sj.module_lib.utils.SoftKeyboardUtil;
 import com.sj.module_lib.utils.ToastUtils;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
@@ -217,6 +218,7 @@ public class LoginActivity extends AppBaseActivity {
                 getCode(edtPhoneValue.getText().toString().trim(), "2");
                 break;
             case R.id.bt_login:
+                SoftKeyboardUtil.hideSoftKeyboard(this);
                 doLogin(edtPhoneValue.getText().toString().trim(), edtCodeValue.getText().toString().trim(), DeviceUtils.getUniqueId(this));
                 break;
             case R.id.tv_register_detail:
@@ -307,8 +309,8 @@ public class LoginActivity extends AppBaseActivity {
 
     public void toMainActivity() {
         if (isMainFinished) {
-            Intent mainIntent = new Intent(this, MainActivity.class);
-            startActivity(mainIntent);
+//            Intent mainIntent = new Intent(this, MainActivity.class);
+//            startActivity(mainIntent);
         }
         finish();
     }
@@ -420,7 +422,7 @@ public class LoginActivity extends AppBaseActivity {
     }
 
     private void doLoginSuccess(String phoneNum, String data, String im) {
-        SPUtils.getInstance().apply(new String[]{NameSpace.IS_LOGIN, NameSpace.USER_ACCOUNT, NameSpace.TOKEN_ID}, new Object[]{true, phoneNum, data});
+        SPUtils.getInstance().apply(new String[]{NameSpace.IS_LOGIN, NameSpace.USER_ACCOUNT, NameSpace.TOKEN_ID,NameSpace.IM_ACCOUNT,}, new Object[]{true, phoneNum, data,im});
         EventManger.getDefault().postLoginEvent(true);
         JMessageClient.login(im, im, new BasicCallback() {
             @Override
@@ -434,6 +436,7 @@ public class LoginActivity extends AppBaseActivity {
                 } else {
                     Logger.e("极光IM登录失败 status= " + status);
                 }
+                SPUtils.getInstance().apply(NameSpace.IS_IM_LOGIN,status == 0);
                 EventManger.getDefault().postIMLoginEvent(status == 0);
                 dismissProgress();
                 toMainActivity();
@@ -441,4 +444,8 @@ public class LoginActivity extends AppBaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        toMainActivity();
+    }
 }

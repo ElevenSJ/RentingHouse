@@ -126,7 +126,7 @@ public class HouseRyvAdapter extends RecyclerArrayAdapter<HouseInfo> {
                 tvRoomDirection.setText(data.getDirection());
                 Logger.e("房源朝向数转型异常");
             }
-            tvPrice.setText("¥" + data.getRent() + "元/月");
+            tvPrice.setText("¥ " + data.getRent() + " 元/月");
             if (data instanceof OrderInfo) {
                 tvOtherTime.setVisibility(View.VISIBLE);
                 tvOrderStatus.setVisibility(View.VISIBLE);

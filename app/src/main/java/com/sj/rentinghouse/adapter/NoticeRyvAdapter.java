@@ -1,7 +1,9 @@
 package com.sj.rentinghouse.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -9,6 +11,13 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.bean.NoticeInfo;
+import com.sj.rentinghouse.events.EventManger;
+import com.sj.rentinghouse.utils.DialogUtils;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.enums.ConversationType;
+import cn.jpush.im.android.api.model.GroupInfo;
+import cn.jpush.im.android.api.model.UserInfo;
 
 /**
  * Created by Sunj on 2018/7/8.

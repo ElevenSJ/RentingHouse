@@ -1,5 +1,6 @@
 package com.sj.rentinghouse.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.orhanobut.logger.Logger;
 import com.sj.module_lib.http.BaseResponse;
+import com.sj.module_lib.http.CommonCallback;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.utils.SPUtils;
 import com.sj.rentinghouse.R;
@@ -20,9 +22,12 @@ import com.sj.rentinghouse.base.AppBaseFragment;
 import com.sj.rentinghouse.bean.DataList;
 import com.sj.rentinghouse.bean.HouseInfo;
 import com.sj.rentinghouse.bean.NoticeInfo;
+import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.events.LoginEvent;
+import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MessageRefreshEvent;
 import com.sj.rentinghouse.http.API;
+import com.sj.rentinghouse.utils.DialogUtils;
 import com.sj.rentinghouse.utils.NameSpace;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,6 +35,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.enums.ConversationType;
+import cn.jpush.im.android.api.model.GroupInfo;
+import cn.jpush.im.android.api.model.UserInfo;
 
 /**
  * Created by Sunj on 2018/7/8.
@@ -76,6 +85,19 @@ public class MessageChildFragment extends AppBaseFragment implements SwipeRefres
         mAdapter = new NoticeRyvAdapter(getHoldingActivity());
         mAdapter.setMore(R.layout.layout_load_more, this);
         mAdapter.setNoMore(R.layout.layout_load_no_more);
+        mAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int position) {
+                DialogUtils.showChooseDialog(view.getContext(), new String[]{"删除"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        API.delNotice(mAdapter.getItem(i).getId(), null);
+                        mAdapter.remove(i);
+                    }
+                });
+                return false;
+            }
+        });
         rylView.setAdapter(mAdapter);
         rylView.showEmpty();
         loginEvent(new LoginEvent((Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)));
@@ -87,6 +109,17 @@ public class MessageChildFragment extends AppBaseFragment implements SwipeRefres
         if ((Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
             nextFirstIndex = "";
             getData();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginOutEvent(LoginOutEvent event) {
+        if (event.isSuccess()){
+            pageNum = 1;
+            nextFirstIndex = "-1";
+            if (mAdapter!=null) {
+                mAdapter.clear();
+            }
         }
     }
 

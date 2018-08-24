@@ -59,6 +59,8 @@ public class UrlConfig {
     public static final String MY_ORDER_COUNT_URL = "/getOrderCount";
     //系统消息列表
     public static final String NOTICE_LIST_URL = "/noticeList";
+    //系统消息删除
+    public static final String DEL_NOTICE_URL = "/delNotice";
     //约看详情获取手机号码
     public static final String QUERY_ORDER_PHONE_URL = "/queryPhone";
 
@@ -114,4 +116,6 @@ public class UrlConfig {
     public static final String GET_TRAIN_LINE_URL = "/getLine";
     //城市地铁线路地铁站
     public static final String GET_SUBWAY_URL = "/getSubway";
+    //用户活跃统计
+    public static final String LIVE_USER_URL = "/liveUser";
 }

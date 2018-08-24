@@ -152,8 +152,8 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                if (position<bannerInfoList.size()){
-                    if (!TextUtils.isEmpty(bannerInfoList.get(position).getHouseId())){
+                if (position < bannerInfoList.size()) {
+                    if (!TextUtils.isEmpty(bannerInfoList.get(position).getHouseId())) {
                         Intent intent = new Intent();
                         intent.putExtra("id", bannerInfoList.get(position).getHouseId());
                         intent.setClass(getHoldingActivity(), HouseDetailActivity.class);
@@ -178,8 +178,8 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
                 public void run() {
                     EventBus.getDefault().register(MainFragment.this);
                 }
-            },1500);
-        }else{
+            }, 1500);
+        } else {
             EventBus.getDefault().register(this);
         }
     }
@@ -197,6 +197,7 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
                 } else {
                     bannerInfoList.addAll(data.getData());
                     banner.setImages(bannerInfoList);
+                    banner.setBackground(null);
                 }
                 banner.start();
             }
@@ -247,25 +248,29 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
                     onRefresh();
                     getBannerList();
                 }
-                Logger.d("转化后定位城市：" + JSON.toJSONString(locatedCity));
+//                Logger.d("转化后定位城市：" + JSON.toJSONString(locatedCity));
             } else {
                 SPUtils.getInstance().apply(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE}, new Object[]{this.cityName, this.cityCode});
                 locatedCity = new LocatedCity(localCityName, localCityName, localCityCode);
-                DialogUtils.showMessageDialog(this.getContext(), "当前城市（" + localCityName + "）还未开通服务，是否切换城市", "切换", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == -100) {
-                            imgTopLeft.setText(localCityName);
-                            map.put("city", localCityCode);
-                            onRefresh();
-                            getBannerList();
-                        } else {
-                            dialogInterface.dismiss();
-                            toOpenCityList();
-                        }
-                    }
-                });
-                Logger.d("未转化后定位城市：" + JSON.toJSONString(locatedCity));
+                imgTopLeft.setText(localCityName);
+                map.put("city", localCityCode);
+                onRefresh();
+                getBannerList();
+//                DialogUtils.showMessageDialog(this.getContext(), "当前城市（" + localCityName + "）还未开通服务，是否切换城市", "切换", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        if (i == -100) {
+//                            imgTopLeft.setText(localCityName);
+//                            map.put("city", localCityCode);
+//                            onRefresh();
+//                            getBannerList();
+//                        } else {
+//                            dialogInterface.dismiss();
+//                            toOpenCityList();
+//                        }
+//                    }
+//                });
+//                Logger.d("未转化后定位城市：" + JSON.toJSONString(locatedCity));
             }
         }
     }
@@ -275,7 +280,7 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
         API.allHouseList(map, nextFirstIndex, new ServerResultBack<BaseResponse<DataList<HouseInfo>>, DataList<HouseInfo>>() {
             @Override
             public void onSuccess(DataList<HouseInfo> data) {
-                if (getHoldingActivity().isDestory()){
+                if (getHoldingActivity().isDestory()) {
                     return;
                 }
                 nextFirstIndex = data.getNextFirstIndex();
@@ -289,7 +294,7 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
             @Override
             public void onFinish() {
                 super.onFinish();
-                if (rylView==null||getHoldingActivity().isDestory()){
+                if (rylView == null || getHoldingActivity().isDestory()) {
                     return;
                 }
                 rylView.setRefreshing(false);

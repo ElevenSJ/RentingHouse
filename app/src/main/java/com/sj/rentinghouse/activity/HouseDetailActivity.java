@@ -14,6 +14,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.orhanobut.logger.Logger;
+import com.sj.im.SharePreferenceManager;
 import com.sj.module_lib.http.BaseResponse;
 import com.sj.module_lib.http.ServerResultBack;
 import com.sj.module_lib.utils.DisplayUtils;
@@ -38,6 +39,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 
 /**
  * Created by Sunj on 2018/7/17.
@@ -134,8 +137,11 @@ public class HouseDetailActivity extends AppBaseActivity {
                 bannerInfo.setPictureUrl(bannerPic);
                 bannerInfoList.add(bannerInfo);
             }
-            banner.setImages(bannerInfoList);
-            banner.start();
+            if (!bannerInfoList.isEmpty()){
+                banner.setBackground(null);
+                banner.setImages(bannerInfoList);
+                banner.start();
+            }
         }
 
         tvHourseName.setText(houseDetail.getVillage() + (TextUtils.isEmpty(houseDetail.getBedroom()) ? "" : " · " + houseDetail.getBedroom() + "居室"));
@@ -172,7 +178,7 @@ public class HouseDetailActivity extends AppBaseActivity {
             tvRoomDirection.setText(houseDetail.getDirection());
             Logger.e("房源朝向转型异常");
         }
-        tvPrice.setText("¥" + houseDetail.getRent() + "元/月");
+        tvPrice.setText("¥ " + houseDetail.getRent() + " 元/月");
 
         StringBuffer houseInfo1Buffer = new StringBuffer();
         houseInfo1Buffer.append("面积：");
@@ -273,21 +279,21 @@ public class HouseDetailActivity extends AppBaseActivity {
      * @return
      */
 
-    int drawableMinimumWidth = 0;
-    int drawableMinimumHeight = 0;
+//    int drawableMinimumWidth = 0;
+//    int drawableMinimumHeight = 0;
 
     private void createNewFlexItemView(int index) {
         View view = LayoutInflater.from(this).inflate(R.layout.item_house_facility, null);
         if (index!=-1) {
-            if (drawableMinimumWidth == 0) {
-                Drawable drawable = getResources().getDrawable(App.facilitiesResIds[0]);
-                drawableMinimumWidth = drawable.getMinimumWidth();
-                drawableMinimumHeight = drawable.getMinimumHeight();
-            }
+//            if (drawableMinimumWidth == 0) {
+//                Drawable drawable = getResources().getDrawable(App.facilitiesResIds[0]);
+//                drawableMinimumWidth = drawable.getMinimumWidth();
+//                drawableMinimumHeight = drawable.getMinimumHeight();
+//            }
             TextView textView = view.findViewById(R.id.tv_item);
             textView.setText(App.facilityArray[index]);
             Drawable drawable = getResources().getDrawable(App.facilitiesResIds[index]);
-            drawable.setBounds(0, 0, drawableMinimumWidth, drawableMinimumHeight);// 设置边界
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             textView.setCompoundDrawables(null, drawable, null, null);
         }
         GridLayout.Spec rowSpec = GridLayout.spec(gridLayoutIndex / 5, 1f);
@@ -302,7 +308,7 @@ public class HouseDetailActivity extends AppBaseActivity {
         gridLayoutIndex++;
     }
 
-    @OnClick({R.id.tv_add_order, R.id.tv_contact, R.id.tv_call})
+    @OnClick({R.id.tv_add_order, R.id.tv_contact})
     public void onClickView(View view) {
         if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
             DialogUtils.showLoginDialog(this, LoginActivity.class);
@@ -320,10 +326,11 @@ public class HouseDetailActivity extends AppBaseActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_contact:
-                Intent imIntent = new Intent(HouseDetailActivity.this, IMChatActivity.class);
-                imIntent.putExtra("targetId", houseDetail.getUserIm());
-                startActivity(imIntent);
-                EventManger.getDefault().postMessageRefreshEvent();
+                if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_IM_LOGIN, false)) {
+                    doImLogin((String)SPUtils.getInstance().getSharedPreference(NameSpace.IM_ACCOUNT, ""));
+                }else{
+                    toImChat();
+                }
                 break;
             case R.id.tv_call:
 //                if (!TextUtils.isEmpty(houseDetail.getUserPhone())) {
@@ -335,6 +342,35 @@ public class HouseDetailActivity extends AppBaseActivity {
                 break;
         }
 
+    }
+
+    private void toImChat() {
+        Intent imIntent = new Intent(HouseDetailActivity.this, IMChatActivity.class);
+        imIntent.putExtra("targetId", houseDetail.getUserIm());
+        startActivity(imIntent);
+    }
+
+    private void doImLogin(String imAccount) {
+        showProgress();
+        JMessageClient.login(imAccount, imAccount, new BasicCallback() {
+            @Override
+            public void gotResult(final int status, final String desc) {
+                dismissProgress();
+                SPUtils.getInstance().apply(NameSpace.IS_IM_LOGIN,status == 0);
+                EventManger.getDefault().postIMLoginEvent(status == 0);
+                if (status == 0) {
+                    String username = JMessageClient.getMyInfo().getUserName();
+                    String appKey = JMessageClient.getMyInfo().getAppKey();
+                    SharePreferenceManager.setCachedUsername(username);
+                    SharePreferenceManager.setAppKey(appKey);
+                    Logger.e("极光IM登录成功 status= " + status);
+                    toImChat();
+                } else {
+                    Logger.e("极光IM登录失败 status= " + status);
+                    ToastUtils.showShortToast("交谈登录失败，请重试！");
+                }
+            }
+        });
     }
 
     private void getHousePhone() {

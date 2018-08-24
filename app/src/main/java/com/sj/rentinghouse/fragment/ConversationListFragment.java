@@ -14,6 +14,7 @@ import com.sj.rentinghouse.adapter.ConversationRyvAdapter;
 import com.sj.rentinghouse.base.AppBaseFragment;
 import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.events.IMLoginEvent;
+import com.sj.rentinghouse.events.LoginOutEvent;
 import com.sj.rentinghouse.events.MessageRefreshEvent;
 import com.sj.rentinghouse.utils.NameSpace;
 
@@ -72,7 +73,7 @@ public class ConversationListFragment extends AppBaseFragment implements SwipeRe
         mAdapter = new ConversationRyvAdapter(getHoldingActivity());
         rylView.setAdapter(mAdapter);
         rylView.showEmpty();
-        imLoginEvent(new IMLoginEvent((Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)));
+        imLoginEvent(new IMLoginEvent((Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_IM_LOGIN, false)));
         EventBus.getDefault().register(this);
     }
 
@@ -84,6 +85,14 @@ public class ConversationListFragment extends AppBaseFragment implements SwipeRe
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginOutEvent(LoginOutEvent event) {
+        if (event.isSuccess()){
+            if (mAdapter!=null) {
+                mAdapter.clear();
+            }
+        }
+    }
     /**
      * 接收消息类事件
      *
@@ -98,7 +107,7 @@ public class ConversationListFragment extends AppBaseFragment implements SwipeRe
 
     @Override
     public void onRefresh() {
-        if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_LOGIN, false)) {
+        if (!(Boolean) SPUtils.getInstance().getSharedPreference(NameSpace.IS_IM_LOGIN, false)) {
             rylView.setRefreshing(false);
             return;
         }

@@ -640,6 +640,13 @@ public class HouseListActivity extends AppBaseActivity implements SwipeRefreshLa
     @Override
     protected void onDestroy() {
         CityPopWindow.getDefault(this).dissmiss();
+        TrainPopWindow.getDefault(this).dissmiss();
+        if (sortPopupWindow!=null&&sortPopupWindow.isShowing()){
+            sortPopupWindow.dismiss();
+        }
+        if (filterPopupWindow!=null&&filterPopupWindow.isShowing()){
+            filterPopupWindow.dismiss();
+        }
         super.onDestroy();
     }
 }

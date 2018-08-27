@@ -83,6 +83,15 @@ public class CityPopWindow {
             popupWindow.dismiss();
             popupWindow = null;
             Instance = null;
+            rylView = null;
+            rylView1 = null;
+            adapter= null;
+            adapter1= null;
+            cityInfo = null;
+            districtInfo= null;
+            onAdapterItemClickListener= null;
+            cityCode = "";
+            context=null;
         }
     }
 
@@ -117,13 +126,15 @@ public class CityPopWindow {
     public CityPopWindow initDistrictData(String districtName) {
         adapter1.clear();
         final List<CityInfo> districts = new ArrayList<>();
-        for (Map.Entry<String, String> entry : App.allCityMap.get(cityCode).entrySet()) {
-            CityInfo cityInfo = new CityInfo(entry.getValue(), entry.getValue(), null, entry.getKey());
-            if (districtName != null && districtName.equals(entry.getValue())) {
-                this.districtInfo = cityInfo;
-                cityInfo.setStatus("-100");
+        if (App.allCityMap!=null&&App.allCityMap.get(cityCode)!=null) {
+            for (Map.Entry<String, String> entry : App.allCityMap.get(cityCode).entrySet()) {
+                CityInfo cityInfo = new CityInfo(entry.getValue(), entry.getValue(), null, entry.getKey());
+                if (districtName != null && districtName.equals(entry.getValue())) {
+                    this.districtInfo = cityInfo;
+                    cityInfo.setStatus("-100");
+                }
+                districts.add(cityInfo);
             }
-            districts.add(cityInfo);
         }
         adapter1.addAll(districts);
         return this;
@@ -142,6 +153,9 @@ public class CityPopWindow {
                 }
                 citys.add(cityInfo);
             }
+            if (TextUtils.isEmpty(cityCode)){
+                cityCode = App.allCities.get(0).getCode();
+            }
             adapter.addAll(citys);
         }else{
             new SerializeInfoGetTask(){
@@ -150,6 +164,12 @@ public class CityPopWindow {
                     super.onPostExecute(obj);
                     if (obj!=null) {
                         citys = (List<CityInfo>) obj;
+                        if (App.allCities==null){
+                            App.allCities = new ArrayList<>(citys.size());
+                        }
+                        if ( !App.allCities.isEmpty()){
+                            App.allCities.clear();
+                        }
                         for (CityInfo cityInfo : citys) {
                             App.allCities.add(new City(cityInfo.getName(), cityInfo.getProvince(), cityInfo.getPinyin(), cityInfo.getCode()));
                         }
@@ -161,6 +181,9 @@ public class CityPopWindow {
                                 cityInfo.setStatus("-100");
                             }
                             citys.add(cityInfo);
+                        }
+                        if (TextUtils.isEmpty(cityCode)){
+                            cityCode = App.allCities.get(0).getCode();
                         }
                         adapter.addAll(citys);
                     }
@@ -221,7 +244,7 @@ public class CityPopWindow {
         view.findViewById(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                dissmiss();
                 districtInfo = null;
                 cityInfo = null;
                 if (onAdapterItemClickListener != null) {
@@ -240,7 +263,7 @@ public class CityPopWindow {
                     ToastUtils.showShortToast("请选择区域");
                     return;
                 }
-                popupWindow.dismiss();
+                dissmiss();
                 if (onAdapterItemClickListener != null) {
                     onAdapterItemClickListener.onItemSelected(cityInfo, districtInfo);
                 }

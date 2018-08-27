@@ -90,6 +90,15 @@ public class TrainPopWindow {
             popupWindow.dismiss();
             popupWindow = null;
             Instance = null;
+            rylView = null;
+            rylView1 = null;
+            adapter = null;
+            adapter1 = null;
+            context = null;
+            cityCode = "";
+            trainLineStr = "";
+            trainSubwayStr = "";
+            onAdapterItemClickListener = null;
         }
     }
 
@@ -276,7 +285,7 @@ public class TrainPopWindow {
         view.findViewById(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                dissmiss();
                 trainLineStr = null;
                 trainSubwayStr = null;
                 if (onAdapterItemClickListener != null) {
@@ -295,7 +304,7 @@ public class TrainPopWindow {
                     ToastUtils.showShortToast("请选择地铁站点");
                     return;
                 }
-                popupWindow.dismiss();
+                dissmiss();
                 if (onAdapterItemClickListener != null) {
                     onAdapterItemClickListener.onItemSelected(trainLineStr, trainSubwayStr);
                 }

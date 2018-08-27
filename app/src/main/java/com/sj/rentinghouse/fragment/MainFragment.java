@@ -250,7 +250,7 @@ public class MainFragment extends AppBaseFragment implements SwipeRefreshLayout.
                 }
 //                Logger.d("转化后定位城市：" + JSON.toJSONString(locatedCity));
             } else {
-                SPUtils.getInstance().apply(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE}, new Object[]{this.cityName, this.cityCode});
+                SPUtils.getInstance().apply(new String[]{NameSpace.CITY_NAME, NameSpace.CITY_CODE}, new Object[]{localCityName, localCityCode});
                 locatedCity = new LocatedCity(localCityName, localCityName, localCityCode);
                 imgTopLeft.setText(localCityName);
                 map.put("city", localCityCode);

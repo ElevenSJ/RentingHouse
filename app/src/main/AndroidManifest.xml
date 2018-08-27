@@ -43,52 +43,52 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/DefaultCityPickerTheme"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.ForgetPwdActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.HouseListActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.HotWordActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.HouseDetailActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.AddOrUpdateOrderActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.UserInfoActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.SettingActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.OrderManagerActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.AddOrUpdateHouseActivity"
             android:theme="@style/DefaultCityPickerTheme"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.HouseManagerActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.OrderDetailActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activity.HtmlActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name="com.sj.im.ChatActivity"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
@@ -98,7 +98,7 @@
             android:windowSoftInputMode="stateUnchanged|adjustResize"/>
         <activity
             android:name=".activity.SetRentActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateUnchanged|adjustPan" />
     </application>
 
 </manifest>

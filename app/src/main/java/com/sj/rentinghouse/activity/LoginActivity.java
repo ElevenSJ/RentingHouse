@@ -29,6 +29,7 @@ import com.sj.rentinghouse.base.AppBaseActivity;
 import com.sj.rentinghouse.events.EventManger;
 import com.sj.rentinghouse.fragment.MyRenterFragment;
 import com.sj.rentinghouse.http.API;
+import com.sj.rentinghouse.http.UrlConfig;
 import com.sj.rentinghouse.utils.DialogUtils;
 import com.sj.rentinghouse.utils.NameSpace;
 
@@ -243,7 +244,7 @@ public class LoginActivity extends AppBaseActivity {
             case R.id.tv_protocol_detail:
                 Intent intent = new Intent();
                 intent.putExtra("title", "用户协议");
-                intent.putExtra("url","https://systemservices.app-service-node.com/xieyi");
+                intent.putExtra("url", UrlConfig.USER_XIEYI_URL);
                 intent.setClass(this, HtmlActivity.class);
                 startActivity(intent);
                 break;

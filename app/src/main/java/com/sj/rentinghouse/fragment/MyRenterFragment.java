@@ -159,7 +159,7 @@ public class MyRenterFragment extends AppBaseFragment {
     private void initData() {
         mAdapter.add(new MyItem(R.drawable.img_my_custom, "客户咨询"));
         mAdapter.add(new MyItem(R.drawable.img_my_suggest, "投诉建议"));
-        mAdapter.add(new MyItem(R.drawable.img_my_contact_us, "联系我们", "400-1234-6789"));
+        mAdapter.add(new MyItem(R.drawable.img_my_contact_us, "联系我们", "0551-69131867"));
         mAdapter.add(new MyItem(R.drawable.img_my_suggest, "账号设置"));
     }
 

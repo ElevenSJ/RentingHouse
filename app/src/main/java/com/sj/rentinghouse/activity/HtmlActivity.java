@@ -4,14 +4,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.sj.rentinghouse.R;
 import com.sj.rentinghouse.base.AppBaseActivity;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import butterknife.BindView;
 
@@ -22,7 +21,7 @@ import butterknife.BindView;
 public class HtmlActivity extends AppBaseActivity {
     @BindView(R.id.layout_content)
     FrameLayout layoutContent;
-    WebView webView;
+    com.tencent.smtt.sdk.WebView webView ;
     String title;
     String url;
 
@@ -35,7 +34,7 @@ public class HtmlActivity extends AppBaseActivity {
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
         title = getIntent().getStringExtra("title");
-        url= getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
         setTopTitle(R.id.tv_top_title, title);
     }
 
@@ -43,51 +42,47 @@ public class HtmlActivity extends AppBaseActivity {
     public void initEvent() {
         super.initEvent();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        webView = new WebView(getApplicationContext());
+        webView = new com.tencent.smtt.sdk.WebView(this);
         webView.setLayoutParams(params);
         layoutContent.addView(webView);
 
         initWebSetting();
-        if (!TextUtils.isEmpty(url)){
+        if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
-
     }
 
     private void initWebSetting() {
-        //声明WebSettings子类
-        WebSettings webSettings = webView.getSettings();
+        WebSettings webSetting = webView.getSettings();
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSetting.setAllowFileAccess(true);
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSetting.setSupportZoom(true);
+        webSetting.setBuiltInZoomControls(true);
+        webSetting.setUseWideViewPort(true);
+        webSetting.setSupportMultipleWindows(true);
+        // webSetting.setLoadWithOverviewMode(true);
+        webSetting.setAppCacheEnabled(true);
+        // webSetting.setDatabaseEnabled(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setGeolocationEnabled(true);
+        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
+        // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-        webSettings.setSupportZoom(false); //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(false); //设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
+        WebViewClient client = new WebViewClient() {
+            /**
+             * 防止加载网页时调起系统浏览器
+             */
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
-        });
-        // 特别注意：5.1以上默认禁止了https和http混用，以下方式是开启
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView.setWebChromeClient(new WebChromeClient() {
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-            }
-        });
-
+        };
+        webView.setWebViewClient(client);
 
     }
 

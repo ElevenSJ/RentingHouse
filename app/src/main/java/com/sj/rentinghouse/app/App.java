@@ -15,6 +15,7 @@ import com.sj.rentinghouse.fragment.MessageFragment;
 import com.sj.rentinghouse.fragment.MyFragment;
 import com.sj.rentinghouse.fragment.TrackFragment;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.smtt.sdk.QbSdk;
 import com.zaaach.citypicker.model.City;
 
 import java.util.HashMap;
@@ -79,6 +80,10 @@ public class App extends BaseApplication {
         JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_WITH_SOUND | JMessageClient.FLAG_NOTIFY_WITH_LED | JMessageClient.FLAG_NOTIFY_WITH_VIBRATE);
         //注册Notification点击的接收器
         new NotificationClickEventReceiver(getApplicationContext());
+        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(), null);
     }
 
     public void initData() {

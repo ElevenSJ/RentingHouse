@@ -9,6 +9,11 @@ import android.support.annotation.Keep;
  */
 @Keep
 public class UrlConfig {
+
+    /**
+     * 用户协议
+     */
+    public static final String USER_XIEYI_URL ="https://systemservices.app-service-node.com/xieyi";
     /**
      * 七牛文件外部地址
      */
